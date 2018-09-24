@@ -1,0 +1,184 @@
+content:
+  -
+    type: h1
+    innerHTML: rs:name
+  -
+    type: div
+    innerHTML:
+      -
+        type: p
+        innerHTML:
+          -
+            type: strong
+            attribute:
+              class: semicolon
+            innerHTML: Schema
+          -
+            type: span
+            innerHTML: rs:schema_files_name
+  -
+    type: div
+    settings:
+      enabled: rs:exist
+    attribute:
+      class: alert alert-info
+    innerHTML:
+      -
+        type: strong
+        innerHTML: Table does exist.
+      -
+        type: p
+        attribute:
+          style: 'text-align:center'
+        innerHTML:
+          -
+            type: a
+            attribute:
+              class: btn btn-info
+              onclick: "PluginDbSync_v1.table_drop()"
+            innerHTML: Drop table
+      -
+        type: p
+        innerHTML:
+          -
+            type: strong
+            attribute:
+              class: semicolon
+            innerHTML: Rows
+          -
+            type: span
+            innerHTML: rs:count
+  -
+    type: div
+    settings:
+      enabled: rs:exist
+    attribute:
+      class: alert alert-success
+    innerHTML:
+      -
+        type: div
+        attribute:
+          class: table-responsive
+        innerHTML:
+          -
+            type: widget
+            data:
+              plugin: wf/table
+              method: render_many
+              data:
+                style:
+                  table: 'font-size:smaller'
+                rs: rs:rs_select_all
+                datatable:
+                  disabled: false
+  -
+    type: div
+    settings:
+      disabled: rs:exist
+    attribute:
+      class: alert alert-warning
+    innerHTML:
+      -
+        type: strong
+        innerHTML: Table does NOT exist.
+      -
+        type: p
+        attribute:
+          style: 'text-align:center'
+        innerHTML:
+          -
+            type: a
+            attribute:
+              class: btn btn-warning
+              onclick: "PluginDbSync_v1.table_create()"
+            innerHTML: Create table
+  -
+    type: div
+    attribute:
+      class: alert alert-info
+    innerHTML:
+      -
+        type: div
+        attribute:
+          class: table-responsive
+        innerHTML:
+          -
+            type: table
+            attribute:
+              class: table table-condensed
+              style: 'font-size:smaller'
+              id: table3
+            innerHTML:
+              -
+                type: thead
+                innerHTML:
+                  -
+                    type: tr
+                    innerHTML:
+                      -
+                        type: th
+                        innerHTML: Field
+                      -
+                        type: th
+                        innerHTML: Table exist
+                      -
+                        type: th
+                        innerHTML: Field exist
+                      -
+                        type: th
+                        innerHTML: Attribute match
+                      -
+                        type: th
+                        innerHTML: Type
+                      -
+                        type: th
+                        innerHTML: Type
+                      -
+                        type: th
+                        innerHTML: Default
+                      -
+                        type: th
+                        innerHTML: Default
+                      -
+                        type: th
+                        innerHTML: Not null
+                      -
+                        type: th
+                        innerHTML: Not null
+                      -
+                        type: th
+                        innerHTML: Primary
+                      -
+                        type: th
+                        innerHTML: Primary
+                      -
+                        type: th
+                        innerHTML: Schema count
+              -
+                type: tbody
+                innerHTML: rs:tbody
+          -
+            type: widget
+            data:
+              plugin: datatable/datatable_1_10_16
+              method: run
+              data:
+                id: table3
+                json:
+                  paging: true
+                  iDisplayLength: 10
+                  ordering: true
+                  info: true
+                  searching: true
+                  order:
+                    -
+                      - 0
+                      - asc
+                  language:
+                    url: /plugin/datatable/datatable_1_10_16/i18n/Swedish.json
+
+
+
+
+
+

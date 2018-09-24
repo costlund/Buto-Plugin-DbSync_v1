@@ -1,0 +1,16 @@
+type: tr
+attribute:
+  data-id: rs:key
+  onclick: PluginDbSync_v1.table(this.getAttribute('data-id'))
+innerHTML:
+  -
+    type: td
+    innerHTML: rs:number
+  -
+    type: td
+    innerHTML: rs:name
+  -
+    type: td
+    innerHTML: rs:exist
+    
+    

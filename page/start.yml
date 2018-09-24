@@ -1,0 +1,18 @@
+settings:
+  layout:
+    - html
+    - main
+  title: DbSync_v1
+content:
+  -
+    type: h1
+    attribute:
+      onclick: console.log(PluginDbSync_v1.data)
+    innerHTML: DbSync_v1
+  -
+    type: div
+    attribute:
+      class: col-sm-12
+      id: content
+    innerHTML: load:dbs
+  

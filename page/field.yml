@@ -1,0 +1,61 @@
+content:
+  -
+    type: h2
+    innerHTML: rs:schema_table_name
+  -
+    type: h1
+    innerHTML: rs:schema_field_name
+  -
+    type: div
+    settings:
+      disabled: rs:check_field_exist
+    attribute:
+      class: alert alert-warning
+    innerHTML:
+      -
+        type: div
+        settings:
+          enabled: rs:check_table_exist
+        innerHTML:
+          -
+            type: strong
+            innerHTML: Field does NOT exist.
+          -
+            type: p
+            attribute:
+              style: 'text-align:center'
+            innerHTML:
+              -
+                type: a
+                attribute:
+                  class: btn btn-warning
+                  onclick: "PluginDbSync_v1.field_create()"
+                innerHTML: Create field
+      -
+        type: div
+        settings:
+          disabled: rs:check_table_exist
+        innerHTML:
+          -
+            type: strong
+            innerHTML: Table does NOT exist.
+  -
+    type: div
+    settings:
+      enabled: rs:check_field_exist
+    attribute:
+      class: alert alert-warning
+    innerHTML:
+      -
+        type: widget
+        data:
+          plugin: wf/table
+          method: render_one
+          data:
+            rs: rs:field_data
+
+
+
+
+
+

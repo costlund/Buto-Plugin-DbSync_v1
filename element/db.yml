@@ -1,0 +1,68 @@
+type: div
+attribute:
+  class: col-sm-4
+innerHTML:
+  -
+    type: div
+    attribute:
+      class: alert alert-info
+    innerHTML:
+      -
+        type: div
+        innerHTML:
+          -
+            type: h1
+            innerHTML: 
+              -
+                type: a
+                attribute:
+                  data-key: rs:key
+                  onclick: PluginDbSync_v1.db(this.getAttribute('data-key'));
+                innerHTML: rs:name
+      -
+        type: div
+        innerHTML:
+          -
+            type: span
+            attribute:
+              class: semicolon
+            innerHTML: Server
+          -
+            type: span
+            innerHTML: mysql:server
+      -
+        type: div
+        innerHTML:
+          -
+            type: span
+            attribute:
+              class: semicolon
+            innerHTML: Database
+          -
+            type: span
+            innerHTML: mysql:database
+      -
+        type: div
+        innerHTML:
+          -
+            type: span
+            attribute:
+              class: semicolon
+            innerHTML: User
+          -
+            type: span
+            innerHTML: mysql:user_name
+      -
+        type: div
+        innerHTML:
+          -
+            type: strong
+            attribute:
+              class: semicolon
+            innerHTML: Schema
+      -
+        type: div
+        innerHTML: schema:list
+
+  
+  

@@ -1,0 +1,288 @@
+content:
+  -
+    type: div
+    attribute:
+      class: row
+    innerHTML:
+      -
+        type: div
+        attribute:
+          class: col-sm-1
+        innerHTML:
+          -
+            type: a
+            attribute:
+              class: btn btn-default
+              onclick: PluginWfAjax.load('content', 'dbs');
+            innerHTML: Back
+      -
+        type: div
+        attribute:
+          class: col-sm-5
+        innerHTML:
+          -
+            type: div
+            attribute:
+              class: alert alert-success
+            innerHTML:
+              -
+                type: div
+                innerHTML:
+                  -
+                    type: h1
+                    innerHTML: 
+                      -
+                        type: a
+                        attribute:
+                          onclick: PluginWfAjax.update('content');
+                        innerHTML: rs:name
+              -
+                type: div
+                innerHTML:
+                  -
+                    type: strong
+                    attribute:
+                      class: semicolon
+                    innerHTML: Server
+                  -
+                    type: span
+                    innerHTML: mysql:server
+              -
+                type: div
+                innerHTML:
+                  -
+                    type: strong
+                    attribute:
+                      class: semicolon
+                    innerHTML: Database
+                  -
+                    type: span
+                    innerHTML: mysql:database
+              -
+                type: div
+                innerHTML:
+                  -
+                    type: strong
+                    attribute:
+                      class: semicolon
+                    innerHTML: User
+                  -
+                    type: span
+                    innerHTML: mysql:user_name
+              -
+                type: div
+                innerHTML:
+                  -
+                    type: strong
+                    attribute:
+                      class: semicolon
+                    innerHTML: Schema
+              -
+                type: div
+                innerHTML: schema:list
+              -
+                type: p
+                innerHTML:
+                  -
+                    type: div
+                    innerHTML:
+                      -
+                        type: strong
+                        attribute:
+                          class: semicolon
+                        innerHTML: Schema count
+                      -
+                        type: span
+                        innerHTML: schema:count
+                  -
+                    type: div
+                    innerHTML:
+                      -
+                        type: strong
+                        attribute:
+                          class: semicolon
+                        innerHTML: Schema field
+                      -
+                        type: span
+                        innerHTML: schema:text
+                  -
+                    type: div
+                    innerHTML:
+                      -
+                        type: strong
+                        attribute:
+                          class: semicolon
+                        innerHTML: Table count
+                      -
+                        type: span
+                        innerHTML: table:count_table
+                  -
+                    type: div
+                    innerHTML:
+                      -
+                        type: strong
+                        attribute:
+                          class: semicolon
+                        innerHTML: Field count
+                      -
+                        type: span
+                        innerHTML: field:count
+                  -
+                    type: div
+                    innerHTML:
+                      -
+                        type: strong
+                        attribute:
+                          class: semicolon
+                        innerHTML: Attribute count
+                      -
+                        type: span
+                        innerHTML: attribute:count
+      -
+        type: div
+        attribute:
+          class: col-sm-5
+        innerHTML:
+          -
+            type: div
+            attribute:
+              class: alert alert-info
+            innerHTML:
+              -
+                type: table
+                attribute:
+                  class: table table-condensed
+                  style: 'font-size:smaller'
+                  id: tables
+                innerHTML:
+                  -
+                    type: thead
+                    innerHTML:
+                      -
+                        type: tr
+                        innerHTML:
+                          -
+                            type: th
+                            innerHTML: '&nbsp;'
+                          -
+                            type: th
+                            innerHTML: Table
+                          -
+                            type: th
+                            innerHTML: Exist
+                  -
+                    type: tbody
+                    innerHTML: tables:tbody
+              -
+                type: widget
+                data:
+                  plugin: datatable/datatable_1_10_16
+                  method: run
+                  data:
+                    id: tables
+                    json:
+                      paging: true
+                      iDisplayLength: 10
+                      ordering: true
+                      info: true
+                      searching: true
+                      order:
+                        -
+                          - 0
+                          - asc
+                      language:
+                        url: /plugin/datatable/datatable_1_10_16/i18n/Swedish.json
+      -
+        type: div
+        attribute:
+          class: col-sm-1
+        innerHTML:
+          -
+            type: a
+            attribute:
+              class: btn btn-default
+              onclick: alert()
+            innerHTML: Create all
+
+  
+  -
+    type: div
+    attribute:
+      class: alert alert-info
+    innerHTML:
+      -
+        type: table
+        attribute:
+          class: table table-condensed
+          style: 'font-size:smaller'
+          id: table2
+        innerHTML:
+          -
+            type: thead
+            innerHTML:
+              -
+                type: tr
+                innerHTML:
+                  -
+                    type: th
+                    innerHTML: Field
+                  -
+                    type: th
+                    innerHTML: Table exist
+                  -
+                    type: th
+                    innerHTML: Field exist
+                  -
+                    type: th
+                    innerHTML: Attribute match
+                  -
+                    type: th
+                    innerHTML: Type
+                  -
+                    type: th
+                    innerHTML: Type
+                  -
+                    type: th
+                    innerHTML: Default
+                  -
+                    type: th
+                    innerHTML: Default
+                  -
+                    type: th
+                    innerHTML: Not null
+                  -
+                    type: th
+                    innerHTML: Not null
+                  -
+                    type: th
+                    innerHTML: Primary
+                  -
+                    type: th
+                    innerHTML: Primary
+                  -
+                    type: th
+                    innerHTML: Schema count
+          -
+            type: tbody
+            innerHTML: rs:tbody
+      -
+        type: widget
+        data:
+          plugin: datatable/datatable_1_10_16
+          method: run
+          data:
+            id: table2
+            json:
+              paging: true
+              iDisplayLength: 10
+              ordering: true
+              info: true
+              searching: true
+              order:
+                -
+                  - 0
+                  - asc
+              language:
+                url: /plugin/datatable/datatable_1_10_16/i18n/Swedish.json
+
+  

@@ -1,0 +1,13 @@
+settings:
+  path: 'row/innerHTML'
+content:
+  style1:
+    type: style
+    innerHTML: '.wf_form_row{margin-top:10px;}'
+  row:
+    type: div
+    attribute:
+      class: row
+      style: "padding:10px"
+    
+    
