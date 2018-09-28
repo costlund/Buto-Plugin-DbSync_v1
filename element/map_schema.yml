@@ -1,0 +1,4 @@
+type: div
+attribute:
+  class: col-md-12
+innerHTML: rs:schema_files_name

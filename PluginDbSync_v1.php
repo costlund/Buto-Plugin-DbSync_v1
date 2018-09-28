@@ -78,12 +78,19 @@ class PluginDbSync_v1{
     }
     $page = $this->getYml('page/map.yml');
     $items = array();
+    $schema_files_name = null;
     foreach ($schema->get('schema/table') as $key => $value) {
-      $item = $this->getYml('element/map_item.yml');
       $i = new PluginWfArray($value);
+      $item = $this->getYml('element/map_item.yml');
       $fields = array();
       foreach ($i->get('field') as $key2 => $value2) {
         $j = new PluginWfArray($value2);
+        if($j->get('schema_files_name') != $schema_files_name){
+          $schema_files_name = $j->get('schema_files_name');
+          $map_schema = $this->getYml('element/map_schema.yml');
+          $map_schema->setByTag($j->get());
+          $items[] = $map_schema->get();
+        }
         $field = $this->getYml('element/map_item_field.yml');
         $field->setByTag($value2);
         $field->setByTag($j->get('schema_field_foreing_key'), 'schema_field_foreing_key', true);
