@@ -1,0 +1,9 @@
+content:
+  -
+    type: div
+    attribute:
+      class: row
+    innerHTML: rs:items
+
+  
+  

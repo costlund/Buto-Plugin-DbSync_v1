@@ -138,6 +138,17 @@ content:
                       -
                         type: span
                         innerHTML: attribute:count
+                  -
+                    type: div
+                    innerHTML:
+                      -
+                        type: strong
+                        attribute:
+                          class: semicolon
+                        innerHTML: Foreing key count
+                      -
+                        type: span
+                        innerHTML: foreing_key:count
       -
         type: div
         attribute:
@@ -203,6 +214,12 @@ content:
               class: btn btn-default
               onclick: alert()
             innerHTML: Create all
+          -
+            type: a
+            attribute:
+              class: btn btn-warning
+              onclick: "PluginDbSync_v1.map()"
+            innerHTML: Map
 
   
   -
@@ -235,6 +252,9 @@ content:
                   -
                     type: th
                     innerHTML: Attribute match
+                  -
+                    type: th
+                    innerHTML: Foreing key match
                   -
                     type: th
                     innerHTML: Type
@@ -284,5 +304,26 @@ content:
                   - asc
               language:
                 url: /plugin/datatable/datatable_1_10_16/i18n/Swedish.json
+  -
+    type: div
+    attribute:
+      class: alert alert-info
+    innerHTML:
+      -
+        type: div
+        attribute:
+          class: table-responsive
+        innerHTML:
+          -
+            type: widget
+            data:
+              plugin: wf/table
+              method: render_many
+              data:
+                style:
+                  table: 'font-size:smaller'
+                rs: rs:foreing_keys
+                datatable:
+                  disabled: false
 
   

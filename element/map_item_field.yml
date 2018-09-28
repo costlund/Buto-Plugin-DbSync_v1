@@ -1,0 +1,66 @@
+type: div
+attribute:
+  style: ''
+innerHTML:
+  -
+    type: div
+    attribute:
+      class: rs:field_class
+      id: rs:id
+      onclick: |
+        $('.bg-danger').removeClass('bg-danger');
+        $('#'+this.getAttribute('id')).addClass('bg-danger');
+        $('.'+this.getAttribute('id')).addClass('bg-danger');
+    innerHTML:
+      -
+        type: span
+        innerHTML: rs:schema_field_name
+  -
+    type: div
+    settings:
+      enabled: schema_field_foreing_key:reference_table
+    attribute:
+      class: bg-warning
+      style: 'padding:4px'
+      data-reference_field: rs:reference_field
+      onclick: |
+        $('.bg-danger').removeClass('bg-danger');
+        $(this).addClass('bg-danger');
+        $('#'+this.getAttribute('data-reference_field')).addClass('bg-danger');
+    innerHTML:
+      -
+        type: div
+        innerHTML:
+          -
+            type: strong
+            innerHTML: Table
+          -
+            type: span
+            innerHTML: schema_field_foreing_key:reference_table
+      -
+        type: div
+        innerHTML:
+          -
+            type: strong
+            innerHTML: Field
+          -
+            type: span
+            innerHTML: schema_field_foreing_key:reference_field
+      -
+        type: div
+        innerHTML:
+          -
+            type: strong
+            innerHTML: Delete
+          -
+            type: span
+            innerHTML: schema_field_foreing_key:on_delete
+      -
+        type: div
+        innerHTML:
+          -
+            type: strong
+            innerHTML: Update
+          -
+            type: span
+            innerHTML: schema_field_foreing_key:on_update

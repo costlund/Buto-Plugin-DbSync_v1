@@ -1,0 +1,20 @@
+type: div
+attribute:
+  class: col-md-2
+innerHTML:
+  -
+    type: div
+    attribute:
+      class: alert alert-info
+      style: 'padding:2px'
+    innerHTML:
+      -
+        type: h5
+        attribute:
+          style: 'padding-left:4px'
+        innerHTML: rs:table_name
+      -
+        type: div
+        attribute:
+          style: 'padding:2px'
+        innerHTML: rs:fields

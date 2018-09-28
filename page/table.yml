@@ -51,29 +51,6 @@ content:
   -
     type: div
     settings:
-      enabled: rs:exist
-    attribute:
-      class: alert alert-success
-    innerHTML:
-      -
-        type: div
-        attribute:
-          class: table-responsive
-        innerHTML:
-          -
-            type: widget
-            data:
-              plugin: wf/table
-              method: render_many
-              data:
-                style:
-                  table: 'font-size:smaller'
-                rs: rs:rs_select_all
-                datatable:
-                  disabled: false
-  -
-    type: div
-    settings:
       disabled: rs:exist
     attribute:
       class: alert alert-warning
@@ -129,6 +106,9 @@ content:
                         innerHTML: Attribute match
                       -
                         type: th
+                        innerHTML: Foreing key match
+                      -
+                        type: th
                         innerHTML: Type
                       -
                         type: th
@@ -176,7 +156,50 @@ content:
                       - asc
                   language:
                     url: /plugin/datatable/datatable_1_10_16/i18n/Swedish.json
-
+  -
+    type: div
+    attribute:
+      class: alert alert-info
+    innerHTML:
+      -
+        type: div
+        attribute:
+          class: table-responsive
+        innerHTML:
+          -
+            type: widget
+            data:
+              plugin: wf/table
+              method: render_many
+              data:
+                style:
+                  table: 'font-size:smaller'
+                rs: rs:foreing_keys
+                datatable:
+                  disabled: false
+  -
+    type: div
+    settings:
+      enabled: rs:exist
+    attribute:
+      class: alert alert-success
+    innerHTML:
+      -
+        type: div
+        attribute:
+          class: table-responsive
+        innerHTML:
+          -
+            type: widget
+            data:
+              plugin: wf/table
+              method: render_many
+              data:
+                style:
+                  table: 'font-size:smaller'
+                rs: rs:rs_select_all
+                datatable:
+                  disabled: false
 
 
 

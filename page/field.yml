@@ -5,6 +5,7 @@ content:
   -
     type: h1
     innerHTML: rs:schema_field_name
+    
   -
     type: div
     settings:
@@ -46,6 +47,32 @@ content:
     attribute:
       class: alert alert-warning
     innerHTML:
+      -
+        type: p
+        settings:
+          enabled: rs:schema_field_foreing_key
+        innerHTML:
+          -
+            type: div
+            settings:
+              disabled: rs:check_foreing_key_match
+            innerHTML:
+              -
+                type: a
+                settings:
+                  disabled: rs:db_field_foreing_key
+                attribute:
+                  class: btn btn-info
+                  onclick: "PluginDbSync_v1.field_create_foreing_key()"
+                innerHTML: Create foreing key
+              -
+                type: a
+                settings:
+                  enabled: rs:db_field_foreing_key
+                attribute:
+                  class: btn btn-warning
+                  onclick: "PluginDbSync_v1.field_update_foreing_key()"
+                innerHTML: Update foreing key
       -
         type: widget
         data:

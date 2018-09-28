@@ -1,11 +1,14 @@
 type: tr
-attribute:
-  data-id: rs:schema_table_name
-  onclick: PluginDbSync_v1.table(this.getAttribute('data-id'))
 innerHTML:
   -
     type: td
-    innerHTML: rs:key
+    innerHTML:
+      -
+        type: a
+        attribute:
+          data-id: rs:schema_table_name
+          onclick: PluginDbSync_v1.table(this.getAttribute('data-id'))
+        innerHTML: rs:key
   -
     type: td
     innerHTML: rs:check_table_exist
@@ -15,6 +18,9 @@ innerHTML:
   -
     type: td
     innerHTML: rs:check_attribute_match
+  -
+    type: td
+    innerHTML: rs:check_foreing_key_match
   -
     type: td
     innerHTML: rs:schema_field_type

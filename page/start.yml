@@ -7,7 +7,7 @@ content:
   -
     type: h1
     attribute:
-      onclick: console.log(PluginDbSync_v1.data)
+      onclick: PluginWfAjax.update('content')
     innerHTML: DbSync_v1
   -
     type: div

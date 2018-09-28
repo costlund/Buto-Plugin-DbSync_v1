@@ -15,6 +15,7 @@ class PluginDbSync_v1{
       }
       wfArray::set($GLOBALS, 'sys/layout_path', '/plugin/db/sync_v1/layout');
       wfPlugin::includeonce('wf/array');
+      wfPlugin::includeonce('wf/yml');
       $this->settings = new PluginWfArray(wfArray::get($GLOBALS, 'sys/settings/plugin_modules/'.wfArray::get($GLOBALS, 'sys/class').'/settings'));
       $id = wfRequest::get('id');
       if(strlen($id)){
@@ -59,6 +60,41 @@ class PluginDbSync_v1{
     $page->setByTag(array('items' => $items));
     wfDocument::mergeLayout($page->get());
   }
+  public function page_map(){
+    $schema = $this->getFields();
+    foreach ($schema->get('schema/field') as $key => $value) {
+      $item = new PluginWfArray($value);
+      $schema_table_name = $item->get('schema_table_name');
+      $schema_field_name = $item->get('schema_field_name');
+      $item->set('id', $item->get('schema_table_name').'__'.$item->get('schema_field_name'));
+      
+      $item->set('reference_field', $item->get('schema_field_foreing_key/reference_table').'__'.$item->get('schema_field_foreing_key/reference_field'));
+      if($item->get('schema_field_foreing_key')){
+        $item->set('field_class', 'bg-success '.$item->get('schema_field_foreing_key/reference_table').'__'.$item->get('schema_field_foreing_key/reference_field'));
+      }else{
+        $item->set('field_class', 'bg-success');
+      }
+      $schema->set("schema/table/$schema_table_name/field/$schema_field_name", $item->get());
+    }
+    $page = $this->getYml('page/map.yml');
+    $items = array();
+    foreach ($schema->get('schema/table') as $key => $value) {
+      $item = $this->getYml('element/map_item.yml');
+      $i = new PluginWfArray($value);
+      $fields = array();
+      foreach ($i->get('field') as $key2 => $value2) {
+        $j = new PluginWfArray($value2);
+        $field = $this->getYml('element/map_item_field.yml');
+        $field->setByTag($value2);
+        $field->setByTag($j->get('schema_field_foreing_key'), 'schema_field_foreing_key', true);
+        $fields[] = $field->get();
+      }
+      $item->setByTag(array('fields' => $fields, 'table_name' => $key));
+      $items[] = $item->get();
+    }
+    $page->setByTag(array('items' => $items));
+    wfDocument::mergeLayout($page->get());
+  }
   /**
    * One database.
    */
@@ -67,6 +103,7 @@ class PluginDbSync_v1{
      * 
      */
     $schema = $this->getFields();
+    //wfHelp::yml_dump($schema, true);
     $page = $this->getYml('page/db.yml');
     $id = wfRequest::get('id');
     $class = wfGlobals::get('class');
@@ -76,6 +113,20 @@ class PluginDbSync_v1{
     $page->setByTag(array('id' => $id));
     $page->setByTag($this->db->get());
     $page->setByTag($this->db->get('mysql'), 'mysql');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     $schemas = array();
     foreach ($this->db->get('schema') as $key => $value) {
       $schemas[] = wfDocument::createHtmlElement('div', $value);
@@ -88,9 +139,16 @@ class PluginDbSync_v1{
     $page->setByTag($schema->get('errors/table'), 'table');
     $page->setByTag($schema->get('errors/field'), 'field');
     $page->setByTag($schema->get('errors/attribute'), 'attribute');
+    $page->setByTag($schema->get('errors/foreing_key'), 'foreing_key');
     /**
      * Field.
      */
+    foreach ($schema->get('schema/field') as $key => $value) {
+      $item = new PluginWfArray($value);
+      if(!$item->get('check_field_exist')){
+        $schema->set("schema/field/$key/check_field_exist", array(wfDocument::createHtmlElement('a', 'Create', array('onclick' => "PluginDbSync_v1.field_create_from_db_row('".$item->get('schema_table_name')."', '".$item->get('schema_field_name')."', this)"))));
+      }
+    }
     $tr = array();
     foreach ($schema->get('schema/field') as $key => $value) {
       $row = $this->getYml('element/db_field_row.yml');
@@ -111,6 +169,14 @@ class PluginDbSync_v1{
       $tr[] = $row->get();
     }
     $page->setByTag(array('tbody' => $tr), 'tables');
+    /**
+     * Foreing keys.
+     */
+    $temp = $this->db_foreing_keys();
+    $page->setByTag(array('foreing_keys' => $temp->get()));
+    /**
+     * 
+     */
     wfDocument::mergeLayout($page->get());
   }
   private function db_table_create($table_name){
@@ -122,6 +188,59 @@ class PluginDbSync_v1{
     $field_data = $this->getField($table_name, $field_name);
     $field_script = $this->db_create_field_script($field_data);
     $sql = "ALTER TABLE $table_name ADD COLUMN $field_script;";
+    $this->runSQL($sql);
+    return null;
+  }
+  /**
+   * Add foreing key.
+   */
+  private function db_field_create_foreing_key($table_name, $field_name){
+    $field_data = $this->getField($table_name, $field_name);
+    $reference_table = $field_data->get('schema_field_foreing_key/reference_table');
+    $reference_field = $field_data->get('schema_field_foreing_key/reference_field');
+    $on_delete =       $field_data->get('schema_field_foreing_key/on_delete');
+    $on_update =       $field_data->get('schema_field_foreing_key/on_update');
+    $index_name = $table_name.'_'.$field_name.'_fk_idx';
+    $constraint_name = $table_name.'_'.$field_name.'_fk';
+    $sql = <<<string
+      ALTER TABLE $table_name 
+      ADD INDEX $index_name ($field_name ASC);
+string;
+    $this->runSQL($sql);
+    $sql = <<<string
+      ALTER TABLE $table_name 
+      ADD CONSTRAINT $constraint_name 
+        FOREIGN KEY ($field_name)
+        REFERENCES $reference_table ($reference_field)
+        ON DELETE $on_delete
+        ON UPDATE $on_update;
+string;
+    $this->runSQL($sql);
+    return null;
+  }
+  /**
+   * Update foreing key.
+   */
+  private function db_field_update_foreing_key($table_name, $field_name){
+    $field_data = $this->getField($table_name, $field_name);
+    $reference_table = $field_data->get('schema_field_foreing_key/reference_table');
+    $reference_field = $field_data->get('schema_field_foreing_key/reference_field');
+    $on_delete =       $field_data->get('schema_field_foreing_key/on_delete');
+    $on_update =       $field_data->get('schema_field_foreing_key/on_update');
+    $constraint_name = $table_name.'_'.$field_name.'_fk';
+    $sql = <<<string
+      ALTER TABLE $table_name
+      DROP FOREIGN KEY $constraint_name;
+string;
+    $this->runSQL($sql);
+    $sql = <<<string
+      ALTER TABLE $table_name 
+      ADD CONSTRAINT $constraint_name 
+        FOREIGN KEY ($field_name)
+        REFERENCES $reference_table ($reference_field)
+        ON DELETE $on_delete
+        ON UPDATE $on_update;
+string;
     $this->runSQL($sql);
     return null;
   }
@@ -137,6 +256,42 @@ class PluginDbSync_v1{
   }
   private function db_table_select_all($table_name){
     $sql = "select * from $table_name limit 1000;";
+    $rs = $this->runSQL($sql);
+    return $rs;
+  }
+  private function db_foreing_keys($table_name = null){
+    $database = $this->db->get('mysql/database');
+    if(is_null($table_name)){
+      $sql = <<<string
+        SELECT 
+        col.constraint_name,
+        col.table_name                        as table_name,
+        col.column_name                     as field_name,
+        col.referenced_table_name     as foreing_key_reference_table,
+        col.referenced_column_name as foreing_key_reference_field,
+        constr.delete_rule                    as foreing_key_on_delete,
+        constr.update_rule                   as foreing_key_on_update
+        from information_schema.KEY_COLUMN_USAGE as col
+        inner join information_schema.referential_constraints as constr on col.constraint_name=constr.constraint_name 
+        where col.table_schema = '$database' and constr.constraint_schema = '$database' and col.constraint_name<>'PRIMARY'
+         ; 
+string;
+    }else{
+      $sql = <<<string
+        SELECT 
+        col.constraint_name,
+        col.table_name                        as table_name,
+        col.column_name                     as field_name,
+        col.referenced_table_name     as foreing_key_reference_table,
+        col.referenced_column_name as foreing_key_reference_field,
+        constr.delete_rule                    as foreing_key_on_delete,
+        constr.update_rule                   as foreing_key_on_update
+        from information_schema.KEY_COLUMN_USAGE as col
+        inner join information_schema.referential_constraints as constr on col.constraint_name=constr.constraint_name 
+        where col.table_schema = '$database' and constr.constraint_schema = '$database' and col.constraint_name<>'PRIMARY' and (col.table_name='$table_name' or col.referenced_table_name='$table_name')
+         ; 
+string;
+    }
     $rs = $this->runSQL($sql);
     return $rs;
   }
@@ -261,8 +416,14 @@ class PluginDbSync_v1{
       $tr[] = $row->get();
     }
     $page->setByTag(array('tbody' => $tr));
-    
-    
+    /**
+     * Foreing keys.
+     */
+    $temp = $this->db_foreing_keys($table_data->get('name'));
+    $page->setByTag(array('foreing_keys' => $temp->get()));
+    /**
+     * 
+     */
     $page->setByTag($table_data->get());
     wfDocument::mergeLayout($page->get());
   }
@@ -275,7 +436,10 @@ class PluginDbSync_v1{
     exit('drop...');
   }
   public function page_field(){
+//    $schema = $this->getFields();
+//    wfHelp::yml_dump($schema->get('schema/field/'.wfRequest::get('table').'#'.wfRequest::get('field')));
     $field_data = $this->getField(wfRequest::get('table'), wfRequest::get('field'));
+    //wfHelp::yml_dump($field_data);
     $page = $this->getYml('page/field.yml');
     $page->setByTag($field_data->get());
     $page->setByTag(array('field_data' => $field_data->get()));
@@ -285,10 +449,39 @@ class PluginDbSync_v1{
     $this->db_field_create(wfRequest::get('table'), wfRequest::get('field'));
     exit('create field...');
   }
+  public function page_field_create_foreing_key(){
+    $this->db_field_create_foreing_key(wfRequest::get('table'), wfRequest::get('field'));
+    exit('create foreing key...');
+  }
+  public function page_field_update_foreing_key(){
+    $this->db_field_update_foreing_key(wfRequest::get('table'), wfRequest::get('field'));
+    exit('update foreing key...');
+  }
+  private function getForeingKey($foreing_keys, $table_name, $field_name){
+    foreach ($foreing_keys->get() as $key => $value) {
+      $item = new PluginWfArray($value);
+      if($item->get('table_name')==$table_name && $item->get('field_name')==$field_name){
+//        if($table_name=='memb_account' && $field_name=='country_id'){
+//          wfHelp::yml_dump($item, true);
+//        }
+        return array(
+            'reference_table' => $item->get('foreing_key_reference_table'),
+            'reference_field' => $item->get('foreing_key_reference_field'),
+            'on_delete' => $item->get('foreing_key_on_delete'),
+            'on_update' => $item->get('foreing_key_on_update')
+                );
+      }
+    }
+    //return array('table' => $table_name, 'field' => $field_name);
+    return null;
+  }
   /**
    * All data synced schema and db.
    */
   private function getFields(){
+    $foreing_keys = $this->db_foreing_keys();
+    //wfHelp::yml_dump($this->getForeingKey($foreing_keys, 'memb_account', 'country_id'), true);
+    //wfHelp::yml_dump($foreing_keys, true);
     /**
      * Get db schema.
      */
@@ -298,11 +491,14 @@ class PluginDbSync_v1{
     /**
      * Get data from multiple schemas.
      */
+    $i = 0;
     foreach ($this->db->get('schema') as $key => $value) {
       $item = wfSettings::getSettingsAsObject($value);
       foreach ($item->get('tables') as $key2 => $value2) {
         foreach ($value2['field'] as $key3 => $value3) {
           $item3 = new PluginWfArray($value3);
+          $i++;
+          $field->set($key2."#".$key3."/number", $i);
           $field->set($key2."#".$key3."/schema_files/", $value);
           $field->set($key2."#".$key3."/schema_files_count", 0);
           $field->set($key2."#".$key3."/schema_files_name", null);
@@ -318,10 +514,13 @@ class PluginDbSync_v1{
           $field->set($key2."#".$key3."/db_field_default", null);
           $field->set($key2."#".$key3."/db_field_not_null", null);
           $field->set($key2."#".$key3."/db_field_primary_key", null);
+          $field->set($key2."#".$key3."/db_field_foreing_key", null);
         }
         if($item->get('extra/field')){
           foreach ($item->get('extra/field') as $key3 => $value3) {
             $item3 = new PluginWfArray($value3);
+            $i++;
+            $field->set($key2."#".$key3."/number", $i);
             $field->set($key2."#".$key3."/schema_files/", $value);
             $field->set($key2."#".$key3."/schema_files_count", 0);
             $field->set($key2."#".$key3."/schema_files_name", null);
@@ -336,6 +535,7 @@ class PluginDbSync_v1{
             $field->set($key2."#".$key3."/db_field_default", null);
             $field->set($key2."#".$key3."/db_field_not_null", null);
             $field->set($key2."#".$key3."/db_field_primary_key", null);
+            $field->set($key2."#".$key3."/db_field_foreing_key", null);
           }
         }
       }
@@ -347,6 +547,7 @@ class PluginDbSync_v1{
       $field->set("$key/check_table_exist",     $this->check_table_exist($field->get("$key/schema_table_name"),                                         $db_schema));
       $field->set("$key/check_field_exist",     $this->check_field_exist($field->get("$key/schema_table_name"), $field->get("$key/schema_field_name"), $db_schema));
       $field->set("$key/check_attribute_match", false);
+      $field->set("$key/check_foreing_key_match", false);
     }
     /**
      * Set field attribute.
@@ -375,6 +576,23 @@ class PluginDbSync_v1{
       }
     }
     /**
+     * Set foreing keys.
+     */
+    foreach ($field->get() as $key => $value) {
+      $item = new PluginWfArray($value);
+      $field->set("$key/db_field_foreing_key", $this->getForeingKey($foreing_keys, $item->get('schema_table_name'), $item->get('schema_field_name')));
+      //$field->set("$key/db_field_foreing_key", 333);
+    }
+    /**
+     * Check foreing key match.
+     */
+    foreach ($field->get() as $key => $value) {
+      $item = new PluginWfArray($value);
+      if($item->get('schema_field_foreing_key')==$item->get('db_field_foreing_key')){
+        $field->set("$key/check_foreing_key_match", true);
+      }
+    }
+    /**
      * Set attribute miss match.
      */
     foreach ($field->get() as $key => $value) {
@@ -400,7 +618,6 @@ class PluginDbSync_v1{
         $field->set("$key/schema_files_name", $item->get('schema_files/0'));
       }
     }
-    
     /**
      * Errors.
      */
@@ -409,6 +626,7 @@ class PluginDbSync_v1{
     $errors->set('table',     array('field' => null, 'table' => null));
     $errors->set('field',     array('field' => null));
     $errors->set('attribute', array('field' => null));
+    $errors->set('foreing_key', array('field' => null));
     foreach ($field->get() as $key => $value) {
       $item = new PluginWfArray($value);
       /**
@@ -432,10 +650,16 @@ class PluginDbSync_v1{
         $errors->set('field/field/', $key);
       }
       /**
-       * Field.
+       * Attribute.
        */
       if($item->get('check_attribute_match') <> true){
         $errors->set('attribute/field/', $key);
+      }
+      /**
+       * Foreing key.
+       */
+      if($item->get('check_foreing_key_match') <> true){
+        $errors->set('foreing_key/field/', $key);
       }
     }
     $errors->set('schema/count', sizeof($errors->get('schema/field')));
@@ -443,6 +667,7 @@ class PluginDbSync_v1{
     $errors->set('table/count_table', sizeof($errors->get('table/table')));
     $errors->set('field/count', sizeof($errors->get('field/field')));
     $errors->set('attribute/count', sizeof($errors->get('attribute/field')));
+    $errors->set('foreing_key/count', sizeof($errors->get('foreing_key/field')));
     
     /**
      * Table.
@@ -482,7 +707,7 @@ class PluginDbSync_v1{
     $table_data = $this->getTable($table_name);
     foreach ($table_data->get('field') as $key => $value) {
       $item = new PluginWfArray($value);
-      if($item->get('schema_field_name')==$field_name){
+      if($item->get('schema_table_name')==$table_name && $item->get('schema_field_name')==$field_name){
         return new PluginWfArray($item->get());
       }
     }
