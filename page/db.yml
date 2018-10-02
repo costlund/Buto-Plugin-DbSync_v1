@@ -214,14 +214,6 @@ content:
               class: btn btn-default
               onclick: alert()
             innerHTML: Create all
-          -
-            type: a
-            attribute:
-              class: btn btn-warning
-              onclick: "PluginDbSync_v1.map()"
-            innerHTML: Map
-
-  
   -
     type: div
     attribute:

@@ -1,5 +1,17 @@
 content:
   -
+    type: a
+    attribute:
+      class: btn btn-default
+      onclick: PluginWfAjax.load('content', 'dbs');
+    innerHTML: Back
+  -
+    type: a
+    attribute:
+      class: btn btn-default
+      onclick: PluginDbSync_v1.mapDraw();
+    innerHTML: Draw all
+  -
     type: div
     attribute:
       class: row

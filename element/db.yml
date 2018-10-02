@@ -21,6 +21,20 @@ innerHTML:
                   onclick: PluginDbSync_v1.db(this.getAttribute('data-key'));
                 innerHTML: rs:name
       -
+        type: a
+        attribute:
+          class: btn btn-primary
+          data-key: rs:key
+          onclick: PluginDbSync_v1.db(this.getAttribute('data-key'));
+        innerHTML: Edit
+      -
+        type: a
+        attribute:
+          class: btn btn-warning
+          data-key: rs:key
+          onclick: "PluginDbSync_v1.map(this.getAttribute('data-key'))"
+        innerHTML: Map
+      -
         type: div
         innerHTML:
           -

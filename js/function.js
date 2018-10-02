@@ -45,7 +45,8 @@ function PluginDbSync_v1(){
       PluginWfAjax.update('modal_field_body');
     });
   }
-  this.map = function(){
+  this.map = function(id){
+    PluginDbSync_v1.data.item.id = id;
     PluginWfAjax.load('content', 'map/id/'+this.data.item.id);    
   }
   this.mapClear = function(){
@@ -72,6 +73,23 @@ function PluginDbSync_v1(){
 
     PluginDbSync_v1.data.line_item_id = element.getAttribute('id');
     $('#'+element.getAttribute('data-reference_field')).each(function( i ) {
+      var myLine = new LeaderLine(
+          document.getElementById(PluginDbSync_v1.data.line_item_id),
+          this
+      );
+    });
+  }
+  this.mapDraw = function(){
+    PluginDbSync_v1.mapClear();
+    var fields = document.getElementsByClassName('map-field');
+    for(i=0;i<fields.length;i++){
+      this.mapDrawField(fields[i]);
+    }
+  }
+  this.mapDrawField = function(element){
+    var id = element.id;
+    PluginDbSync_v1.data.line_item_id = id;
+    $('.'+id).each(function( i ) {
       var myLine = new LeaderLine(
           document.getElementById(PluginDbSync_v1.data.line_item_id),
           this

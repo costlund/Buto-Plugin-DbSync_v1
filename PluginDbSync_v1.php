@@ -67,12 +67,11 @@ class PluginDbSync_v1{
       $schema_table_name = $item->get('schema_table_name');
       $schema_field_name = $item->get('schema_field_name');
       $item->set('id', $item->get('schema_table_name').'__'.$item->get('schema_field_name'));
-      
       $item->set('reference_field', $item->get('schema_field_foreing_key/reference_table').'__'.$item->get('schema_field_foreing_key/reference_field'));
       if($item->get('schema_field_foreing_key')){
-        $item->set('field_class', 'bg-success '.$item->get('schema_field_foreing_key/reference_table').'__'.$item->get('schema_field_foreing_key/reference_field'));
+        $item->set('field_class', 'map-field bg-success '.$item->get('schema_field_foreing_key/reference_table').'__'.$item->get('schema_field_foreing_key/reference_field'));
       }else{
-        $item->set('field_class', 'bg-success');
+        $item->set('field_class', 'map-field bg-success');
       }
       $item->set('foreing_key_id', $item->get('schema_table_name').'__'.$item->get('schema_field_name').'_fk');
       $schema->set("schema/table/$schema_table_name/field/$schema_field_name", $item->get());
@@ -121,20 +120,6 @@ class PluginDbSync_v1{
     $page->setByTag(array('id' => $id));
     $page->setByTag($this->db->get());
     $page->setByTag($this->db->get('mysql'), 'mysql');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     $schemas = array();
     foreach ($this->db->get('schema') as $key => $value) {
       $schemas[] = wfDocument::createHtmlElement('div', $value);
