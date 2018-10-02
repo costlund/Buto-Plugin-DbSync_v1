@@ -4,6 +4,4 @@ content:
     attribute:
       class: row
     innerHTML: rs:items
-
-  
   

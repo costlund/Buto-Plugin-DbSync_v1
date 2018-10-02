@@ -1,5 +1,5 @@
 function PluginDbSync_v1(){
-  this.data = {item: {id: null}, table: {table: null}, field: {field: null}}
+  this.data = {item: {id: null}, table: {table: null}, field: {field: null}, line_item_id: null}
   this.db = function(id){
     PluginDbSync_v1.data.item.id = id;
     PluginWfAjax.load('content', 'db/id/'+id);    
@@ -48,5 +48,71 @@ function PluginDbSync_v1(){
   this.map = function(){
     PluginWfAjax.load('content', 'map/id/'+this.data.item.id);    
   }
+  this.mapClear = function(){
+    $('.bg-danger').removeClass('bg-danger');
+    $('.leader-line').remove();
+  }
+  this.mapFieldClick = function(element){
+    var id = element.id;
+    PluginDbSync_v1.mapClear();
+    $('#'+id).addClass('bg-danger');
+    $('.'+id).addClass('bg-danger');
+    PluginDbSync_v1.data.line_item_id = id;
+    $('.'+id).each(function( i ) {
+      var myLine = new LeaderLine(
+          document.getElementById(PluginDbSync_v1.data.line_item_id),
+          this
+      );
+    });
+  }
+  this.mapForeingClick = function(element){
+    PluginDbSync_v1.mapClear();
+    $(element).addClass('bg-danger');
+    $('#'+element.getAttribute('data-reference_field')).addClass('bg-danger');
+
+    PluginDbSync_v1.data.line_item_id = element.getAttribute('id');
+    $('#'+element.getAttribute('data-reference_field')).each(function( i ) {
+      var myLine = new LeaderLine(
+          document.getElementById(PluginDbSync_v1.data.line_item_id),
+          this
+      );
+    });
+  }
 }
 var PluginDbSync_v1 = new PluginDbSync_v1();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

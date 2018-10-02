@@ -12,6 +12,8 @@ innerHTML:
         type: h5
         attribute:
           style: 'padding-left:4px'
+          onclick: |
+            PluginDbSync_v1.mapClear();
         innerHTML: rs:table_name
       -
         type: div

@@ -74,6 +74,7 @@ class PluginDbSync_v1{
       }else{
         $item->set('field_class', 'bg-success');
       }
+      $item->set('foreing_key_id', $item->get('schema_table_name').'__'.$item->get('schema_field_name').'_fk');
       $schema->set("schema/table/$schema_table_name/field/$schema_field_name", $item->get());
     }
     $page = $this->getYml('page/map.yml');

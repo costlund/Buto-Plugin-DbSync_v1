@@ -129,6 +129,13 @@ content:
               method: js
               data:
                 file: /plugin/db/sync_v1/js/function.js                
+          embed_leader-line:
+            type: widget
+            data:
+              plugin: 'wf/embed'
+              method: js
+              data:
+                file: /plugin/db/sync_v1/js/leader-line.min.js   
       body:
         type: body
         innerHTML: 'body...'

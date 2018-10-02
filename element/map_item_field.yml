@@ -1,16 +1,11 @@
 type: div
-attribute:
-  style: ''
 innerHTML:
   -
     type: div
     attribute:
       class: rs:field_class
       id: rs:id
-      onclick: |
-        $('.bg-danger').removeClass('bg-danger');
-        $('#'+this.getAttribute('id')).addClass('bg-danger');
-        $('.'+this.getAttribute('id')).addClass('bg-danger');
+      onclick: PluginDbSync_v1.mapFieldClick(this);
     innerHTML:
       -
         type: span
@@ -21,12 +16,10 @@ innerHTML:
       enabled: schema_field_foreing_key:reference_table
     attribute:
       class: bg-warning
+      id: rs:foreing_key_id
       style: 'padding:4px'
       data-reference_field: rs:reference_field
-      onclick: |
-        $('.bg-danger').removeClass('bg-danger');
-        $(this).addClass('bg-danger');
-        $('#'+this.getAttribute('data-reference_field')).addClass('bg-danger');
+      onclick: PluginDbSync_v1.mapForeingClick(this);
     innerHTML:
       -
         type: div

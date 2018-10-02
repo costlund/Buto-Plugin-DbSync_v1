@@ -1,6 +1,7 @@
 type: div
 attribute:
   class: col-sm-4
+  id: rs:key
 innerHTML:
   -
     type: div
