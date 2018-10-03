@@ -82,6 +82,7 @@ class PluginDbSync_v1{
     foreach ($schema->get('schema/table') as $key => $value) {
       $i = new PluginWfArray($value);
       $item = $this->getYml('element/map_item.yml');
+      $item->setByTag(array('description' => $i->get('description')));
       $fields = array();
       foreach ($i->get('field') as $key2 => $value2) {
         $j = new PluginWfArray($value2);
@@ -473,14 +474,12 @@ string;
    */
   private function getFields(){
     $foreing_keys = $this->db_foreing_keys();
-    //wfHelp::yml_dump($this->getForeingKey($foreing_keys, 'memb_account', 'country_id'), true);
-    //wfHelp::yml_dump($foreing_keys, true);
     /**
      * Get db schema.
      */
     $db_schema = $this->runSQL("SELECT * FROM INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA='".$this->db->get('mysql/database')."';");
     $field = new PluginWfArray();
-    $table = array();
+    $table = new PluginWfArray();
     /**
      * Get data from multiple schemas.
      */
@@ -488,10 +487,13 @@ string;
     foreach ($this->db->get('schema') as $key => $value) {
       $item = wfSettings::getSettingsAsObject($value);
       foreach ($item->get('tables') as $key2 => $value2) {
+        $item2 = new PluginWfArray($value2);
+        $table->set("$key2/description", $item2->get('description'));
         foreach ($value2['field'] as $key3 => $value3) {
           $item3 = new PluginWfArray($value3);
           $i++;
           $field->set($key2."#".$key3."/number", $i);
+          $field->set($key2."#".$key3."/description", $item3->get('description'));
           $field->set($key2."#".$key3."/schema_files/", $value);
           $field->set($key2."#".$key3."/schema_files_count", 0);
           $field->set($key2."#".$key3."/schema_files_name", null);
@@ -514,6 +516,7 @@ string;
             $item3 = new PluginWfArray($value3);
             $i++;
             $field->set($key2."#".$key3."/number", $i);
+            $field->set($key2."#".$key3."/description", $item3->get('description'));
             $field->set($key2."#".$key3."/schema_files/", $value);
             $field->set($key2."#".$key3."/schema_files_count", 0);
             $field->set($key2."#".$key3."/schema_files_name", null);
@@ -668,20 +671,18 @@ string;
     $i = 0;
     foreach ($field->get() as $key => $value) {
       $item = new PluginWfArray($value);
-      if(isset($table[$item->get('schema_table_name')])){
+      if($table->get($item->get('schema_table_name').'/number')){
         continue;
       }
       $i++;
-      $table[$item->get('schema_table_name')] = array(
-        'number' => $i,
-        'name' => $item->get('schema_table_name'),
-        'exist' => $item->get('check_table_exist')
-              );
+      $table->set($item->get('schema_table_name').'/number', $i);
+      $table->set($item->get('schema_table_name').'/name',   $item->get('schema_table_name'));
+      $table->set($item->get('schema_table_name').'/exist',  $item->get('check_table_exist'));
     }
     /**
      * 
      */
-    return new PluginWfArray(array('errors' => $errors->get(), 'schema' => array('table' => $table, 'field' => $field->get())));
+    return new PluginWfArray(array('errors' => $errors->get(), 'schema' => array('table' => $table->get(), 'field' => $field->get())));
   }
   private function getTable($table_name){
     $data = array();

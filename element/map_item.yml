@@ -16,6 +16,11 @@ innerHTML:
             PluginDbSync_v1.mapClear();
         innerHTML: rs:table_name
       -
+        type: span
+        attribute:
+          style: 'background:white;font-size:smaller'
+        innerHTML: rs:description
+      -
         type: div
         attribute:
           style: 'padding:2px'

@@ -10,6 +10,12 @@ innerHTML:
       -
         type: span
         innerHTML: rs:schema_field_name
+      -
+        type: span
+        attribute:
+          class: bg-info
+          style: 'font-size:smaller'
+        innerHTML: rs:description
   -
     type: div
     settings:
