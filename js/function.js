@@ -1,5 +1,6 @@
 function PluginDbSync_v1(){
   this.data = {item: {id: null}, table: {table: null}, field: {field: null}, line_item_id: null}
+  this.map_options = {color: 'silver', size: 2, startSocket: 'right', endPlug: 'arrow3', endPlugSize: '24', endPlugColor: 'black'};
   this.db = function(id){
     PluginDbSync_v1.data.item.id = id;
     PluginWfAjax.load('content', 'db/id/'+id);    
@@ -62,7 +63,8 @@ function PluginDbSync_v1(){
     $('.'+id).each(function( i ) {
       var myLine = new LeaderLine(
           document.getElementById(PluginDbSync_v1.data.line_item_id),
-          this
+          this,
+          PluginDbSync_v1.map_options
       );
     });
   }
@@ -75,7 +77,8 @@ function PluginDbSync_v1(){
     $('#'+element.getAttribute('data-reference_field')).each(function( i ) {
       var myLine = new LeaderLine(
           document.getElementById(PluginDbSync_v1.data.line_item_id),
-          this
+          this,
+          PluginDbSync_v1.map_options
       );
     });
   }
@@ -92,7 +95,8 @@ function PluginDbSync_v1(){
     $('.'+id).each(function( i ) {
       var myLine = new LeaderLine(
           document.getElementById(PluginDbSync_v1.data.line_item_id),
-          this
+          this,
+          PluginDbSync_v1.map_options
       );
     });
   }
