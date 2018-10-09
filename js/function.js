@@ -100,6 +100,10 @@ function PluginDbSync_v1(){
       );
     });
   }
+  this.schema_generator = function(id){
+    PluginDbSync_v1.data.item.id = id;
+    PluginWfAjax.load('content', 'schema_generator/id/'+this.data.item.id);    
+  }
 }
 var PluginDbSync_v1 = new PluginDbSync_v1();
 

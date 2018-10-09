@@ -103,6 +103,10 @@ class PluginDbSync_v1{
     $page->setByTag(array('items' => $items));
     wfDocument::mergeLayout($page->get());
   }
+  public function page_schema_generator(){
+    $schema = $this->generateSchema();
+    wfHelp::textarea_dump($schema);
+  }
   /**
    * One database.
    */
@@ -468,6 +472,32 @@ string;
     }
     //return array('table' => $table_name, 'field' => $field_name);
     return null;
+  }
+  private function generateSchema(){
+    $foreing_keys = $this->db_foreing_keys();
+    $db_schema = $this->runSQL("SELECT * FROM INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA='".$this->db->get('mysql/database')."';");
+    $schema = new PluginWfArray();
+    foreach ($db_schema->get() as $key => $value) {
+      $item = new PluginWfArray($value);
+      $schema->set($item->get('TABLE_NAME').'/field/'.$item->get('COLUMN_NAME').'/type', $item->get('COLUMN_TYPE'));
+      if($item->get('IS_NULLABLE')=='NO'){
+        $schema->set($item->get('TABLE_NAME').'/field/'.$item->get('COLUMN_NAME').'/not_null', true);
+      }
+      if($item->get('COLUMN_KEY')=='PRI'){
+        $schema->set($item->get('TABLE_NAME').'/field/'.$item->get('COLUMN_NAME').'/primary_key', true);
+      }
+      if($item->get('EXTRA')=='auto_increment'){
+        $schema->set($item->get('TABLE_NAME').'/field/'.$item->get('COLUMN_NAME').'/auto_increment', true);
+      }
+      if($item->get('COLUMN_DEFAULT')){
+        $schema->set($item->get('TABLE_NAME').'/field/'.$item->get('COLUMN_NAME').'/default', $item->get('COLUMN_DEFAULT'));
+      }
+      $foreing_key = $this->getForeingKey($foreing_keys, $item->get('TABLE_NAME'), $item->get('COLUMN_NAME'));
+      if($foreing_key){
+        $schema->set($item->get('TABLE_NAME').'/field/'.$item->get('COLUMN_NAME').'/foreing_key', $foreing_key);
+      }
+    }
+    return $schema;
   }
   /**
    * All data synced schema and db.
