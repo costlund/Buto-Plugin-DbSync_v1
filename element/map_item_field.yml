@@ -9,6 +9,11 @@ innerHTML:
     innerHTML:
       -
         type: span
+        attribute:
+          style: 'float:right'
+        innerHTML: rs:schema_field_type
+      -
+        type: span
         innerHTML: rs:schema_field_name
       -
         type: span
