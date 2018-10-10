@@ -248,12 +248,12 @@ string;
     return null;
   }
   private function db_table_count($table_name){
-    $sql = "select count(*) as count from $table_name;";
+    $sql = "select count(*) as count from `$table_name`;";
     $rs = $this->runSQL($sql);
     return $rs->get('0/count');
   }
   private function db_table_select_all($table_name){
-    $sql = "select * from $table_name limit 1000;";
+    $sql = "select * from `$table_name` limit 1000;";
     $rs = $this->runSQL($sql);
     return $rs;
   }
