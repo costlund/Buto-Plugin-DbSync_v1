@@ -129,10 +129,9 @@ class PluginDbSync_v1{
       $foreing_key = true;
     }
     ini_set('max_execution_time', 120);
-    $schema = $this->generateSchema();
     $script = null;
     $get_fields = $this->getFields();
-    foreach ($schema->get() as $key => $value) {
+    foreach ($get_fields->get('schema/table') as $key => $value) {
       $script .= "\n".$this->db_create_table_script($key, $foreing_key, wfRequest::get('engine'), $get_fields);
     }
     $page->setByTag(array('script' => $script));
