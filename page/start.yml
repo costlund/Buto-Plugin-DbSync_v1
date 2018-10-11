@@ -13,6 +13,7 @@ content:
     type: div
     attribute:
       class: col-sm-12
+      style: 'min-height:700px'
       id: content
     innerHTML: load:dbs
   

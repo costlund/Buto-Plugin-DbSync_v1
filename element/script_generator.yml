@@ -1,0 +1,36 @@
+-
+  type: div
+  innerHTML:
+    -
+      type: span
+      innerHTML: Foreing key
+    -
+      type: input
+      attribute:
+        type: checkbox
+        id: foreing_key
+        checked: true
+-
+  type: div
+  innerHTML:
+    -
+      type: span
+      innerHTML: ENGINE
+    -
+      type: input
+      attribute:
+        value: 'InnoDB'
+        id: engine
+-
+  type: div
+  innerHTML:
+    -
+      type: a
+      attribute:
+        class: btn btn-default
+        onclick: PluginDbSync_v1.script_generator_run()
+      innerHTML: Run
+        
+        
+        
+        

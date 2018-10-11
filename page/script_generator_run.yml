@@ -1,0 +1,38 @@
+content:
+  -
+    type: div
+    attribute:
+      class: row
+    innerHTML:
+      -
+        type: div
+        attribute:
+          class: col-sm-12
+        innerHTML:
+          -
+            type: a
+            attribute:
+              class: btn btn-default
+              onclick: PluginWfAjax.load('content', 'dbs');
+            innerHTML: Back
+          -
+            type: hr
+  -
+    type: div
+    attribute:
+      class: row
+    innerHTML:
+      -
+        type: div
+        attribute:
+          class: col-sm-12
+        innerHTML:
+          -
+            type: textarea
+            attribute:
+              style: 'width:100%;height:400px'
+            innerHTML: rs:script
+          
+
+  
+  

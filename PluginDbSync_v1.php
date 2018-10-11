@@ -103,9 +103,40 @@ class PluginDbSync_v1{
     $page->setByTag(array('items' => $items));
     wfDocument::mergeLayout($page->get());
   }
+  /**
+   * Generate yml schema in textarea.
+   */
   public function page_schema_generator(){
     $schema = $this->generateSchema();
-    wfHelp::textarea_dump($schema);
+    $page = $this->getYml('page/schema_generator.yml');
+    $page->setByTag(array('yml' => wfHelp::getYmlDump($schema->get())));
+    wfDocument::mergeLayout($page->get());
+  }
+  /**
+   * Generate script form.
+   */
+  public function page_script_generator(){
+    $element = $this->getYml('element/script_generator.yml');
+    wfDocument::renderElement($element->get());
+  }
+  /**
+   * Generate script in textarea.
+   */
+  public function page_script_generator_run(){
+    $page = $this->getYml('page/script_generator_run.yml');
+    $foreing_key = false;
+    if(wfRequest::get('foreing_key')=='true'){
+      $foreing_key = true;
+    }
+    ini_set('max_execution_time', 120);
+    $schema = $this->generateSchema();
+    $script = null;
+    $get_fields = $this->getFields();
+    foreach ($schema->get() as $key => $value) {
+      $script .= "\n".$this->db_create_table_script($key, $foreing_key, wfRequest::get('engine'), $get_fields);
+    }
+    $page->setByTag(array('script' => $script));
+    wfDocument::mergeLayout($page->get());
   }
   /**
    * One database.
@@ -316,20 +347,20 @@ string;
         }
       }
     }
-    return $item->get('schema_field_name').' '.$type.$not_null.$default.$auto_increment;
+    return '`'.$item->get('schema_field_name').'` '.$type.$not_null.$default.$auto_increment;
   }
   /**
    * One table create script.
    */
-  private function db_create_table_script($table_name){
+  private function db_create_table_script($table_name, $foreing_key = true, $engine = 'InnoDB', $get_fields = null){
     /**
      * Get all fields for one table.
      */
-    $table_data = $this->getTable($table_name);
+    $table_data = $this->getTable($table_name, $get_fields);
     /**
      * Create create script.
      */
-    $sql = "CREATE TABLE $table_name ([fields][primary_key] [key] [constraint] ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
+    $sql = "CREATE TABLE `$table_name` ([fields][primary_key] [key] [constraint] ) ENGINE=$engine DEFAULT CHARSET=latin1;";
     $fields = null;
     $primary_key = null;
     $tkey = null;
@@ -355,13 +386,13 @@ string;
       /**
        * Foreing key.
        */
-      if($item->get('schema_field_foreing_key')){
+      if($foreing_key && $item->get('schema_field_foreing_key')){
         $tkey .= ", KEY ".$item->get('schema_table_name')."_".$item->get('schema_field_name')."_fk (".$item->get('schema_field_name').")";
       }
       /**
        * Constraint.
        */
-      if($item->get('schema_field_foreing_key')){
+      if($foreing_key && $item->get('schema_field_foreing_key')){
         $item2 = new PluginWfArray($item->get('schema_field_foreing_key'));
         $on_delete = null;
         if(strtoupper($item2->get('on_delete')) == 'CASCADE'){
@@ -714,11 +745,14 @@ string;
      */
     return new PluginWfArray(array('errors' => $errors->get(), 'schema' => array('table' => $table->get(), 'field' => $field->get())));
   }
-  private function getTable($table_name){
+  private function getTable($table_name, $get_fields = null){
     $data = array();
     $exist = false;
     $schema_files_name = null;
-    foreach ($this->getFields()->get('schema/field') as $key => $value) {
+    if(is_null($get_fields)){
+      $get_fields = $this->getFields();
+    }
+    foreach ($get_fields->get('schema/field') as $key => $value) {
       if(substr($key, 0, strlen($table_name)+1)==$table_name.'#'){
         $exist = $value['check_table_exist'];
         $schema_files_name = $value['schema_files_name'];

@@ -104,6 +104,16 @@ function PluginDbSync_v1(){
     PluginDbSync_v1.data.item.id = id;
     PluginWfAjax.load('content', 'schema_generator/id/'+this.data.item.id);    
   }
+  this.script_generator = function(id){
+    PluginDbSync_v1.data.item.id = id;
+    PluginWfBootstrapjs.modal({id: 'modal_script_generator', url:'script_generator', lable:'Script generator', size: 'sm'});
+  }
+  this.script_generator_run = function(){
+    var foreing_key = document.getElementById('foreing_key').checked;
+    var engine = document.getElementById('engine').value;
+    $('#modal_script_generator').modal('hide');
+    PluginWfAjax.load('content', 'script_generator_run/id/'+this.data.item.id+'/foreing_key/'+foreing_key+'/engine/'+engine);    
+  }
 }
 var PluginDbSync_v1 = new PluginDbSync_v1();
 
