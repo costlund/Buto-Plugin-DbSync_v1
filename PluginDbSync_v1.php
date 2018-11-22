@@ -678,11 +678,11 @@ string;
      * Errors.
      */
     $errors = new PluginWfArray();
-    $errors->set('schema',    array('field' => null, 'text' => null));
-    $errors->set('table',     array('field' => null, 'table' => null));
-    $errors->set('field',     array('field' => null));
-    $errors->set('attribute', array('field' => null));
-    $errors->set('foreing_key', array('field' => null));
+    $errors->set('schema',    array('field' => array(), 'text' => null));
+    $errors->set('table',     array('field' => array(), 'table' => array()));
+    $errors->set('field',     array('field' => array()));
+    $errors->set('attribute', array('field' => array()));
+    $errors->set('foreing_key', array('field' => array()));
     foreach ($field->get() as $key => $value) {
       $item = new PluginWfArray($value);
       /**
