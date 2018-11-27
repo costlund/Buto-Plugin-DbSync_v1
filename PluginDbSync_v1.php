@@ -13,6 +13,8 @@ class PluginDbSync_v1{
       if(!wfUser::hasRole("webmaster")){
         exit('Role webmaster is required!');
       }
+      set_time_limit(60*5);
+      ini_set('memory_limit', '2048M');
       wfArray::set($GLOBALS, 'sys/layout_path', '/plugin/db/sync_v1/layout');
       wfPlugin::includeonce('wf/array');
       wfPlugin::includeonce('wf/yml');
