@@ -29,6 +29,10 @@ class PluginDbSync_v1{
        */
       wfPlugin::enable('datatable/datatable_1_10_16');
       wfPlugin::enable('wf/table');
+      /**
+       * Unset i18n event for this module.
+       */
+      wfPlugin::event_remove('document_render_string', 'i18n/translate_v1');
     }
   }
   /**
