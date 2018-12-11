@@ -12,10 +12,16 @@ content:
       onclick: PluginDbSync_v1.mapDraw();
     innerHTML: Draw all
   -
+    type: a
+    attribute:
+      class: btn btn-default
+      onclick: PluginDbSync_v1.mapClear();
+    innerHTML: Clear
+  -
     type: div
     attribute:
       class: row
+      style: 'padding-right:50px'
     innerHTML: rs:items
 
-  
   
