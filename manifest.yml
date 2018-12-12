@@ -1,5 +1,8 @@
 version: '1.3'
 history:
+  '1.4':
+    date: 2018-12-12
+    description: Bug when create field.
   '1.3':
     date: 2018-12-11
     description: Clickable table name in map showing table data. Add clear button in map.

@@ -221,7 +221,7 @@ class PluginDbSync_v1{
   private function db_field_create($table_name, $field_name){
     $field_data = $this->getField($table_name, $field_name);
     $field_script = $this->db_create_field_script($field_data);
-    $sql = "ALTER TABLE $table_name ADD COLUMN $field_script;";
+    $sql = "ALTER TABLE `$table_name` ADD COLUMN $field_script;";
     $this->runSQL($sql);
     return null;
   }
@@ -237,12 +237,12 @@ class PluginDbSync_v1{
     $index_name = $table_name.'_'.$field_name.'_fk_idx';
     $constraint_name = $table_name.'_'.$field_name.'_fk';
     $sql = <<<string
-      ALTER TABLE $table_name 
+      ALTER TABLE `$table_name` 
       ADD INDEX $index_name ($field_name ASC);
 string;
     $this->runSQL($sql);
     $sql = <<<string
-      ALTER TABLE $table_name 
+      ALTER TABLE `$table_name` 
       ADD CONSTRAINT $constraint_name 
         FOREIGN KEY ($field_name)
         REFERENCES $reference_table ($reference_field)
@@ -263,12 +263,12 @@ string;
     $on_update =       $field_data->get('schema_field_foreing_key/on_update');
     $constraint_name = $table_name.'_'.$field_name.'_fk';
     $sql = <<<string
-      ALTER TABLE $table_name
+      ALTER TABLE `$table_name`
       DROP FOREIGN KEY $constraint_name;
 string;
     $this->runSQL($sql);
     $sql = <<<string
-      ALTER TABLE $table_name 
+      ALTER TABLE `$table_name` 
       ADD CONSTRAINT $constraint_name 
         FOREIGN KEY ($field_name)
         REFERENCES $reference_table ($reference_field)
