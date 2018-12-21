@@ -56,7 +56,6 @@ function PluginDbSync_v1(){
   }
   this.mapFieldClick = function(element){
     var id = element.id;
-    PluginDbSync_v1.mapClear();
     $('#'+id).addClass('bg-danger');
     $('.'+id).addClass('bg-danger');
     PluginDbSync_v1.data.line_item_id = id;
@@ -69,7 +68,6 @@ function PluginDbSync_v1(){
     });
   }
   this.mapForeingClick = function(element){
-    PluginDbSync_v1.mapClear();
     $(element).addClass('bg-danger');
     $('#'+element.getAttribute('data-reference_field')).addClass('bg-danger');
 
