@@ -1,5 +1,8 @@
-version: '1.5'
+version: '1.6'
 history:
+  '1.6':
+    date: 2019-01-19
+    description: Set security to false to be able to access page without beeing webmaster.
   '1.5':
     date: 2018-12-21
     description: Map improvement.
@@ -34,6 +37,12 @@ plugin:
   -
     name: wf/mysql
     version: '1.1'
+  -
+    name: twitter/bootstrap335v
+    version: '1.0'
+  -
+    name: wf/embed
+    version: '1.0'
 sys:
   -
     name: mercury

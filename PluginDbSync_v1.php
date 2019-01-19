@@ -10,15 +10,15 @@ class PluginDbSync_v1{
    */
   function __construct($buto = false) {
     if($buto){
-      if(!wfUser::hasRole("webmaster")){
-        exit('Role webmaster is required!');
-      }
       set_time_limit(60*5);
       ini_set('memory_limit', '2048M');
       wfArray::set($GLOBALS, 'sys/layout_path', '/plugin/db/sync_v1/layout');
       wfPlugin::includeonce('wf/array');
       wfPlugin::includeonce('wf/yml');
       $this->settings = new PluginWfArray(wfArray::get($GLOBALS, 'sys/settings/plugin_modules/'.wfArray::get($GLOBALS, 'sys/class').'/settings'));
+      if(!wfUser::hasRole("webmaster") && $this->settings->get('security')!==false){
+        exit('Role webmaster is required!');
+      }
       $id = wfRequest::get('id');
       if(strlen($id)){
         $this->db = new PluginWfArray($this->settings->get("item/$id"));
@@ -29,6 +29,8 @@ class PluginDbSync_v1{
        */
       wfPlugin::enable('datatable/datatable_1_10_16');
       wfPlugin::enable('wf/table');
+      wfPlugin::enable('twitter/bootstrap335v');
+      wfPlugin::enable('wf/embed');
       /**
        * Unset i18n event for this module.
        */
