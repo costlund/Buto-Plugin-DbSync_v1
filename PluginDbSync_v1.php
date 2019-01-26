@@ -19,6 +19,7 @@ class PluginDbSync_v1{
       if(!wfUser::hasRole("webmaster") && $this->settings->get('security')!==false){
         exit('Role webmaster is required!');
       }
+      $this->settings->set('item', wfSettings::getSettingsFromYmlString($this->settings->get('item')));
       $id = wfRequest::get('id');
       if(strlen($id)){
         $this->db = new PluginWfArray($this->settings->get("item/$id"));

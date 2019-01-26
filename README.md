@@ -5,6 +5,8 @@ One could set param settings/security to false to temporary disable security.
 
 Url in this case: "/dbsync/start". 
 
+One could set "item: yml:/pat/to_file/file.yml".
+
 ```
 plugin_modules:
   dbsync:

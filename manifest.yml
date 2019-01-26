@@ -1,5 +1,8 @@
-version: '1.6'
+version: '1.7'
 history:
+  '1.7':
+    date: 2019-01-26
+    description: Add support for getSettingsFromYmlString for item param.
   '1.6':
     date: 2019-01-19
     description: Set security to false to be able to access page without beeing webmaster.
