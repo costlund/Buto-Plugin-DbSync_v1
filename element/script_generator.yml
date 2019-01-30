@@ -17,10 +17,20 @@
       type: span
       innerHTML: ENGINE
     -
-      type: input
+      type: select
       attribute:
-        value: 'InnoDB'
         id: engine
+      innerHTML:
+        -
+          type: option
+          attribute:
+            value: InnoDB
+          innerHTML: InnoDB
+        -
+          type: option
+          attribute:
+            value: NDBCLUSTER
+          innerHTML: NDBCLUSTER
 -
   type: div
   innerHTML:
