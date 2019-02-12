@@ -2,6 +2,12 @@
 Plugin to sync multiple databases against multiple schema files. Webmaster protected. 
 One could set param settings/security to false to temporary disable security.
 
+Features:
+- Sync schema files agains database.
+- Show map with lines between relationships.
+- Generate schema yml file content from database.
+- Generate create script.
+- Generate data export.
 
 Url in this case: "/dbsync/start". 
 

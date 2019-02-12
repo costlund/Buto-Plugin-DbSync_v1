@@ -10,7 +10,7 @@ class PluginDbSync_v1{
    */
   function __construct($buto = false) {
     if($buto){
-      set_time_limit(60*5);
+      set_time_limit(60*20);
       ini_set('memory_limit', '2048M');
       wfArray::set($GLOBALS, 'sys/layout_path', '/plugin/db/sync_v1/layout');
       wfPlugin::includeonce('wf/array');
@@ -126,6 +126,61 @@ class PluginDbSync_v1{
    */
   public function page_script_generator(){
     $element = $this->getYml('element/script_generator.yml');
+    wfDocument::renderElement($element->get());
+  }
+  /**
+   * Data export
+   */
+  public function page_data_export(){
+    $schema = $this->getFields();
+    $tables = $this->runSQL("SELECT TABLE_NAME FROM information_schema.tables where TABLE_TYPE='BASE TABLE' and TABLE_SCHEMA='".$schema->get('mysql/database')."' limit 1000");
+    $insert_sql = null;
+    foreach ($tables->get() as $v) {
+      $table = new PluginWfArray($v);
+      $sql = "INSERT INTO ".$table->get('TABLE_NAME')." ([FIELDS]) VALUES [VALUES];";
+      
+      /**
+       * Fields
+       */
+      $fields = $this->runSQL("SELECT COLUMN_NAME, COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '".$schema->get('mysql/database')."' AND TABLE_NAME = '".$table->get('TABLE_NAME')."';", 'COLUMN_NAME');
+      $str = null;
+      foreach ($fields->get() as $v) {
+        $field = new PluginWfArray($v);
+        $str .= ','.$field->get('COLUMN_NAME');
+      }
+      $str = substr($str, 1);
+      $sql = str_replace('[FIELDS]', $str, $sql);
+      /**
+       * Values
+       */
+      $values = $this->runSQL("SELECT * FROM `".$table->get('TABLE_NAME')."`;");
+      $str = null;
+      foreach ($values->get() as $v) {
+        $str .= "(";
+        foreach ($v as $k2 => $v2) {
+          if( strstr($fields->get("$k2/COLUMN_TYPE"), 'int(') || strstr($fields->get("$k2/COLUMN_TYPE"), 'double(') ){
+            $str .= $v2.',';
+          }elseif(($fields->get("$k2/COLUMN_TYPE")=='datetime' || $fields->get("$k2/COLUMN_TYPE")=='date' || $fields->get("$k2/COLUMN_TYPE")=='timestamp') && !$v2){
+            $str .= "NULL,";
+          }else{
+            $str .= "'".$v2."',";
+          }
+        }
+        $str = substr($str, 0, strlen($str)-1);
+        $str .= "),";
+      }
+      $str = substr($str, 0, strlen($str)-1);
+      $sql = str_replace('[VALUES]', $str, $sql);
+      /**
+       * 
+       */
+      $insert_sql .= $sql."\n";
+    }
+    
+    
+    
+    $element = $this->getYml('element/data_export.yml');
+    $element->setByTag(array('insert_sql' => $insert_sql));
     wfDocument::renderElement($element->get());
   }
   /**
@@ -373,7 +428,6 @@ string;
     $primary_key = null;
     $tkey = null;
     $constraint = null;
-    //wfHelp::yml_dump($data, true);
     foreach ($table_data->get('field') as $key => $value) {
       $item = new PluginWfArray($value);
       /**
@@ -389,7 +443,7 @@ string;
        * Primary key.
        */
       if($item->get('schema_field_primary_key')){
-        $primary_key = $item->get('schema_field_name');
+        $primary_key .= ','.$item->get('schema_field_name');
       }
       /**
        * Foreing key.
@@ -418,6 +472,7 @@ string;
      */
     $sql = str_replace('[fields]', $fields, $sql);
     if($primary_key){
+      $primary_key = substr($primary_key, 1);
       $sql = str_replace('[primary_key]', ",PRIMARY KEY ($primary_key)", $sql);
     }else{
       $sql = str_replace('[primary_key]', null, $sql);
@@ -751,7 +806,7 @@ string;
     /**
      * 
      */
-    return new PluginWfArray(array('errors' => $errors->get(), 'schema' => array('table' => $table->get(), 'field' => $field->get())));
+    return new PluginWfArray(array('mysql' => $this->db->get('mysql'), 'errors' => $errors->get(), 'schema' => array('table' => $table->get(), 'field' => $field->get())));
   }
   private function getTable($table_name, $get_fields = null){
     $data = array();
@@ -813,11 +868,11 @@ string;
   private function getYml($file){
     return wfSettings::getSettingsAsObject('/plugin/db/sync_v1/'.$file);
   }
-  private function runSQL($sql){
+  private function runSQL($sql, $key_field = 'id'){
     wfPlugin::includeonce('wf/mysql');
     $mysql = new PluginWfMysql();
     $mysql->open($this->db->get('mysql'));
-    $test = $mysql->runSql($sql);
+    $test = $mysql->runSql($sql, $key_field);
     return new PluginWfArray($test['data']);
   }
 }

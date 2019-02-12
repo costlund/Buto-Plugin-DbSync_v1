@@ -1,0 +1,12 @@
+-
+  type: div
+  innerHTML:
+    -
+      type: span
+      innerHTML: Data export script
+    -
+      type: textarea
+      attribute:
+        style: 'width:100%;height:400px;'
+      innerHTML: rs:insert_sql
+        

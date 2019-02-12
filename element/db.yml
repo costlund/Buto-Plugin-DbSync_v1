@@ -49,6 +49,13 @@ innerHTML:
           onclick: "PluginDbSync_v1.script_generator(this.getAttribute('data-key'))"
         innerHTML: Script generator
       -
+        type: a
+        attribute:
+          class: btn btn-warning
+          data-key: rs:key
+          onclick: "PluginDbSync_v1.data_export(this.getAttribute('data-key'))"
+        innerHTML: Data export
+      -
         type: div
         innerHTML:
           -

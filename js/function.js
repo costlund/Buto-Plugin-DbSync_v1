@@ -112,6 +112,10 @@ function PluginDbSync_v1(){
     $('#modal_script_generator').modal('hide');
     PluginWfAjax.load('content', 'script_generator_run/id/'+this.data.item.id+'/foreing_key/'+foreing_key+'/engine/'+engine);    
   }
+  this.data_export = function(id){
+    PluginDbSync_v1.data.item.id = id;
+    PluginWfBootstrapjs.modal({id: 'modal_data_export', url:'data_export/id/'+this.data.item.id, lable:'Data export', size: 'lg'});
+  }
 }
 var PluginDbSync_v1 = new PluginDbSync_v1();
 
