@@ -118,7 +118,7 @@ class PluginDbSync_v1{
   public function page_schema_generator(){
     $schema = $this->generateSchema();
     $page = $this->getYml('page/schema_generator.yml');
-    $page->setByTag(array('yml' => wfHelp::getYmlDump($schema->get())));
+    $page->setByTag(array('yml' => wfHelp::getYmlDump( array('tables' => $schema->get())  )));
     wfDocument::mergeLayout($page->get());
   }
   /**
