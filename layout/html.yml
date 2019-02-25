@@ -136,6 +136,16 @@ content:
               method: js
               data:
                 file: /plugin/db/sync_v1/js/leader-line.min.js   
+          form_form_v1:
+            type: widget
+            data:
+              plugin: 'form/form_v1'
+              method: include
+          wait:
+            type: widget
+            data:
+              plugin: bootstrap/alertwait
+              method: include            
       body:
         type: body
         innerHTML: 'body...'

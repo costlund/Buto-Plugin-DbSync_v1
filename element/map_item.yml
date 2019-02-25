@@ -19,7 +19,9 @@ innerHTML:
       -
         type: div
         attribute:
-          style: 'background:white;font-size:smaller'
+          style: 'background:white;font-size:smaller;min-height:12px'
+          onclick: PluginDbSync_v1.mapTableDescriptionClick(this)
+          data-table: rs:table_name
         innerHTML: rs:description
       -
         type: div

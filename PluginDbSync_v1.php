@@ -32,6 +32,8 @@ class PluginDbSync_v1{
       wfPlugin::enable('wf/table');
       wfPlugin::enable('twitter/bootstrap335v');
       wfPlugin::enable('wf/embed');
+      wfPlugin::enable('form/form_v1');
+      wfPlugin::enable('bootstrap/alertwait');
       /**
        * Unset i18n event for this module.
        */
@@ -71,6 +73,16 @@ class PluginDbSync_v1{
   }
   public function page_map(){
     $schema = $this->getFields();
+    
+//    wfHelp::yml_dump($schema->get('schema/table/T-BIR'));
+//    wfHelp::yml_dump($schema->get('schema/table/T-BIR/file'));
+//    $file_edit = new PluginWfYml(wfGlobals::getAppDir().$schema->get('schema/table/T-BIR/file'));
+//    wfHelp::yml_dump($file_edit->get('tables/T-BIR/description'));
+//    $file_edit->set('tables/T-BIR/description', 'zzz');
+//    wfHelp::yml_dump($file_edit->get('tables/T-BIR/description'));
+//    $file_edit->save();
+//    exit('stop...');
+    
     foreach ($schema->get('schema/field') as $key => $value) {
       $item = new PluginWfArray($value);
       $schema_table_name = $item->get('schema_table_name');
@@ -111,6 +123,31 @@ class PluginDbSync_v1{
     }
     $page->setByTag(array('items' => $items));
     wfDocument::mergeLayout($page->get());
+  }
+  /**
+   * 
+   */
+  public function page_table_description_form(){
+    $form = new PluginWfYml(__DIR__.'/form/table_description_form.yml');
+    $widget = wfDocument::createWidget('form/form_v1', 'render', $form->get());
+    wfDocument::renderElement(array($widget));
+  }
+  /**
+   * 
+   */
+  public function page_table_description_capture(){
+    $form = new PluginWfYml(__DIR__.'/form/table_description_form.yml');
+    $widget = wfDocument::createWidget('form/form_v1', 'capture', $form->get());
+    wfDocument::renderElement(array($widget));
+  }
+  public function capture_table_description(){
+    $schema = $this->getFields();
+    $table_name = wfRequest::get('table_name');
+    $file_edit = new PluginWfYml(wfGlobals::getAppDir().$schema->get("schema/table/$table_name/file"));
+    $file_edit->set("tables/$table_name/description", wfRequest::get('description'));
+    $file_edit->save();
+    $data = json_encode(array('description' => wfRequest::get('description')));
+    return array("PluginDbSync_v1.mapTableDescriptionCapture($data);");
   }
   /**
    * Generate yml schema in textarea.
@@ -613,6 +650,7 @@ string;
       foreach ($item->get('tables') as $key2 => $value2) {
         $item2 = new PluginWfArray($value2);
         $table->set("$key2/description", $item2->get('description'));
+        $table->set("$key2/file", $value);
         foreach ($value2['field'] as $key3 => $value3) {
           $item3 = new PluginWfArray($value3);
           $i++;

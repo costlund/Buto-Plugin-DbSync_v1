@@ -1,0 +1,24 @@
+url: table_description_capture
+ajax: true
+submit_value: Save
+id: table_description_form
+items:
+  id:
+    type: hidden
+    label: id
+    mandatory: true
+  table_name:
+    type: hidden
+    label: Table name
+    mandatory: true
+  description:
+    type: text
+    label: Description
+elements_below:
+  -
+    type: script
+    innerHTML: PluginDbSync_v1.mapTableDescriptionForm()
+capture:
+  plugin: db/sync_v1
+  method: capture_table_description
+      

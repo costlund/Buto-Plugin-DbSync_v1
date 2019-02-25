@@ -1,5 +1,5 @@
 function PluginDbSync_v1(){
-  this.data = {item: {id: null}, table: {table: null}, field: {field: null}, line_item_id: null}
+  this.data = {item: {id: null}, table: {table: null}, field: {field: null}, line_item_id: null, map_table_description_id: null}
   this.map_options = {color: 'silver', size: 2, startSocket: 'right', endPlug: 'arrow3', endPlugSize: '24', endPlugColor: 'black'};
   this.db = function(id){
     PluginDbSync_v1.data.item.id = id;
@@ -97,6 +97,22 @@ function PluginDbSync_v1(){
           PluginDbSync_v1.map_options
       );
     });
+  }
+  this.mapTableDescriptionClick = function(element){
+    element.id = element.getAttribute('data-table')+'_description';
+    this.data.map_table_description_id = element.id;
+    PluginWfBootstrapjs.modal({id: 'modal_table_description_form', url:'table_description_form', lable:'Table description'});
+  }
+  this.mapTableDescriptionForm = function(){
+    var element = document.getElementById(this.data.map_table_description_id);
+    document.getElementById('table_description_form_id').value = this.data.item.id;
+    document.getElementById('table_description_form_table_name').value = element.getAttribute('data-table');
+    document.getElementById('table_description_form_description').value = element.innerHTML;
+  }
+  this.mapTableDescriptionCapture = function(data){
+    var element = document.getElementById(this.data.map_table_description_id);
+    element.innerHTML = data.description;
+    $('#modal_table_description_form').modal('hide');
   }
   this.schema_generator = function(id){
     PluginDbSync_v1.data.item.id = id;
