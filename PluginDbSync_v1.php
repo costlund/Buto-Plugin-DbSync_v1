@@ -114,7 +114,11 @@ class PluginDbSync_v1{
           $items[] = $map_schema->get();
         }
         $field = $this->getYml('element/map_item_field.yml');
-        $field->setByTag($value2);
+        if(!$j->get('description')){
+          $j->set('description', '&nbsp;&nbsp;&nbsp;&nbsp;');
+        }
+        $j->set('table_name', $i->get('name'));
+        $field->setByTag($j->get());
         $field->setByTag($j->get('schema_field_foreing_key'), 'schema_field_foreing_key', true);
         $fields[] = $field->get();
       }
@@ -148,6 +152,32 @@ class PluginDbSync_v1{
     $file_edit->save();
     $data = json_encode(array('description' => wfRequest::get('description')));
     return array("PluginDbSync_v1.mapTableDescriptionCapture($data);");
+  }
+  /**
+   * 
+   */
+  public function page_field_description_form(){
+    $form = new PluginWfYml(__DIR__.'/form/field_description_form.yml');
+    $widget = wfDocument::createWidget('form/form_v1', 'render', $form->get());
+    wfDocument::renderElement(array($widget));
+  }
+  /**
+   * 
+   */
+  public function page_field_description_capture(){
+    $form = new PluginWfYml(__DIR__.'/form/field_description_form.yml');
+    $widget = wfDocument::createWidget('form/form_v1', 'capture', $form->get());
+    wfDocument::renderElement(array($widget));
+  }
+  public function capture_field_description(){
+    $schema = $this->getFields();
+    $table_name = wfRequest::get('table_name');
+    $field_name = wfRequest::get('field_name');
+    $file_edit = new PluginWfYml(wfGlobals::getAppDir().$schema->get("schema/table/$table_name/file"));
+    $file_edit->set("tables/$table_name/field/$field_name/description", wfRequest::get('description'));
+    $file_edit->save();
+    $data = json_encode(array('description' => wfRequest::get('description')));
+    return array("PluginDbSync_v1.mapFieldDescriptionCapture($data);");
   }
   /**
    * Generate yml schema in textarea.

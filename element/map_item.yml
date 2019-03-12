@@ -1,6 +1,6 @@
 type: div
 attribute:
-  class: col-md-2
+  class: col-md-3
 innerHTML:
   -
     type: div
@@ -12,7 +12,6 @@ innerHTML:
         type: h5
         attribute:
           style: 'padding-left:4px'
-          #onclick: PluginDbSync_v1.mapClear();
           data-id: rs:table_name
           onclick: PluginDbSync_v1.table(this.getAttribute('data-id'));
         innerHTML: rs:table_name
@@ -28,4 +27,3 @@ innerHTML:
         attribute:
           style: 'padding:2px'
         innerHTML: rs:fields
-#PluginDbSync_v1.table(this.getAttribute('data-id'))

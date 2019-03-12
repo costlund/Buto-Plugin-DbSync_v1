@@ -2,16 +2,18 @@
 Plugin to sync multiple databases against multiple schema files. Webmaster protected. 
 One could set param settings/security to false to temporary disable security.
 
-Features:
+## Features
+
 - Sync schema files agains database.
 - Show map with lines between relationships.
 - Generate schema yml file content from database.
 - Generate create script.
 - Generate data export.
 
-Url in this case: "/dbsync/start". 
+## Settings
 
-One could set "item: yml:/pat/to_file/file.yml".
+- Url in this case: "/dbsync/start". 
+- One could set "item: yml:/pat/to_file/file.yml".
 
 ```
 plugin_modules:
@@ -28,3 +30,6 @@ plugin_modules:
             - _multiple_schema_files_
 ```
 
+## Map view
+
+On map view one could draw lines between relationships, edit table and field description.

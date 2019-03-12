@@ -1,5 +1,5 @@
 function PluginDbSync_v1(){
-  this.data = {item: {id: null}, table: {table: null}, field: {field: null}, line_item_id: null, map_table_description_id: null}
+  this.data = {item: {id: null}, table: {table: null}, field: {field: null}, line_item_id: null, map_table_description_id: null, map_field_description_id: null}
   this.map_options = {color: 'silver', size: 2, startSocket: 'right', endPlug: 'arrow3', endPlugSize: '24', endPlugColor: 'black'};
   this.db = function(id){
     PluginDbSync_v1.data.item.id = id;
@@ -46,6 +46,9 @@ function PluginDbSync_v1(){
       PluginWfAjax.update('modal_field_body');
     });
   }
+  /**
+   * Map
+   */
   this.map = function(id){
     PluginDbSync_v1.data.item.id = id;
     PluginWfAjax.load('content', 'map/id/'+this.data.item.id);    
@@ -114,6 +117,30 @@ function PluginDbSync_v1(){
     element.innerHTML = data.description;
     $('#modal_table_description_form').modal('hide');
   }
+  this.mapFieldDescriptionClick = function(element){
+    element.id = element.getAttribute('data-table')+'_'+element.getAttribute('data-field')+'_description';
+    this.data.map_field_description_id = element.id;
+    PluginWfBootstrapjs.modal({id: 'modal_field_description_form', url:'field_description_form', lable:'Field description'});
+  }
+  this.mapFieldDescriptionForm = function(){
+    var element = document.getElementById(this.data.map_field_description_id);
+    document.getElementById('field_description_form_id').value = this.data.item.id;
+    document.getElementById('field_description_form_table_name').value = element.getAttribute('data-table');
+    document.getElementById('field_description_form_field_name').value = element.getAttribute('data-field');
+    var innerHTML = element.innerHTML;
+    if(innerHTML=='&nbsp;&nbsp;&nbsp;&nbsp;'){
+      innerHTML = '';
+    }
+    document.getElementById('field_description_form_description').value = innerHTML;
+  }
+  this.mapFieldDescriptionCapture = function(data){
+    var element = document.getElementById(this.data.map_field_description_id);
+    element.innerHTML = data.description;
+    $('#modal_field_description_form').modal('hide');
+  }
+  /**
+   * 
+   */
   this.schema_generator = function(id){
     PluginDbSync_v1.data.item.id = id;
     PluginWfAjax.load('content', 'schema_generator/id/'+this.data.item.id);    
