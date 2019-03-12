@@ -1,5 +1,8 @@
-version: '1.10'
+version: '1.11'
 history:
+  '1.11':
+    date: '2019-03-12'
+    description: Add buttons for each schema file.
   '1.10':
     date: '2019-03-12'
     description: Edit schema field description in map view.

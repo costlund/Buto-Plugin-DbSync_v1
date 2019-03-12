@@ -73,16 +73,6 @@ class PluginDbSync_v1{
   }
   public function page_map(){
     $schema = $this->getFields();
-    
-//    wfHelp::yml_dump($schema->get('schema/table/T-BIR'));
-//    wfHelp::yml_dump($schema->get('schema/table/T-BIR/file'));
-//    $file_edit = new PluginWfYml(wfGlobals::getAppDir().$schema->get('schema/table/T-BIR/file'));
-//    wfHelp::yml_dump($file_edit->get('tables/T-BIR/description'));
-//    $file_edit->set('tables/T-BIR/description', 'zzz');
-//    wfHelp::yml_dump($file_edit->get('tables/T-BIR/description'));
-//    $file_edit->save();
-//    exit('stop...');
-    
     foreach ($schema->get('schema/field') as $key => $value) {
       $item = new PluginWfArray($value);
       $schema_table_name = $item->get('schema_table_name');
@@ -100,6 +90,7 @@ class PluginDbSync_v1{
     $page = $this->getYml('page/map.yml');
     $items = array();
     $schema_files_name = null;
+    $links = array();
     foreach ($schema->get('schema/table') as $key => $value) {
       $i = new PluginWfArray($value);
       $item = $this->getYml('element/map_item.yml');
@@ -109,8 +100,18 @@ class PluginDbSync_v1{
         $j = new PluginWfArray($value2);
         if($j->get('schema_files_name') != $schema_files_name){
           $schema_files_name = $j->get('schema_files_name');
+          /**
+           * Links
+           */
+          $id = str_replace('/', '_', $schema_files_name);
+          $id = str_replace('.', '_', $id);
+          $links[] = wfDocument::createHtmlElement('div', array(wfDocument::createHtmlElement('a', $schema_files_name, array('href' => "#$id"))));
+          /**
+           * Map schema element
+           */
           $map_schema = $this->getYml('element/map_schema.yml');
           $map_schema->setByTag($j->get());
+          $map_schema->setByTag(array('anchor_id' => $id));
           $items[] = $map_schema->get();
         }
         $field = $this->getYml('element/map_item_field.yml');
@@ -125,7 +126,13 @@ class PluginDbSync_v1{
       $item->setByTag(array('fields' => $fields, 'table_name' => $key));
       $items[] = $item->get();
     }
+    
+    /**
+     * Links
+     */
+    
     $page->setByTag(array('items' => $items));
+    $page->setByTag(array('links' => $links));
     wfDocument::mergeLayout($page->get());
   }
   /**
