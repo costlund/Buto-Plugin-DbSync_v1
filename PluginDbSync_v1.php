@@ -233,11 +233,23 @@ class PluginDbSync_v1{
         $str .= "(";
         foreach ($v as $k2 => $v2) {
           if( strstr($fields->get("$k2/COLUMN_TYPE"), 'int(') || strstr($fields->get("$k2/COLUMN_TYPE"), 'double(') ){
-            $str .= $v2.',';
-          }elseif(($fields->get("$k2/COLUMN_TYPE")=='datetime' || $fields->get("$k2/COLUMN_TYPE")=='date' || $fields->get("$k2/COLUMN_TYPE")=='timestamp') && !$v2){
-            $str .= "NULL,";
+            if($v2){
+              $str .= $v2.',';
+            }else{
+              $str .= "NULL,";
+            }
+          }elseif(($fields->get("$k2/COLUMN_TYPE")=='datetime' || $fields->get("$k2/COLUMN_TYPE")=='date' || $fields->get("$k2/COLUMN_TYPE")=='timestamp')){
+            if($v2){
+              $str .= "'".$v2."',";
+            }else{
+              $str .= "NULL,";
+            }
           }else{
-            $str .= "'".$v2."',";
+            if($v2){
+              $str .= "'".$v2."',";
+            }else{
+              $str .= "NULL,";
+            }
           }
         }
         $str = substr($str, 0, strlen($str)-1);
@@ -245,14 +257,14 @@ class PluginDbSync_v1{
       }
       $str = substr($str, 0, strlen($str)-1);
       $sql = str_replace('[VALUES]', $str, $sql);
+      if(!$str){
+        $sql = '#'.$sql;
+      }
       /**
        * 
        */
       $insert_sql .= $sql."\n";
     }
-    
-    
-    
     $element = $this->getYml('element/data_export.yml');
     $element->setByTag(array('insert_sql' => $insert_sql));
     wfDocument::renderElement($element->get());
