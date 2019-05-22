@@ -73,6 +73,9 @@ class PluginDbSync_v1{
   }
   public function page_map(){
     $schema = $this->getFields();
+    /**
+     * Data modify.
+     */
     foreach ($schema->get('schema/field') as $key => $value) {
       $item = new PluginWfArray($value);
       $schema_table_name = $item->get('schema_table_name');
@@ -87,6 +90,9 @@ class PluginDbSync_v1{
       $item->set('foreing_key_id', $item->get('schema_table_name').'__'.$item->get('schema_field_name').'_fk');
       $schema->set("schema/table/$schema_table_name/field/$schema_field_name", $item->get());
     }
+    /**
+     * 
+     */
     $page = $this->getYml('page/map.yml');
     $items = array();
     $schema_files_name = null;
@@ -98,6 +104,11 @@ class PluginDbSync_v1{
       $fields = array();
       foreach ($i->get('field') as $key2 => $value2) {
         $j = new PluginWfArray($value2);
+        if($j->get('is_extra')){
+          $j->set('bg', 'bg-success');
+        }else{
+          $j->set('bg', '');
+        }
         if($j->get('schema_files_name') != $schema_files_name){
           $schema_files_name = $j->get('schema_files_name');
           /**
@@ -721,6 +732,7 @@ string;
           $field->set($key2."#".$key3."/db_field_not_null", null);
           $field->set($key2."#".$key3."/db_field_primary_key", null);
           $field->set($key2."#".$key3."/db_field_foreing_key", null);
+            $field->set($key2."#".$key3."/is_extra", false);
         }
         if($item->get('extra/field')){
           foreach ($item->get('extra/field') as $key3 => $value3) {
@@ -743,6 +755,7 @@ string;
             $field->set($key2."#".$key3."/db_field_not_null", null);
             $field->set($key2."#".$key3."/db_field_primary_key", null);
             $field->set($key2."#".$key3."/db_field_foreing_key", null);
+            $field->set($key2."#".$key3."/is_extra", true);
           }
         }
       }

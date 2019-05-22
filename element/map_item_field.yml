@@ -2,39 +2,21 @@ type: div
 innerHTML:
   -
     type: div
-#    attribute:
-#      class: rs:field_class
-#      id: rs:id
-#      onclick: PluginDbSync_v1.mapFieldClick(this);
+    attribute:
+      class: rs:bg
     innerHTML:
-#      -
-#        type: div
-#        attribute:
-#          class: row
-#        innerHTML:
-#          -
-#            type: div
-#            attribute:
-#              class: col-sm-6
-#              id: rs:id
-#              onclick: PluginDbSync_v1.mapFieldClick(this);
-#            innerHTML: rs:schema_field_name
-#          -
-#            type: div
-#            attribute:
-#              class: col-sm-6
-#            innerHTML: rs:schema_field_type
-#          -
-#            type: div
-#            attribute:
-#              class: col-sm-12
-#              style: 'font-size:smaller;color:gray'
-#            innerHTML: rs:description
       -
         type: span
         attribute:
           style: 'float:right'
         innerHTML: rs:schema_field_type
+      -
+        type: span
+        settings:
+          enabled: rs:is_extra
+        attribute:
+          style: 'float:right'
+        innerHTML: extra
       -
         type: span
         attribute:
