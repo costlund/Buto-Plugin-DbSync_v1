@@ -25,6 +25,9 @@ innerHTML:
           data:
             i18n: false
             rs: rs:data
+            field:
+              mysql: MySQL
+              schema: Schema
             class:
               table: table-sm
       -
