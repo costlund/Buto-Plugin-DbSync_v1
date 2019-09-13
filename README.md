@@ -14,7 +14,6 @@ One could set param settings/security to false to temporary disable security.
 
 - Url in this case: "/dbsync/start". 
 - One could set "item: yml:/pat/to_file/file.yml".
-- Use 'mail/queue_admin' if this tables are in usage.
 
 
 ```
@@ -30,9 +29,12 @@ plugin_modules:
           mysql: _mysql_settings_
           schema:
             - _multiple_schema_files_
-          'mail/queue_admin': true
 ```
 
 ## Map view
 
 On map view one could draw lines between relationships, edit table and field description.
+
+## Plugin mail/queue_admin
+
+If schema file exist a button to use this plugin is visible.

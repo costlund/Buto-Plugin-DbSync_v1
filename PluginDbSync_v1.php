@@ -26,6 +26,18 @@ class PluginDbSync_v1{
         $this->db->set('mysql', wfSettings::getSettingsFromYmlString($this->db->get('mysql')));
       }
       /**
+       * PluginMailQueue_admin.
+       */
+      foreach ($this->settings->get('item') as $key => $value) {
+        $this->settings->set("item/$key/plugin_mail_queue_admin", false);
+        foreach ($value['schema'] as $key2 => $value2) {
+          if($value2=='/plugin/mail/queue/mysql/schema.yml'){
+            $this->settings->set("item/$key/plugin_mail_queue_admin", true);
+            break;
+          }
+        }
+      }
+      /**
        * Enable.
        */
       wfPlugin::enable('datatable/datatable_1_10_16');
@@ -60,13 +72,7 @@ class PluginDbSync_v1{
       $i->set('mysql', wfSettings::getSettingsFromYmlString($i->get('mysql')));
       $i->set('mysql/password', '****');
       $element->setByTag($i->get());
-      //$element->setByTag($i->get('mysql'), 'mysql');
       $element->setByTag(array('data' => $i->get()));
-//      $schemas = array();
-//      foreach ($i->get('schema') as $key => $value) {
-//        $schemas[] = wfDocument::createHtmlElement('div', $value);
-//      }
-//      $element->setByTag(array('list' => $schemas), 'schema');
       $items[] = $element->get();
     }
     $page = $this->getYml('page/dbs.yml');

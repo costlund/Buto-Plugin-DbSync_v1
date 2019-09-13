@@ -75,9 +75,9 @@ innerHTML:
               -
                 type: a
                 settings:
-                  disabled: rs:mail/queue_admin
+                  enabled: rs:plugin_mail_queue_admin
                 attribute:
-                  class: btn btn-warning
+                  class: btn btn-success
                   data-key: rs:key
                   onclick: "PluginDbSync_v1.plugin_mail_queue_admin(this)"
                 innerHTML: PluginMailQueue_admin
