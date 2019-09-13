@@ -1,6 +1,6 @@
 type: div
 attribute:
-  class: col-sm-4
+  class: col-sm-6
   id: rs:key
 innerHTML:
   -
@@ -9,96 +9,76 @@ innerHTML:
       class: alert alert-info
     innerHTML:
       -
+        type: h1
+        innerHTML: 
+          -
+            type: a
+            attribute:
+              data-key: rs:key
+              onclick: PluginDbSync_v1.db(this.getAttribute('data-key'));
+            innerHTML: rs:name
+      -
+        type: widget
+        data:
+          plugin: wf/table
+          method: render_one
+          data:
+            i18n: false
+            rs: rs:data
+            class:
+              table: table-sm
+      -
         type: div
+        attribute:
+          class: row
         innerHTML:
           -
-            type: h1
-            innerHTML: 
+            type: div
+            attribute:
+              class: col-sm-12
+            innerHTML:
               -
                 type: a
                 attribute:
+                  class: btn btn-primary
                   data-key: rs:key
                   onclick: PluginDbSync_v1.db(this.getAttribute('data-key'));
-                innerHTML: rs:name
-      -
-        type: a
-        attribute:
-          class: btn btn-primary
-          data-key: rs:key
-          onclick: PluginDbSync_v1.db(this.getAttribute('data-key'));
-        innerHTML: Edit
-      -
-        type: a
-        attribute:
-          class: btn btn-warning
-          data-key: rs:key
-          onclick: "PluginDbSync_v1.map(this.getAttribute('data-key'))"
-        innerHTML: Map
-      -
-        type: a
-        attribute:
-          class: btn btn-warning
-          data-key: rs:key
-          onclick: "PluginDbSync_v1.schema_generator(this.getAttribute('data-key'))"
-        innerHTML: Schema generator
-      -
-        type: a
-        attribute:
-          class: btn btn-warning
-          data-key: rs:key
-          onclick: "PluginDbSync_v1.script_generator(this.getAttribute('data-key'))"
-        innerHTML: Script generator
-      -
-        type: a
-        attribute:
-          class: btn btn-warning
-          data-key: rs:key
-          onclick: "PluginDbSync_v1.data_export(this.getAttribute('data-key'))"
-        innerHTML: Data export
-      -
-        type: div
-        innerHTML:
-          -
-            type: span
-            attribute:
-              class: semicolon
-            innerHTML: Server
-          -
-            type: span
-            innerHTML: mysql:server
-      -
-        type: div
-        innerHTML:
-          -
-            type: span
-            attribute:
-              class: semicolon
-            innerHTML: Database
-          -
-            type: span
-            innerHTML: mysql:database
-      -
-        type: div
-        innerHTML:
-          -
-            type: span
-            attribute:
-              class: semicolon
-            innerHTML: User
-          -
-            type: span
-            innerHTML: mysql:user_name
-      -
-        type: div
-        innerHTML:
-          -
-            type: strong
-            attribute:
-              class: semicolon
-            innerHTML: Schema
-      -
-        type: div
-        innerHTML: schema:list
-
-  
+                innerHTML: Edit
+              -
+                type: a
+                attribute:
+                  class: btn btn-warning
+                  data-key: rs:key
+                  onclick: "PluginDbSync_v1.map(this.getAttribute('data-key'))"
+                innerHTML: Map
+              -
+                type: a
+                attribute:
+                  class: btn btn-warning
+                  data-key: rs:key
+                  onclick: "PluginDbSync_v1.schema_generator(this.getAttribute('data-key'))"
+                innerHTML: Schema generator
+              -
+                type: a
+                attribute:
+                  class: btn btn-warning
+                  data-key: rs:key
+                  onclick: "PluginDbSync_v1.script_generator(this.getAttribute('data-key'))"
+                innerHTML: Script generator
+              -
+                type: a
+                attribute:
+                  class: btn btn-warning
+                  data-key: rs:key
+                  onclick: "PluginDbSync_v1.data_export(this.getAttribute('data-key'))"
+                innerHTML: Data export
+              -
+                type: a
+                settings:
+                  disabled: rs:mail/queue_admin
+                attribute:
+                  class: btn btn-warning
+                  data-key: rs:key
+                  onclick: "PluginDbSync_v1.plugin_mail_queue_admin(this)"
+                innerHTML: PluginMailQueue_admin
   

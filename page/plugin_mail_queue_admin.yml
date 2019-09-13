@@ -1,0 +1,8 @@
+content:
+  -
+    type: a
+    attribute:
+      href: /mailqueueadmin/start
+      target: _blank
+      class: btn btn-success
+    innerHTML: Go to PluginMailQueue_admin

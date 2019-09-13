@@ -159,6 +159,10 @@ function PluginDbSync_v1(){
     PluginDbSync_v1.data.item.id = id;
     PluginWfBootstrapjs.modal({id: 'modal_data_export', url:'data_export/id/'+this.data.item.id, lable:'Data export', size: 'lg'});
   }
+  this.plugin_mail_queue_admin = function(element){
+    PluginDbSync_v1.data.item.id = element.getAttribute('data-key');
+    PluginWfBootstrapjs.modal({id: 'modal_data_export', url:'plugin_mail_queue_admin/id/'+this.data.item.id, lable: element.innerHTML, size: 'lg'});
+  }
 }
 var PluginDbSync_v1 = new PluginDbSync_v1();
 

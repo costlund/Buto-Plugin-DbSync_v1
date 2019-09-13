@@ -1,5 +1,8 @@
-version: '1.11'
+version: '1.12'
 history:
+  '1.12':
+    date: '2019-09-13'
+    description: Support mail/queue_admin.
   '1.11':
     date: '2019-03-12'
     description: Add buttons for each schema file.

@@ -58,13 +58,15 @@ class PluginDbSync_v1{
       $i = new PluginWfArray($value);
       $i->set('key', $key);
       $i->set('mysql', wfSettings::getSettingsFromYmlString($i->get('mysql')));
+      $i->set('mysql/password', '****');
       $element->setByTag($i->get());
-      $element->setByTag($i->get('mysql'), 'mysql');
-      $schemas = array();
-      foreach ($i->get('schema') as $key => $value) {
-        $schemas[] = wfDocument::createHtmlElement('div', $value);
-      }
-      $element->setByTag(array('list' => $schemas), 'schema');
+      //$element->setByTag($i->get('mysql'), 'mysql');
+      $element->setByTag(array('data' => $i->get()));
+//      $schemas = array();
+//      foreach ($i->get('schema') as $key => $value) {
+//        $schemas[] = wfDocument::createHtmlElement('div', $value);
+//      }
+//      $element->setByTag(array('list' => $schemas), 'schema');
       $items[] = $element->get();
     }
     $page = $this->getYml('page/dbs.yml');
@@ -974,5 +976,11 @@ string;
     $mysql->open($this->db->get('mysql'));
     $test = $mysql->runSql($sql, $key_field);
     return new PluginWfArray($test['data']);
+  }
+  public function page_plugin_mail_queue_admin(){
+    $page = $this->getYml('page/plugin_mail_queue_admin.yml');
+    $schema = $this->getFields();
+    $_SESSION['plugin']['mail']['queue_admin']['mysql'] = $schema->get('mysql');
+    wfDocument::mergeLayout($page->get());
   }
 }
