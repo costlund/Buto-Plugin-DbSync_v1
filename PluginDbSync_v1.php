@@ -225,30 +225,60 @@ class PluginDbSync_v1{
    * Data export
    */
   public function page_data_export(){
+    /**
+     * Sets to true. In future we maybe want to use singel line as a setting.
+     */
+    $multiline = true;
+    /**
+     * 
+     */
     $schema = $this->getFields();
+    /**
+     * Get all tables in db.
+     */
     $tables = $this->runSQL("SELECT TABLE_NAME FROM information_schema.tables where TABLE_TYPE='BASE TABLE' and TABLE_SCHEMA='".$schema->get('mysql/database')."' limit 1000");
+    /**
+     * In schema.
+     */
+    foreach ($tables->get() as $key => $value) {
+      if($schema->get('schema/table/'.$value['TABLE_NAME'])){
+        $tables->set("$key/in_schema", true);
+      }else{
+        $tables->set("$key/in_schema", false);
+      }
+    }
+    /**
+     * 
+     */
     $insert_sql = null;
     foreach ($tables->get() as $v) {
       $table = new PluginWfArray($v);
+      if(!$table->get('in_schema')){
+        continue;
+      }
       $sql = "INSERT INTO ".$table->get('TABLE_NAME')." ([FIELDS]) VALUES [VALUES];";
-      
       /**
        * Fields
        */
       $fields = $this->runSQL("SELECT COLUMN_NAME, COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '".$schema->get('mysql/database')."' AND TABLE_NAME = '".$table->get('TABLE_NAME')."';", 'COLUMN_NAME');
       $str = null;
+      $str_fields = null;
       foreach ($fields->get() as $v) {
         $field = new PluginWfArray($v);
-        $str .= ','.$field->get('COLUMN_NAME');
+        $str_fields .= ','.$field->get('COLUMN_NAME');
       }
-      $str = substr($str, 1);
-      $sql = str_replace('[FIELDS]', $str, $sql);
+      $str_fields = substr($str_fields, 1);
+      $sql = str_replace('[FIELDS]', $str_fields, $sql);
       /**
        * Values
        */
       $values = $this->runSQL("SELECT * FROM `".$table->get('TABLE_NAME')."`;");
       $str = null;
+      $rows = array();
       foreach ($values->get() as $v) {
+        if($multiline){
+          $str = null;
+        }
         $str .= "(";
         foreach ($v as $k2 => $v2) {
           if( strstr($fields->get("$k2/COLUMN_TYPE"), 'int(') || strstr($fields->get("$k2/COLUMN_TYPE"), 'double(') ){
@@ -259,12 +289,14 @@ class PluginDbSync_v1{
             }
           }elseif(($fields->get("$k2/COLUMN_TYPE")=='datetime' || $fields->get("$k2/COLUMN_TYPE")=='date' || $fields->get("$k2/COLUMN_TYPE")=='timestamp')){
             if($v2){
+              $v2 = str_replace("'", "", $v2);
               $str .= "'".$v2."',";
             }else{
               $str .= "NULL,";
             }
           }else{
             if($v2){
+              $v2 = str_replace("'", "\'", $v2);
               $str .= "'".$v2."',";
             }else{
               $str .= "NULL,";
@@ -272,17 +304,26 @@ class PluginDbSync_v1{
           }
         }
         $str = substr($str, 0, strlen($str)-1);
-        $str .= "),";
+        $str .= ")";
+        if(!$multiline){
+          $str .= ",";
+        }else{
+          $rows[] = $str;
+        }
       }
-      $str = substr($str, 0, strlen($str)-1);
-      $sql = str_replace('[VALUES]', $str, $sql);
-      if(!$str){
-        $sql = '#'.$sql;
+      if(!$multiline){
+        $str = substr($str, 0, strlen($str)-1);
+        $sql = str_replace('[VALUES]', $str, $sql);
+        if(!$str){
+          $sql = '#'.$sql;
+        }
+        $insert_sql .= $sql."\n";
+      }else{
+        foreach ($rows as $key => $value) {
+          //$rows[$key] = str_replace('[VALUES]', $value, $sql);
+          $insert_sql .= str_replace('[VALUES]', $value, $sql)."\n";
+        }
       }
-      /**
-       * 
-       */
-      $insert_sql .= $sql."\n";
     }
     $element = $this->getYml('element/data_export.yml');
     $element->setByTag(array('insert_sql' => $insert_sql));

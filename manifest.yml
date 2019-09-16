@@ -1,5 +1,8 @@
-version: '1.12'
+version: '1.13'
 history:
+  '1.13':
+    date: '2019-09-16'
+    description: Only tables in current schema files are to be exported. Change from single line sql to multiline sql in export.
   '1.12':
     date: '2019-09-13'
     description: Support mail/queue_admin.
