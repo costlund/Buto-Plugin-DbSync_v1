@@ -44,6 +44,12 @@ content:
       head:
         type: head
         innerHTML:
+          icon:
+            type: link
+            attribute:
+              rel: icon
+              type: image/x-icon
+              href: '/plugin/db/sync_v1/icon/icon.png?x=1'
           prototype:
             type: widget
             settings:
