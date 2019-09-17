@@ -3,6 +3,9 @@ content:
     type: a
     attribute:
       href: /mailqueueadmin/start
-      target: _blank
       class: btn btn-success
+      id: btn_plugin_mailqueueadmin
     innerHTML: Go to PluginMailQueue_admin
+  -
+    type: script
+    innerHTML: document.getElementById('btn_plugin_mailqueueadmin').click()

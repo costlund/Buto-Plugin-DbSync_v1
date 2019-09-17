@@ -161,7 +161,11 @@ function PluginDbSync_v1(){
   }
   this.plugin_mail_queue_admin = function(element){
     PluginDbSync_v1.data.item.id = element.getAttribute('data-key');
-    PluginWfBootstrapjs.modal({id: 'modal_data_export', url:'plugin_mail_queue_admin/id/'+this.data.item.id, lable: element.innerHTML, size: 'lg'});
+    PluginWfBootstrapjs.modal({id: 'modal_mail_queue_admin', url:'plugin_mail_queue_admin/id/'+this.data.item.id, lable: element.innerHTML, size: 'lg'});
+  }
+  this.plugin_account_admin_v1 = function(element){
+    PluginDbSync_v1.data.item.id = element.getAttribute('data-key');
+    PluginWfBootstrapjs.modal({id: 'modal_account_admin_v1', url:'plugin_account_admin_v1/id/'+this.data.item.id, lable: element.innerHTML, size: 'lg'});
   }
 }
 var PluginDbSync_v1 = new PluginDbSync_v1();

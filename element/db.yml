@@ -84,4 +84,13 @@ innerHTML:
                   data-key: rs:key
                   onclick: "PluginDbSync_v1.plugin_mail_queue_admin(this)"
                 innerHTML: PluginMailQueue_admin
+              -
+                type: a
+                settings:
+                  enabled: rs:plugin_account_admin_v1
+                attribute:
+                  class: btn btn-success
+                  data-key: rs:key
+                  onclick: "PluginDbSync_v1.plugin_account_admin_v1(this)"
+                innerHTML: PluginAccountAdmin_v1
   

@@ -1,0 +1,11 @@
+content:
+  -
+    type: a
+    attribute:
+      href: /users/desktop
+      class: btn btn-success
+      id: btn_plugin_account_admin_v1
+    innerHTML: Go to PluginAccountAdmin_v1
+  -
+    type: script
+    innerHTML: document.getElementById('btn_plugin_account_admin_v1').click()

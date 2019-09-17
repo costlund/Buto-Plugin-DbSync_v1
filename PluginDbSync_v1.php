@@ -38,6 +38,18 @@ class PluginDbSync_v1{
         }
       }
       /**
+       * PluginAccountAdmin_v1
+       */
+      foreach ($this->settings->get('item') as $key => $value) {
+        $this->settings->set("item/$key/plugin_account_admin_v1", false);
+        foreach ($value['schema'] as $key2 => $value2) {
+          if($value2=='/plugin/wf/account2/mysql/schema.yml'){
+            $this->settings->set("item/$key/plugin_account_admin_v1", true);
+            break;
+          }
+        }
+      }
+      /**
        * Enable.
        */
       wfPlugin::enable('datatable/datatable_1_10_16');
@@ -1028,6 +1040,12 @@ string;
     $page = $this->getYml('page/plugin_mail_queue_admin.yml');
     $schema = $this->getFields();
     $_SESSION['plugin']['mail']['queue_admin']['mysql'] = $schema->get('mysql');
+    wfDocument::mergeLayout($page->get());
+  }
+  public function page_plugin_account_admin_v1(){
+    $page = $this->getYml('page/plugin_account_admin_v1.yml');
+    $schema = $this->getFields();
+    $_SESSION['plugin']['account']['admin_v1']['mysql'] = $schema->get('mysql');
     wfDocument::mergeLayout($page->get());
   }
 }
