@@ -622,7 +622,7 @@ string;
         if(strtoupper($item2->get('on_update')) == 'CASCADE'){
           $on_update = " ON UPDATE CASCADE";
         }
-        $constraint .= ", CONSTRAINT ".$item->get('schema_table_name')."_".$item->get('schema_field_name')."_fk FOREIGN KEY (".$item->get('schema_field_name').") REFERENCES ".$item2->get('reference_table')."(".$item2->get('reference_field').")$on_delete$on_update";
+        $constraint .= ", CONSTRAINT ".$item->get('schema_table_name')."_".$item->get('schema_field_name')."_fk FOREIGN KEY (".$item->get('schema_field_name').") REFERENCES `".$item2->get('reference_table')."`(".$item2->get('reference_field').")$on_delete$on_update";
       }
     }
     /**
