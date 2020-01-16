@@ -94,6 +94,9 @@ content:
                     innerHTML:
                       -
                         type: th
+                        innerHTML: Number
+                      -
+                        type: th
                         innerHTML: Field
                       -
                         type: th

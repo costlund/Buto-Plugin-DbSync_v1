@@ -1,8 +1,14 @@
 type: tr
-attribute:
-  data-id: rs:schema_field_name
-  onclick: PluginDbSync_v1.field(this.getAttribute('data-id'))
 innerHTML:
+  -
+    type: td
+    innerHTML: 
+      -
+        type: a
+        attribute:
+          data-id: rs:schema_field_name
+          onclick: PluginDbSync_v1.field(this.getAttribute('data-id'))
+        innerHTML: rs:number
   -
     type: td
     innerHTML: rs:schema_field_name
