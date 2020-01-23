@@ -52,7 +52,7 @@ class PluginDbSync_v1{
       /**
        * Enable.
        */
-      wfPlugin::enable('datatable/datatable_1_10_16');
+      wfPlugin::enable('datatable/datatable_1_10_18');
       wfPlugin::enable('wf/table');
       wfPlugin::enable('twitter/bootstrap335v');
       wfPlugin::enable('wf/embed');

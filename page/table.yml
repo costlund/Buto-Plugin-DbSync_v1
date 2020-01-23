@@ -143,11 +143,17 @@ content:
           -
             type: widget
             data:
-              plugin: datatable/datatable_1_10_16
+              plugin: datatable/datatable_1_10_18
               method: run
               data:
                 id: table3
                 json:
+                  dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>><'row'<'col-sm-12 col-md-6'B>>"
+                  buttons:
+                    - copy
+                    - csv
+                    - excel
+                    - pdf
                   paging: true
                   iDisplayLength: 10
                   ordering: true
@@ -158,7 +164,7 @@ content:
                       - 0
                       - asc
                   language:
-                    url: /plugin/datatable/datatable_1_10_16/i18n/Swedish.json
+                    url: /plugin/datatable/datatable_1_10_18/i18n/Swedish.json
   -
     type: div
     attribute:

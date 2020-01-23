@@ -1,5 +1,13 @@
-version: '1.14.0'
+version: '1.15.1'
 history:
+  '1.15.1':
+    date: '2020-01-23'
+    title: Export buttons
+    description: Add export buttons to field table.
+  '1.15.0':
+    date: '2020-01-23'
+    title: Datatable
+    description: Upgrade from datatable/datatable_1_10_16 to datatable/datatable_1_10_18.
   '1.14.0':
     date: '2019-12-03'
     title: Create script
@@ -68,7 +76,7 @@ plugin:
     name: wf/yml
     version: '1.0'
   -
-    name: datatable/datatable_1_10_16
+    name: datatable/datatable_1_10_18
     version: '1.0'
   -
     name: wf/table
