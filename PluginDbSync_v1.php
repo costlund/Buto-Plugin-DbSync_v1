@@ -157,11 +157,9 @@ class PluginDbSync_v1{
       $item->setByTag(array('fields' => $fields, 'table_name' => $key));
       $items[] = $item->get();
     }
-    
     /**
      * Links
      */
-    
     $page->setByTag(array('items' => $items));
     $page->setByTag(array('links' => $links));
     wfDocument::mergeLayout($page->get());
@@ -332,7 +330,6 @@ class PluginDbSync_v1{
         $insert_sql .= $sql."\n";
       }else{
         foreach ($rows as $key => $value) {
-          //$rows[$key] = str_replace('[VALUES]', $value, $sql);
           $insert_sql .= str_replace('[VALUES]', $value, $sql)."\n";
         }
       }
@@ -367,7 +364,6 @@ class PluginDbSync_v1{
      * 
      */
     $schema = $this->getFields();
-    //wfHelp::yml_dump($schema, true);
     $page = $this->getYml('page/db.yml');
     $id = wfRequest::get('id');
     $class = wfGlobals::get('class');
@@ -413,7 +409,6 @@ class PluginDbSync_v1{
     $tr = array();
     foreach ($schema->get('schema/table') as $key => $value) {
       $row = $this->getYml('element/db_tables_row.yml');
-      //$row->set('attribute/onclick', "PluginDbSync_v1.table('$key')");
       $row->setByTag($value);
       $row->setByTag(array('key' => $key));
       $tr[] = $row->get();
@@ -662,7 +657,6 @@ string;
     foreach ($table_data->get('field') as $key => $value) {
       $row = $this->getYml('element/table_field_row.yml');
       $row->setByTag($value);
-      //$row->setByTag(array('key' => $key));
       $tr[] = $row->get();
     }
     $page->setByTag(array('tbody' => $tr));
@@ -686,10 +680,7 @@ string;
     exit('drop...');
   }
   public function page_field(){
-//    $schema = $this->getFields();
-//    wfHelp::yml_dump($schema->get('schema/field/'.wfRequest::get('table').'#'.wfRequest::get('field')));
     $field_data = $this->getField(wfRequest::get('table'), wfRequest::get('field'));
-    //wfHelp::yml_dump($field_data);
     $page = $this->getYml('page/field.yml');
     $page->setByTag($field_data->get());
     $page->setByTag(array('field_data' => $field_data->get()));
@@ -711,9 +702,6 @@ string;
     foreach ($foreing_keys->get() as $key => $value) {
       $item = new PluginWfArray($value);
       if($item->get('table_name')==$table_name && $item->get('field_name')==$field_name){
-//        if($table_name=='memb_account' && $field_name=='country_id'){
-//          wfHelp::yml_dump($item, true);
-//        }
         return array(
             'reference_table' => $item->get('foreing_key_reference_table'),
             'reference_field' => $item->get('foreing_key_reference_field'),
@@ -722,7 +710,6 @@ string;
                 );
       }
     }
-    //return array('table' => $table_name, 'field' => $field_name);
     return null;
   }
   private function generateSchema(){
@@ -853,7 +840,6 @@ string;
         }else{
           $field->set("$key/db_field_primary_key", null);
         }
-        //$field->set("$key/attribute", $attribute->get());
       }
     }
     /**
@@ -862,7 +848,6 @@ string;
     foreach ($field->get() as $key => $value) {
       $item = new PluginWfArray($value);
       $field->set("$key/db_field_foreing_key", $this->getForeingKey($foreing_keys, $item->get('schema_table_name'), $item->get('schema_field_name')));
-      //$field->set("$key/db_field_foreing_key", 333);
     }
     /**
      * Check foreing key match.
@@ -949,7 +934,6 @@ string;
     $errors->set('field/count', sizeof($errors->get('field/field')));
     $errors->set('attribute/count', sizeof($errors->get('attribute/field')));
     $errors->set('foreing_key/count', sizeof($errors->get('foreing_key/field')));
-    
     /**
      * Table.
      */
