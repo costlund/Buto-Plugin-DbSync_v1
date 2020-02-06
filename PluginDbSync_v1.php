@@ -26,13 +26,36 @@ class PluginDbSync_v1{
         $this->db->set('mysql', wfSettings::getSettingsFromYmlString($this->db->get('mysql')));
       }
       /**
+       * Mysql params
+       */
+      foreach ($this->settings->get('item') as $key => $value) {
+        $i = new PluginWfArray($value);
+        $mysql = new PluginWfArray(wfSettings::getSettingsFromYmlString($i->get('mysql')));
+        $this->settings->set("item/$key/server", $mysql->get('server'));
+        $this->settings->set("item/$key/database", $mysql->get('database'));
+        $this->settings->set("item/$key/user_name", $mysql->get('user_name'));
+      }
+      /**
+       * Schema text
+       */
+      foreach ($this->settings->get('item') as $key => $value) {
+        $str = null;
+        foreach ($value['schema'] as $key2 => $value2) {
+          $str .= ', '.$value2;
+        }
+        $str = substr($str, 2);
+        $this->settings->set("item/$key/schema_text", $str);
+      }
+      /**
        * PluginMailQueue_admin.
        */
       foreach ($this->settings->get('item') as $key => $value) {
         $this->settings->set("item/$key/plugin_mail_queue_admin", false);
+        $this->settings->set("item/$key/plugin_mail_queue_admin_text", '');
         foreach ($value['schema'] as $key2 => $value2) {
           if($value2=='/plugin/mail/queue/mysql/schema.yml'){
             $this->settings->set("item/$key/plugin_mail_queue_admin", true);
+            $this->settings->set("item/$key/plugin_mail_queue_admin_text", 'Yes');
             break;
           }
         }
@@ -42,11 +65,33 @@ class PluginDbSync_v1{
        */
       foreach ($this->settings->get('item') as $key => $value) {
         $this->settings->set("item/$key/plugin_account_admin_v1", false);
+        $this->settings->set("item/$key/plugin_account_admin_v1_text", '');
         foreach ($value['schema'] as $key2 => $value2) {
           if($value2=='/plugin/wf/account2/mysql/schema.yml'){
             $this->settings->set("item/$key/plugin_account_admin_v1", true);
+            $this->settings->set("item/$key/plugin_account_admin_v1_text", 'Yes');
             break;
           }
+        }
+      }
+      /**
+       * Buttons
+       */
+      foreach ($this->settings->get('item') as $key => $value) {
+        $this->settings->set("item/$key/btn_edit", '<a href="#" onclick="PluginDbSync_v1.db(\''.$key.'\')">Edit</a>');
+        $this->settings->set("item/$key/btn_map", '<a href="#" onclick="PluginDbSync_v1.map(\''.$key.'\')">Map</a>');
+        $this->settings->set("item/$key/btn_schema", '<a href="#" onclick="PluginDbSync_v1.schema_generator(\''.$key.'\')">Schema</a>');
+        $this->settings->set("item/$key/btn_script", '<a href="#" onclick="PluginDbSync_v1.script_generator(\''.$key.'\')">Script</a>');
+        $this->settings->set("item/$key/btn_export", '<a href="#" onclick="PluginDbSync_v1.data_export(\''.$key.'\')">Export</a>');
+        if($value['plugin_mail_queue_admin']){
+          $this->settings->set("item/$key/btn_plugin_mail_queue_admin", '<a href="#" onclick="PluginDbSync_v1.plugin_mail_queue_admin(this)" data-key="'.$key.'">Mail</a>');
+        }else{
+          $this->settings->set("item/$key/btn_plugin_mail_queue_admin", '');
+        }
+        if($value['plugin_account_admin_v1']){
+          $this->settings->set("item/$key/btn_plugin_account_admin_v1", '<a href="#" onclick="PluginDbSync_v1.plugin_account_admin_v1(this)" data-key="'.$key.'">Account</a>');
+        }else{
+          $this->settings->set("item/$key/btn_plugin_account_admin_v1", '');
         }
       }
       /**
@@ -76,19 +121,8 @@ class PluginDbSync_v1{
    * Many databases.
    */
   public function page_dbs(){
-    $items = array();
-    foreach ($this->settings->get('item') as $key => $value) {
-      $element = $this->getYml('element/db.yml');
-      $i = new PluginWfArray($value);
-      $i->set('key', $key);
-      $i->set('mysql', wfSettings::getSettingsFromYmlString($i->get('mysql')));
-      $i->set('mysql/password', '****');
-      $element->setByTag($i->get());
-      $element->setByTag(array('data' => $i->get()));
-      $items[] = $element->get();
-    }
     $page = $this->getYml('page/dbs.yml');
-    $page->setByTag(array('items' => $items));
+    $page->setByTag(array('items' => $this->settings->get('item')));
     wfDocument::mergeLayout($page->get());
   }
   public function page_map(){
