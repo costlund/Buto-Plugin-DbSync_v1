@@ -94,6 +94,15 @@ plugin:
   -
     name: wf/embed
     version: '1.0'
+  -
+    name: davegandy/fontawesome450
+    version: '1.0'
+  -
+    name: prism/prismjs
+    version: '1.0'
+  -
+    name: bootstrap/alertwait
+    version: '1.0'
 sys:
   -
     name: mercury
