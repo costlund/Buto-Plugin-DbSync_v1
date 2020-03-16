@@ -1,5 +1,9 @@
-version: '1.16.1'
+version: '1.16.2'
 history:
+  '1.16.2':
+    date: '2020-03-16'
+    title: Plugin
+    description: Removed plugin prism/prismjs.
   '1.16.1':
     date: '2020-03-16'
     title: Plugin
@@ -97,9 +101,6 @@ plugin:
     version: '1.0'
   -
     name: wf/embed
-    version: '1.0'
-  -
-    name: prism/prismjs
     version: '1.0'
   -
     name: bootstrap/alertwait

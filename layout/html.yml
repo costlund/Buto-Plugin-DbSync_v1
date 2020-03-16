@@ -20,9 +20,6 @@ settings:
       key: 'sys/settings/plugin/wf/callbackjson/enabled'
       value: true
     -
-      key: 'sys/settings/plugin/prism/prismjs/enabled'
-      value: true
-    -
       key: 'sys/settings/plugin/wf/onkeypress/enabled'
       value: true
     -
@@ -95,13 +92,6 @@ content:
             type: widget
             data:
               plugin: 'wf/callbackjson'
-              method: include               
-          prism_prismjs:
-            settings:
-              disabled: false
-            type: widget
-            data:
-              plugin: 'prism/prismjs'
               method: include               
           onkeypress:
             type: widget
