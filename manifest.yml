@@ -1,5 +1,9 @@
-version: '1.16.0'
+version: '1.16.1'
 history:
+  '1.16.1':
+    date: '2020-03-16'
+    title: Plugin
+    description: Removed plugin davegandy/fontawesome450.
   '1.16.0':
     date: '2020-02-05'
     title: Datatable
@@ -93,9 +97,6 @@ plugin:
     version: '1.0'
   -
     name: wf/embed
-    version: '1.0'
-  -
-    name: davegandy/fontawesome450
     version: '1.0'
   -
     name: prism/prismjs

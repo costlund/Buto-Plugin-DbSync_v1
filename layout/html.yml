@@ -2,9 +2,6 @@ settings:
   path: 'html/innerHTML/body/innerHTML'
   rewrite_globals:
     -
-      key: 'sys/settings/plugin/davegandy/fontawesome450/enabled'
-      value: true
-    -
       key: 'sys/settings/plugin/wf/dom/enabled'
       value: true
     -
@@ -31,7 +28,6 @@ settings:
     -
       key: 'sys/settings/plugin/wf/bootstrapjs/enabled'
       value: true
-      
 content:
   doctype:
     type: text
@@ -62,11 +58,6 @@ content:
             data:
               plugin: 'wf/bootstrapjs'
               method: include               
-          font_awesome_include:
-            type: widget
-            data:
-              plugin: 'davegandy/fontawesome450'
-              method: include
           title:
             type: title
             innerHTML: 'globals:sys/page/settings/title'
