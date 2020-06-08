@@ -19,7 +19,20 @@ class PluginDbSync_v1{
       if(!wfUser::hasRole("webmaster") && $this->settings->get('security')!==false){
         exit('Role webmaster is required!');
       }
-      $this->settings->set('item', wfSettings::getSettingsFromYmlString($this->settings->get('item')));
+      /**
+       * item
+       */
+      $temp = new PluginWfArray(wfSettings::getSettingsFromYmlString($this->settings->get('item')));
+      $this->settings->set('item', $temp->get('item') );
+      $this->settings->set('schema', $temp->get('schema') );
+      /**
+       * Set schema from string
+       */
+      foreach ($this->settings->get('item') as $key => $value) {
+        if(!is_array($value['schema'])){
+          $this->settings->set("item/$key/schema", $this->settings->get("schema/".$value['schema']));
+        }
+      }
       $id = wfRequest::get('id');
       if(strlen($id)){
         $this->db = new PluginWfArray($this->settings->get("item/$id"));

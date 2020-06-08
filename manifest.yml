@@ -1,5 +1,9 @@
-version: '1.16.2'
+version: '1.17.0'
 history:
+  '1.17.0':
+    date: '2020-06-08'
+    title: YML structure and readme improvement
+    description: New YML structure where items must be in param item. New param schema.
   '1.16.2':
     date: '2020-03-16'
     title: Plugin

@@ -15,7 +15,7 @@ One could set param settings/security to false to temporary disable security.
 - Url in this case: "/dbsync/start". 
 - One could set "item: yml:/pat/to_file/file.yml".
 
-
+## Theme settings
 ```
 plugin_modules:
   dbsync:
@@ -30,6 +30,39 @@ plugin_modules:
           schema:
             - _multiple_schema_files_
 ```
+
+String to yml.
+```
+plugin_modules:
+  dbsync:
+    plugin: 'db/sync_v1'
+    settings:
+      item: 'yml:/../buto_data/theme/[theme]/_db_sync_v1_items.yml'
+```
+
+## Settings file
+YML file (_db_sync_v1_items.yml).
+```
+item:
+  -
+    name: Web server
+    mysql: 'yml:/../buto_data/mysql.yml'
+    schema:
+      - /plugin/_my_/_schema_/schema.yml
+```
+
+YML file using schema param (_db_sync_v1_items.yml).
+```
+schema:
+  _web_server_:
+    - /plugin/_my_/_schema_/schema.yml
+item:
+  -
+    name: Web server
+    mysql: 'yml:/../buto_data/mysql.yml'
+    schema: _web_server_
+```
+
 
 ## Map view
 
