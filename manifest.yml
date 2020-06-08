@@ -1,114 +1,117 @@
-version: '1.17.0'
+version: 1.17.0
 history:
-  '1.17.0':
+  1.17.0:
     date: '2020-06-08'
-    title: YML structure and readme improvement
-    description: New YML structure where items must be in param item. New param schema.
-  '1.16.2':
+    title: 'YML structure and readme improvement'
+    description: 'New YML structure where items must be in param item. New param schema.'
+  1.16.2:
     date: '2020-03-16'
     title: Plugin
-    description: Removed plugin prism/prismjs.
-  '1.16.1':
+    description: 'Removed plugin prism/prismjs.'
+  1.16.1:
     date: '2020-03-16'
     title: Plugin
-    description: Removed plugin davegandy/fontawesome450.
-  '1.16.0':
+    description: 'Removed plugin davegandy/fontawesome450.'
+  1.16.0:
     date: '2020-02-05'
     title: Datatable
-    description: Using Datatable instead of alert div elements.
-  '1.15.1':
+    description: 'Using Datatable instead of alert div elements.'
+  1.15.1:
     date: '2020-01-23'
-    title: Export buttons
-    description: Add export buttons to field table.
-  '1.15.0':
+    title: 'Export buttons'
+    description: 'Add export buttons to field table.'
+  1.15.0:
     date: '2020-01-23'
     title: Datatable
-    description: Upgrade from datatable/datatable_1_10_16 to datatable/datatable_1_10_18.
-  '1.14.0':
+    description: 'Upgrade from datatable/datatable_1_10_16 to datatable/datatable_1_10_18.'
+  1.14.0:
     date: '2019-12-03'
-    title: Create script
-    description: Enclosure table name when create script.
-  '1.13.0':
+    title: 'Create script'
+    description: 'Enclosure table name when create script.'
+  1.13.0:
     date: '2019-09-16'
     title: Export
-    description: Only tables in current schema files are to be exported. Change from single line sql to multiline sql in export.
-  '1.12.0':
+    description: 'Only tables in current schema files are to be exported. Change from single line sql to multiline sql in export.'
+  1.12.0:
     date: '2019-09-13'
-    title: Support plugin
-    description: Support mail/queue_admin.
-  '1.11.0':
+    title: 'Support plugin'
+    description: 'Support mail/queue_admin.'
+  1.11.0:
     date: '2019-03-12'
     title: Buttons
-    description: Add buttons for each schema file.
-  '1.10.0':
+    description: 'Add buttons for each schema file.'
+  1.10.0:
     date: '2019-03-12'
-    title: Field description
-    description: Edit schema field description in map view.
-  '1.9.0':
+    title: 'Field description'
+    description: 'Edit schema field description in map view.'
+  1.9.0:
     date: '2019-02-25'
-    title: Table description
-    description: Edit schema table description in map view.
-  '1.8.0':
+    title: 'Table description'
+    description: 'Edit schema table description in map view.'
+  1.8.0:
     date: '2019-02-12'
     title: Export
-    description: Add data export button. Bug fix when create script not generate multiple primary keys.
-  '1.7.0':
+    description: 'Add data export button. Bug fix when create script not generate multiple primary keys.'
+  1.7.0:
     date: '2019-01-26'
     title: Settings
-    description: Add support for getSettingsFromYmlString for item param.
-  '1.6.0':
+    description: 'Add support for getSettingsFromYmlString for item param.'
+  1.6.0:
     date: '2019-01-19'
     title: Security
-    description: Set security to false to be able to access page without beeing webmaster.
-  '1.5.0':
+    description: 'Set security to false to be able to access page without beeing webmaster.'
+  1.5.0:
     date: '2018-12-21'
     title: Map
-    description: Map improvement.
-  '1.4.0':
+    description: 'Map improvement.'
+  1.4.0:
     date: '2018-12-12'
     title: Bug
-    description: Bug when create field.
-  '1.3.0':
+    description: 'Bug when create field.'
+  1.3.0:
     date: '2018-12-11'
     title: Layout
-    description: Clickable table name in map showing table data. Add clear button in map.
-  '1.2.0':
+    description: 'Clickable table name in map showing table data. Add clear button in map.'
+  1.2.0:
     date: '2018-12-07'
     title: I18N
-    description: Unset i18n.
-  '1.1.0':
+    description: 'Unset i18n.'
+  1.1.0:
     date: '2018-11-27'
-    title: Time limit
-    description: Increased time limit and memory limit.
-  '1.0.0':
+    title: 'Time limit'
+    description: 'Increased time limit and memory limit.'
+  1.0.0:
     date: '2018-11-27'
-    title: First version
-    description: First version.
+    title: 'First version'
+    description: 'First version.'
 plugin:
   -
     name: wf/array
-    version: '1.0'
+    version: 1.2.0
   -
     name: wf/yml
-    version: '1.0'
+    version: 1.2.2
   -
     name: datatable/datatable_1_10_18
-    version: '1.0'
+    version: 1.4.1
   -
     name: wf/table
-    version: '1.0'
+    version: 1.17.1
   -
     name: wf/mysql
-    version: '1.1'
+    version: 1.11.0
   -
     name: twitter/bootstrap335v
-    version: '1.0'
+    version: 1.0.1
   -
     name: wf/embed
-    version: '1.0'
+    version: 1.1.0
   -
     name: bootstrap/alertwait
     version: '1.0'
+  -
+    name: form/form_v1
+    version: 1.45.5
 sys:
   -
     name: mercury
@@ -116,4 +119,3 @@ sys:
       - '1.0'
 php:
   - 7.0.10
- 
