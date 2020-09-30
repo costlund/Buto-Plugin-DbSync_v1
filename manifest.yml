@@ -1,5 +1,9 @@
-version: 1.17.0
+version: 1.18.0
 history:
+  1.18.0:
+    date: '2020-09-30'
+    title: Index
+    description: 'Create index from schema file.'
   1.17.0:
     date: '2020-06-08'
     title: 'YML structure and readme improvement'
@@ -111,7 +115,7 @@ plugin:
     version: '1.0'
   -
     name: form/form_v1
-    version: 1.45.5
+    version: 1.46.1
 sys:
   -
     name: mercury

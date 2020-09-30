@@ -474,6 +474,15 @@ class PluginDbSync_v1{
   private function db_table_create($table_name){
     $sql = $this->db_create_table_script($table_name);
     $this->runSQL($sql);
+    /**
+     * Index
+     */
+    foreach($this->db_create_table_index_script($table_name) as $v){
+      $this->runSQL($v);
+    }
+    /**
+     * 
+     */
     return null;
   }
   private function db_field_create($table_name, $field_name){
@@ -613,6 +622,28 @@ string;
     return '`'.$item->get('schema_field_name').'` '.$type.$not_null.$default.$auto_increment;
   }
   /**
+   * One table create script.
+   */
+  private function db_create_table_index_script($table_name){
+    $table_data = $this->getTable($table_name);
+    $sql = array();
+    $temp = "ALTER TABLE `[table_name]` ADD INDEX `[index_name]` ([fields]);";
+    if($table_data->get('index')){
+      foreach($table_data->get('index') as $k => $v){
+        $sql2 = $temp;
+        $sql2 = str_replace('[table_name]', $table_name, $sql2);
+        $sql2 = str_replace('[index_name]', $k, $sql2);
+        $fields = '';
+        foreach($v['columns'] as $v2){
+          $fields .= ",`$v2` ASC";
+        }
+        $sql2 = str_replace('[fields]', substr($fields,1), $sql2);
+        $sql[] = $sql2;
+      }
+    }
+    return $sql;
+  }
+   /**
    * One table create script.
    */
   private function db_create_table_script($table_name, $foreing_key = true, $engine = 'InnoDB', $get_fields = null){
@@ -805,6 +836,7 @@ string;
       foreach ($item->get('tables') as $key2 => $value2) {
         $item2 = new PluginWfArray($value2);
         $table->set("$key2/description", $item2->get('description'));
+        $table->set("$key2/index", $item2->get('index'));
         $table->set("$key2/file", $value);
         foreach ($value2['field'] as $key3 => $value3) {
           $item3 = new PluginWfArray($value3);
@@ -1014,7 +1046,7 @@ string;
         $data[] = $value;
       }
     }
-    return new PluginWfArray(array('name' => $table_name, 'exist' => $exist, 'schema_files_name' => $schema_files_name, 'field' => $data));
+    return new PluginWfArray(array('name' => $table_name, 'exist' => $exist, 'schema_files_name' => $schema_files_name, 'field' => $data, 'index' => $get_fields->get("schema/table/$table_name/index")));
   }
   private function getField($table_name, $field_name){
     $table_data = $this->getTable($table_name);

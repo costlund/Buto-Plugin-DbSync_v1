@@ -71,3 +71,16 @@ On map view one could draw lines between relationships, edit table and field des
 ## Plugin mail/queue_admin
 
 If schema file exist a button to use this plugin is visible.
+
+## Index
+By using the index param it is possible to add index.
+```
+tables:
+  my_table:
+    index:
+      my_name_of_index:
+        columns:
+          - parent_id
+          - year
+          - month
+```
