@@ -91,21 +91,20 @@ class PluginDbSync_v1{
        * Buttons
        */
       foreach ($this->settings->get('item') as $key => $value) {
-        $this->settings->set("item/$key/btn_edit", '<a href="#" onclick="PluginDbSync_v1.db(\''.$key.'\')">Edit</a>');
-        $this->settings->set("item/$key/btn_map", '<a href="#" onclick="PluginDbSync_v1.map(\''.$key.'\')">Map</a>');
-        $this->settings->set("item/$key/btn_schema", '<a href="#" onclick="PluginDbSync_v1.schema_generator(\''.$key.'\')">Schema</a>');
-        $this->settings->set("item/$key/btn_script", '<a href="#" onclick="PluginDbSync_v1.script_generator(\''.$key.'\')">Script</a>');
-        $this->settings->set("item/$key/btn_export", '<a href="#" onclick="PluginDbSync_v1.data_export(\''.$key.'\')">Export</a>');
+        /**
+         *
+         */
+        $action = $this->getYml('element/dbs_action.yml');
+        $mail = false;
+        $account = false;
         if($value['plugin_mail_queue_admin']){
-          $this->settings->set("item/$key/btn_plugin_mail_queue_admin", '<a href="#" onclick="PluginDbSync_v1.plugin_mail_queue_admin(this)" data-key="'.$key.'">Mail</a>');
-        }else{
-          $this->settings->set("item/$key/btn_plugin_mail_queue_admin", '');
+          $mail = true;
         }
         if($value['plugin_account_admin_v1']){
-          $this->settings->set("item/$key/btn_plugin_account_admin_v1", '<a href="#" onclick="PluginDbSync_v1.plugin_account_admin_v1(this)" data-key="'.$key.'">Account</a>');
-        }else{
-          $this->settings->set("item/$key/btn_plugin_account_admin_v1", '');
+          $account = true;
         }
+        $action->setByTag(array('key' => $key, 'mail' => $mail, 'account' => $account));
+        $this->settings->set("item/$key/action", $action->get());
       }
       /**
        * Enable.

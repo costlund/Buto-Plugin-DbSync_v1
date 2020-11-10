@@ -1,0 +1,112 @@
+-
+  type: div
+  attribute:
+    class: btn-group
+    role: group
+    aria-label: 'Button group with nested dropdown'
+  innerHTML:
+    -
+      type: div
+      attribute:
+        class: btn-group
+        role: group
+      innerHTML:
+        -
+          type: a
+          attribute:
+            id: btnGroupDrop1
+            type: button
+            class: 'dropdown-toggle'
+            data-toggle: dropdown
+            aria-haspopup: 'true'
+            aria-expanded: 'false'
+          innerHTML: 'Action'
+        -
+          type: div
+          attribute:
+            class: dropdown-menu dropdown-menu-right
+            aria-labelledby: btnGroupDrop1
+          innerHTML:
+            -
+              type: a
+              attribute:
+                class: dropdown-item
+                style: 'display:block;margin:6px;'
+                href: '#'
+                data-key: rs:key
+                onclick: PluginDbSync_v1.db(this.getAttribute('data-key'))
+              innerHTML: 'Edit'
+            -
+              type: a
+              attribute:
+                class: dropdown-item
+                style: 'display:block;margin:6px;'
+                href: '#'
+                data-key: rs:key
+                onclick: PluginDbSync_v1.map(this.getAttribute('data-key'))
+              innerHTML: 'Map'
+            -
+              type: a
+              attribute:
+                class: dropdown-item
+                style: 'display:block;margin:6px;'
+                href: '#'
+                data-key: rs:key
+                onclick: PluginDbSync_v1.schema_generator(this.getAttribute('data-key'))
+              innerHTML: 'Schema'
+            -
+              type: a
+              attribute:
+                class: dropdown-item
+                style: 'display:block;margin:6px;'
+                href: '#'
+                data-key: rs:key
+                onclick: PluginDbSync_v1.script_generator(this.getAttribute('data-key'))
+              innerHTML: 'Script'
+            -
+              type: a
+              attribute:
+                class: dropdown-item
+                style: 'display:block;margin:6px;'
+                href: '#'
+                data-key: rs:key
+                onclick: PluginDbSync_v1.data_export(this.getAttribute('data-key'))
+              innerHTML: 'Export'
+            -
+              type: a
+              settings:
+                enabled: rs:mail
+              attribute:
+                class: dropdown-item
+                style: 'display:block;margin:6px;'
+                href: '#'
+                data-key: rs:key
+                onclick: PluginDbSync_v1.plugin_mail_queue_admin(this)
+              innerHTML: 'Mail'
+            -
+              type: span
+              settings:
+                disabled: rs:mail
+              attribute:
+                class: dropdown-item
+                style: 'display:block;margin:6px;'
+              innerHTML: 'Mail'
+            -
+              type: a
+              settings:
+                enabled: rs:account
+              attribute:
+                class: dropdown-item
+                style: 'display:block;margin:6px;'
+                href: '#'
+                data-key: rs:key
+                onclick: PluginDbSync_v1.plugin_account_admin_v1(this)
+              innerHTML: 'Account'
+            -
+              type: span
+              settings:
+                disabled: rs:account
+              attribute:
+                class: dropdown-item
+                style: 'display:block;margin:6px;'
+              innerHTML: 'Account'

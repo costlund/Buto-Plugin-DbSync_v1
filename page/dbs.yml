@@ -11,14 +11,8 @@ content:
           server: Server
           database: Database
           user_name: Username
-          btn_edit: Edit
-          btn_map: Map
-          btn_schema: Schema
-          btn_script: Script
-          btn_export: Export
-          btn_plugin_mail_queue_admin: Mail
-          btn_plugin_account_admin_v1: Account
           schema_text: Schema
+          action: Action
         rs: rs:items
         datatable:
           disabled: false

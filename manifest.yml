@@ -1,5 +1,9 @@
-version: 1.18.0
+version: 1.18.1
 history:
+  1.18.1:
+    date: '2020-11-10'
+    title: 'Buttons'
+    description: 'Merge buttons to button-group.'
   1.18.0:
     date: '2020-09-30'
     title: Index
