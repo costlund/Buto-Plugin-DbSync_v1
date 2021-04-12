@@ -10,9 +10,7 @@ function PluginDbSync_v1(){
     PluginWfBootstrapjs.modal({id: 'modal_table', url:'table/id/'+this.data.item.id+'/table/'+table, lable:'Table', size:'lg'});
   }
   this.table_create = function(){
-    $.get('table_create/id/'+this.data.item.id+'/table/'+this.data.table.table, function( data ) {
-      PluginWfAjax.update('modal_table_body');
-    });
+    PluginWfBootstrapjs.modal({id: 'modal_table_create', url:'table_create/id/'+this.data.item.id+'/table/'+this.data.table.table, lable:'Table create'});
   }
   this.table_drop = function(){
     if(confirm('Drop table '+this.data.table.table+'?')){

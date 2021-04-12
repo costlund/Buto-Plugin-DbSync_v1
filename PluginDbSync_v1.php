@@ -750,7 +750,7 @@ string;
   }
   public function page_table_create(){
     $this->db_table_create(wfRequest::get('table'));
-    exit('create...');
+    exit('Table '.wfRequest::get('table').' was created!');
   }
   public function page_table_drop(){
     $this->db_table_drop(wfRequest::get('table'));
