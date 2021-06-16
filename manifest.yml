@@ -1,5 +1,9 @@
-version: 1.18.3
+version: 1.18.4
 history:
+  1.18.4:
+    date: '2021-06-16'
+    title: Versions
+    description: 'Versions update.'
   1.18.3:
     date: '2021-05-12'
     title: Versions
@@ -103,16 +107,16 @@ history:
 plugin:
   -
     name: wf/array
-    version: 1.2.0
+    version: 1.2.2
   -
     name: wf/yml
     version: 1.3.0
   -
     name: datatable/datatable_1_10_18
-    version: 1.4.2
+    version: 1.4.4
   -
     name: wf/table
-    version: 1.23.0
+    version: 1.24.0
   -
     name: wf/mysql
     version: 1.14.1
