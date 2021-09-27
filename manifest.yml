@@ -1,5 +1,9 @@
-version: 1.18.4
+version: 1.18.5
 history:
+  1.18.5:
+    date: '2021-09-27'
+    title: Versions
+    description: 'Versions update.'
   1.18.4:
     date: '2021-06-16'
     title: Versions
@@ -110,16 +114,16 @@ plugin:
     version: 1.2.2
   -
     name: wf/yml
-    version: 1.3.0
+    version: 1.3.1
   -
     name: datatable/datatable_1_10_18
-    version: 1.4.4
+    version: 1.4.5
   -
     name: wf/table
-    version: 1.24.0
+    version: 1.25.0
   -
     name: wf/mysql
-    version: 1.14.1
+    version: 1.14.5
   -
     name: twitter/bootstrap335v
     version: 1.0.1
@@ -131,7 +135,7 @@ plugin:
     version: 1.0.1
   -
     name: form/form_v1
-    version: 1.51.1
+    version: 1.51.7
 sys:
   -
     name: mercury
