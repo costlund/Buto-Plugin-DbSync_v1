@@ -705,7 +705,7 @@ string;
       $primary_key = substr($primary_key, 1);
       $sql = str_replace('[primary_key]', ",PRIMARY KEY ($primary_key)", $sql);
     }else{
-      $sql = str_replace('[primary_key]', null, $sql);
+      $sql = str_replace('[primary_key]', '', $sql);
     }
     $sql = str_replace('[key]', $tkey, $sql);
     $sql = str_replace('[constraint]', $constraint, $sql);
