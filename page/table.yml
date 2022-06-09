@@ -163,8 +163,6 @@ content:
                     -
                       - 0
                       - asc
-                  language:
-                    url: /plugin/datatable/datatable_1_10_18/i18n/Swedish.json
   -
     type: div
     attribute:
