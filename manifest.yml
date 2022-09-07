@@ -1,5 +1,9 @@
-version: 1.18.16
+version: 1.18.17
 history:
+  1.18.17:
+    date: '2022-09-07'
+    title: Versions
+    description: 'Versions update.'
   1.18.16:
     date: '2022-07-20'
     title: Versions
@@ -155,13 +159,13 @@ history:
 plugin:
   -
     name: wf/array
-    version: 1.2.3
+    version: 1.2.4
   -
     name: wf/yml
-    version: 1.4.0
+    version: 1.4.1
   -
     name: datatable/datatable_1_10_18
-    version: 1.5.0
+    version: 1.5.1
   -
     name: wf/table
     version: 1.31.1
@@ -179,7 +183,7 @@ plugin:
     version: 1.0.1
   -
     name: form/form_v1
-    version: 1.53.0
+    version: 1.54.0
 sys:
   -
     name: mercury
