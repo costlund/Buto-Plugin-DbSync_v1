@@ -12,13 +12,6 @@ innerHTML:
         innerHTML: rs:schema_field_type
       -
         type: span
-        settings:
-          enabled: rs:is_extra
-        attribute:
-          style: 'float:right'
-        innerHTML: extra
-      -
-        type: span
         attribute:
           class: rs:field_class
           id: rs:id
@@ -27,7 +20,7 @@ innerHTML:
       -
         type: span
         attribute:
-          class: bg-info
+          class: badge badge-light
           style: 'font-size:smaller'
           data-table: rs:table_name
           data-field: rs:schema_field_name
@@ -38,9 +31,10 @@ innerHTML:
     settings:
       enabled: schema_field_foreing_key:reference_table
     attribute:
-      class: bg-warning
       id: rs:foreing_key_id
-      style: 'padding:4px'
+      style: 
+        padding: 4px
+        font-size: smaller
       data-reference_field: rs:reference_field
       onclick: PluginDbSync_v1.mapForeingClick(this);
     innerHTML:
@@ -49,6 +43,8 @@ innerHTML:
         innerHTML:
           -
             type: strong
+            attribute:
+              class: content-colon
             innerHTML: Table
           -
             type: span
@@ -58,6 +54,8 @@ innerHTML:
         innerHTML:
           -
             type: strong
+            attribute:
+              class: content-colon
             innerHTML: Field
           -
             type: span
@@ -67,6 +65,8 @@ innerHTML:
         innerHTML:
           -
             type: strong
+            attribute:
+              class: content-colon
             innerHTML: Delete
           -
             type: span
@@ -76,6 +76,8 @@ innerHTML:
         innerHTML:
           -
             type: strong
+            attribute:
+              class: content-colon
             innerHTML: Update
           -
             type: span

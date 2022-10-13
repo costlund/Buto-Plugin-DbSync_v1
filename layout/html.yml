@@ -1,30 +1,5 @@
 settings:
   path: 'html/innerHTML/body/innerHTML'
-  rewrite_globals:
-    -
-      key: 'sys/settings/plugin/wf/dom/enabled'
-      value: true
-    -
-      key: 'sys/settings/plugin/wf/bootstrap/enabled'
-      value: true
-    -
-      key: 'sys/settings/plugin/wf/ajax/enabled'
-      value: true
-    -
-      key: 'sys/settings/plugin/samstephenson/prototype/enabled'
-      value: true
-    -
-      key: 'sys/settings/plugin/wf/textareatab/enabled'
-      value: true
-    -
-      key: 'sys/settings/plugin/wf/callbackjson/enabled'
-      value: true
-    -
-      key: 'sys/settings/plugin/wf/onkeypress/enabled'
-      value: true
-    -
-      key: 'sys/settings/plugin/wf/bootstrapjs/enabled'
-      value: true
 content:
   doctype:
     type: text
@@ -37,102 +12,32 @@ content:
       head:
         type: head
         innerHTML:
-          icon:
-            type: link
-            attribute:
-              rel: icon
-              type: image/x-icon
-              href: '/plugin/db/sync_v1/icon/icon.png?x=1'
-          prototype:
-            type: widget
-            settings:
-              disabled: true
-            data:
-              plugin: 'samstephenson/prototype'
-              method: include
-          wf_bootstrap:
-            type: widget
-            data:
-              plugin: 'wf/bootstrapjs'
-              method: include               
-          title:
+          -
             type: title
             innerHTML: 'globals:sys/page/settings/title'
-          twitter_bootstrap_meta:
+          -
             type: widget
             data:
-              plugin: 'twitter/bootstrap335v'
-              method: meta
-          twitter_bootstrap_link:
-            type: widget
-            data:
-              plugin: 'twitter/bootstrap335v'
-              method: link
-          wf_ajax:
-            type: widget
-            data:
-              plugin: 'wf/ajax'
-              method: include               
-          wf_dom:
-            type: widget
-            data:
-              plugin: 'wf/dom'
-              method: include               
-          twitter_bootstrap_js:
-            type: widget
-            data:
-              plugin: 'twitter/bootstrap335v'
-              method: js
-          wf_textareatab:
-            type: widget
-            data:
-              plugin: 'wf/textareatab'
-              method: include               
-          wf_callbackjson:
-            type: widget
-            data:
-              plugin: 'wf/callbackjson'
-              method: include               
-          onkeypress:
-            type: widget
-            data:
-              plugin: 'wf/onkeypress'
-              method: include
-          own_css:
-            type: style
-            innerHTML: |
-              .semicolon:after{content: ':'}
-          datatable:
-            type: widget
-            data:
-              plugin: datatable/datatable_1_10_18
+              plugin: 'theme/include'
               method: include
               data:
-                style: bootstrap
-          embed_js:
+                bootswatch:
+                  theme: Cerulean
+                icon: /plugin/db/sync_v1/icon/icon.png
+          -
             type: widget
             data:
               plugin: 'wf/embed'
               method: js
               data:
                 file: /plugin/db/sync_v1/js/function.js                
-          embed_leader-line:
+          -
             type: widget
             data:
               plugin: 'wf/embed'
               method: js
               data:
                 file: /plugin/db/sync_v1/js/leader-line.min.js   
-          form_form_v1:
-            type: widget
-            data:
-              plugin: 'form/form_v1'
-              method: include
-          wait:
-            type: widget
-            data:
-              plugin: bootstrap/alertwait
-              method: include            
       body:
         type: body
         innerHTML: 'body...'

@@ -12,7 +12,7 @@ content:
           -
             type: a
             attribute:
-              class: btn btn-default
+              class: btn btn-primary
               onclick: PluginWfAjax.load('content', 'dbs');
             innerHTML: Back
       -
@@ -209,7 +209,7 @@ content:
           -
             type: a
             attribute:
-              class: btn btn-default
+              class: btn btn-primary
               onclick: alert()
             innerHTML: Create all
   -

@@ -5,7 +5,7 @@ innerHTML:
   -
     type: div
     attribute:
-      class: alert alert-info
+      class: alert alert-success
       style: 'padding:2px'
     innerHTML:
       -

@@ -17,25 +17,25 @@ innerHTML:
           -
             type: a
             attribute:
-              class: btn btn-default
+              class: btn btn-primary
               onclick: PluginWfAjax.load('content', 'dbs')
             innerHTML: Back
           -
             type: a
             attribute:
-              class: btn btn-default
+              class: btn btn-primary
               onclick: PluginDbSync_v1.mapDraw()
             innerHTML: Draw all
           -
             type: a
             attribute:
-              class: btn btn-default
+              class: btn btn-primary
               onclick: PluginDbSync_v1.mapClear()
             innerHTML: Clear
           -
             type: a
             attribute:
-              class: btn btn-default
+              class: btn btn-primary
               onclick: PluginWfAjax.update('content')
             innerHTML: Reload
       

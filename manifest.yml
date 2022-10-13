@@ -1,5 +1,9 @@
-version: 1.18.18
+version: 1.19.0
 history:
+  1.19.0:
+    date: '2022-10-13'
+    title: 'Bootstrap 4'
+    description: 'Upgrade to Bootstrap 4.'
   1.18.18:
     date: '2022-09-27'
     title: Versions

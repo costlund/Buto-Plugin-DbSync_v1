@@ -15,6 +15,7 @@ class PluginDbSync_v1{
       wfArray::set($GLOBALS, 'sys/layout_path', '/plugin/db/sync_v1/layout');
       wfPlugin::includeonce('wf/array');
       wfPlugin::includeonce('wf/yml');
+      wfPlugin::enable('bootstrap/navbar_v1');
       $this->settings = new PluginWfArray(wfArray::get($GLOBALS, 'sys/settings/plugin_modules/'.wfArray::get($GLOBALS, 'sys/class').'/settings'));
       if(!wfUser::hasRole("webmaster") && $this->settings->get('security')!==false){
         exit('Role webmaster is required!');
@@ -149,9 +150,9 @@ class PluginDbSync_v1{
       $item->set('id', $item->get('schema_table_name').'__'.$item->get('schema_field_name'));
       $item->set('reference_field', $item->get('schema_field_foreing_key/reference_table').'__'.$item->get('schema_field_foreing_key/reference_field'));
       if($item->get('schema_field_foreing_key')){
-        $item->set('field_class', 'map-field bg-success '.$item->get('schema_field_foreing_key/reference_table').'__'.$item->get('schema_field_foreing_key/reference_field'));
+        $item->set('field_class', 'map-field '.$item->get('schema_field_foreing_key/reference_table').'__'.$item->get('schema_field_foreing_key/reference_field'));
       }else{
-        $item->set('field_class', 'map-field bg-success');
+        $item->set('field_class', 'map-field');
       }
       $item->set('foreing_key_id', $item->get('schema_table_name').'__'.$item->get('schema_field_name').'_fk');
       $schema->set("schema/table/$schema_table_name/field/$schema_field_name", $item->get());
@@ -171,7 +172,7 @@ class PluginDbSync_v1{
       foreach ($i->get('field') as $key2 => $value2) {
         $j = new PluginWfArray($value2);
         if($j->get('is_extra')){
-          $j->set('bg', 'bg-success');
+          $j->set('bg', 'bg-white');
         }else{
           $j->set('bg', '');
         }
@@ -193,7 +194,7 @@ class PluginDbSync_v1{
         }
         $field = $this->getYml('element/map_item_field.yml');
         if(!$j->get('description')){
-          $j->set('description', '&nbsp;&nbsp;&nbsp;&nbsp;');
+          $j->set('description', '&nbsp;');
         }
         $j->set('table_name', $i->get('name'));
         $field->setByTag($j->get());

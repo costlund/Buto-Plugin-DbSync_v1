@@ -52,13 +52,13 @@ function PluginDbSync_v1(){
     PluginWfAjax.load('content', 'map/id/'+this.data.item.id);    
   }
   this.mapClear = function(){
-    $('.bg-danger').removeClass('bg-danger');
+    $('.bg-warning').removeClass('bg-warning');
     $('.leader-line').remove();
   }
   this.mapFieldClick = function(element){
     var id = element.id;
-    $('#'+id).addClass('bg-danger');
-    $('.'+id).addClass('bg-danger');
+    $('#'+id).addClass('bg-warning');
+    $('.'+id).addClass('bg-warning');
     PluginDbSync_v1.data.line_item_id = id;
     $('.'+id).each(function( i ) {
       var myLine = new LeaderLine(
@@ -69,8 +69,8 @@ function PluginDbSync_v1(){
     });
   }
   this.mapForeingClick = function(element){
-    $(element).addClass('bg-danger');
-    $('#'+element.getAttribute('data-reference_field')).addClass('bg-danger');
+    $(element).addClass('bg-warning');
+    $('#'+element.getAttribute('data-reference_field')).addClass('bg-warning');
 
     PluginDbSync_v1.data.line_item_id = element.getAttribute('id');
     $('#'+element.getAttribute('data-reference_field')).each(function( i ) {
@@ -126,7 +126,7 @@ function PluginDbSync_v1(){
     document.getElementById('field_description_form_table_name').value = element.getAttribute('data-table');
     document.getElementById('field_description_form_field_name').value = element.getAttribute('data-field');
     var innerHTML = element.innerHTML;
-    if(innerHTML=='&nbsp;&nbsp;&nbsp;&nbsp;'){
+    if(innerHTML=='&nbsp;'){
       innerHTML = '';
     }
     document.getElementById('field_description_form_description').value = innerHTML;

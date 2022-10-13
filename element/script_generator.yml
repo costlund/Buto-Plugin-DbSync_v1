@@ -37,7 +37,7 @@
     -
       type: a
       attribute:
-        class: btn btn-default
+        class: btn btn-primary
         onclick: PluginDbSync_v1.script_generator_run()
       innerHTML: Run
         
