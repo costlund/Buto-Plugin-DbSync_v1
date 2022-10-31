@@ -38,6 +38,16 @@ class PluginDbSync_v1{
       if(strlen($id)){
         $this->db = new PluginWfArray($this->settings->get("item/$id"));
         $this->db->set('mysql', wfSettings::getSettingsFromYmlString($this->db->get('mysql')));
+        try {
+          if($this->runSQL("show tables")->get()){
+            $this->db->set('show_tables', true );
+          }else{
+            $this->db->set('show_tables', false );
+          }
+        }
+        catch (exception $e) {
+          $this->db->set('show_tables', null );
+        }
       }
       /**
        * Mysql params
@@ -48,6 +58,7 @@ class PluginDbSync_v1{
         $this->settings->set("item/$key/server", $mysql->get('server'));
         $this->settings->set("item/$key/database", $mysql->get('database'));
         $this->settings->set("item/$key/user_name", $mysql->get('user_name'));
+        $this->settings->set("item/$key/data_key", $key);
       }
       /**
        * Schema text
@@ -89,25 +100,6 @@ class PluginDbSync_v1{
         }
       }
       /**
-       * Buttons
-       */
-      foreach ($this->settings->get('item') as $key => $value) {
-        /**
-         *
-         */
-        $action = $this->getYml('element/dbs_action.yml');
-        $mail = false;
-        $account = false;
-        if($value['plugin_mail_queue_admin']){
-          $mail = true;
-        }
-        if($value['plugin_account_admin_v1']){
-          $account = true;
-        }
-        $action->setByTag(array('key' => $key, 'mail' => $mail, 'account' => $account));
-        $this->settings->set("item/$key/action", $action->get());
-      }
-      /**
        * Enable.
        */
       wfPlugin::enable('datatable/datatable_1_10_18');
@@ -135,8 +127,24 @@ class PluginDbSync_v1{
    */
   public function page_dbs(){
     $page = $this->getYml('page/dbs.yml');
-    $page->setByTag(array('items' => $this->settings->get('item')));
     wfDocument::mergeLayout($page->get());
+  }
+  public function page_dbs_data(){
+    wfPlugin::includeonce('datatable/datatable_1_10_18');
+    $datatable = new PluginDatatableDatatable_1_10_18();
+    exit($datatable->set_table_data($this->settings->get('item')));
+  }
+  public function page_dbs_action(){
+    $id = wfRequest::get('id');
+    $element = new PluginWfYml(__DIR__.'/page/dbs_action.yml');
+    $element->setByTag($this->settings->get("item/$id"));
+    wfDocument::renderElement($element);
+  }
+  public function page_execute_capture(){
+    $sql = wfRequest::get('sql');
+    wfUser::setSession('plugin/db/sync_v1/execute/sql', $sql);
+    $rs = $this->runSQL($sql)->get();
+    wfHelp::print($rs);
   }
   public function page_map(){
     $schema = $this->getFields();
@@ -1110,5 +1118,9 @@ string;
     $schema = $this->getFields();
     $_SESSION['plugin']['account']['admin_v1']['mysql'] = $schema->get('mysql');
     wfDocument::mergeLayout($page->get());
+  }
+  public function page_manage(){
+    $element = new PluginWfYml(__DIR__.'/page/manage.yml');
+    wfDocument::renderElement($element);
   }
 }

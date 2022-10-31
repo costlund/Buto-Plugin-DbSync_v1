@@ -3,7 +3,8 @@ function PluginDbSync_v1(){
   this.map_options = {color: 'silver', size: 2, startSocket: 'right', endPlug: 'arrow3', endPlugSize: '24', endPlugColor: 'black'};
   this.db = function(id){
     PluginDbSync_v1.data.item.id = id;
-    PluginWfAjax.load('content', 'db/id/'+id);    
+    PluginWfAjax.load('content', 'db/id/'+id);
+    $('#modal_dbs_action').modal('hide');
   }
   this.table = function(table){
     PluginDbSync_v1.data.table.table = table;
@@ -49,7 +50,8 @@ function PluginDbSync_v1(){
    */
   this.map = function(id){
     PluginDbSync_v1.data.item.id = id;
-    PluginWfAjax.load('content', 'map/id/'+this.data.item.id);    
+    PluginWfAjax.load('content', 'map/id/'+this.data.item.id);
+    $('#modal_dbs_action').modal('hide');
   }
   this.mapClear = function(){
     $('.bg-warning').removeClass('bg-warning');
@@ -141,11 +143,13 @@ function PluginDbSync_v1(){
    */
   this.schema_generator = function(id){
     PluginDbSync_v1.data.item.id = id;
-    PluginWfAjax.load('content', 'schema_generator/id/'+this.data.item.id);    
+    PluginWfAjax.load('content', 'schema_generator/id/'+this.data.item.id);
+    $('#modal_dbs_action').modal('hide');
   }
   this.script_generator = function(id){
     PluginDbSync_v1.data.item.id = id;
     PluginWfBootstrapjs.modal({id: 'modal_script_generator', url:'script_generator', lable:'Script generator', size: 'sm'});
+    $('#modal_dbs_action').modal('hide');
   }
   this.script_generator_run = function(){
     var foreing_key = document.getElementById('foreing_key').checked;
@@ -156,50 +160,23 @@ function PluginDbSync_v1(){
   this.data_export = function(id){
     PluginDbSync_v1.data.item.id = id;
     PluginWfBootstrapjs.modal({id: 'modal_data_export', url:'data_export/id/'+this.data.item.id, lable:'Data export', size: 'lg'});
+    $('#modal_dbs_action').modal('hide');
   }
   this.plugin_mail_queue_admin = function(element){
     PluginDbSync_v1.data.item.id = element.getAttribute('data-key');
     PluginWfBootstrapjs.modal({id: 'modal_mail_queue_admin', url:'plugin_mail_queue_admin/id/'+this.data.item.id, lable: element.innerHTML, size: 'lg'});
+    $('#modal_dbs_action').modal('hide');
   }
   this.plugin_account_admin_v1 = function(element){
     PluginDbSync_v1.data.item.id = element.getAttribute('data-key');
     PluginWfBootstrapjs.modal({id: 'modal_account_admin_v1', url:'plugin_account_admin_v1/id/'+this.data.item.id, lable: element.innerHTML, size: 'lg'});
+    $('#modal_dbs_action').modal('hide');
+  }
+  this.manage = function(btn){
+    PluginWfBootstrapjs.modal({id: 'modal_manage', url:'manage', lable: btn.innerHTML});
+  }
+  this.dbs_action = function (data){
+    PluginWfBootstrapjs.modal({id: 'modal_dbs_action', url:'dbs_action?id='+data.data_key, lable: 'Action'});
   }
 }
 var PluginDbSync_v1 = new PluginDbSync_v1();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

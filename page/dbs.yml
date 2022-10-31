@@ -5,6 +5,7 @@ content:
       plugin: wf/table
       method: render_many
       data:
+        id: dt_dbs
         i18n: false
         field:
           name: Name
@@ -12,10 +13,23 @@ content:
           database: Database
           user_name: Username
           schema_text: Schema
-          action: Action
-        rs: rs:items
         datatable:
+          ajax: /dbsync/dbs_data
           disabled: false
         class:
           table: table-sm table-striped table-hover
+  -
+    type: script
+    innerHTML: |
+      $('#dt_dbs tbody').on( 'click', 'tr', function () {
+          PluginDbSync_v1.dbs_action(datatable_dt_dbs.row( this ).data());
+      } );
+  -
+    type: p
+    innerHTML:
+      -
+        type: a
+        attribute:
+          onclick: PluginDbSync_v1.manage(this)
+        innerHTML: Manage
   

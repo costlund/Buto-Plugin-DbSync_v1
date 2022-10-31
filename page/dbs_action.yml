@@ -1,0 +1,85 @@
+-
+  type: widget
+  data:
+    plugin: form/form_v1
+    method: render
+    data: yml:/plugin/db/sync_v1/form/execute_form.yml
+-
+  type: div
+  attribute:
+    class: list-group
+  innerHTML:
+    -
+      type: a
+      attribute:
+        class: list-group-item
+        href: '#'
+        data-key: rs:data_key
+        onclick: PluginDbSync_v1.db(this.getAttribute('data-key'))
+      innerHTML: 'Edit'
+    -
+      type: a
+      attribute:
+        class: list-group-item
+        href: '#'
+        data-key: rs:data_key
+        onclick: PluginDbSync_v1.map(this.getAttribute('data-key'))
+      innerHTML: 'Map'
+    -
+      type: a
+      attribute:
+        class: list-group-item
+        href: '#'
+        data-key: rs:data_key
+        onclick: PluginDbSync_v1.schema_generator(this.getAttribute('data-key'))
+      innerHTML: 'Schema'
+    -
+      type: a
+      attribute:
+        class: list-group-item
+        href: '#'
+        data-key: rs:data_key
+        onclick: PluginDbSync_v1.script_generator(this.getAttribute('data-key'))
+      innerHTML: 'Script'
+    -
+      type: a
+      attribute:
+        class: list-group-item
+        href: '#'
+        data-key: rs:data_key
+        onclick: PluginDbSync_v1.data_export(this.getAttribute('data-key'))
+      innerHTML: 'Export'
+    -
+      type: a
+      settings:
+        enabled: rs:plugin_mail_queue_admin
+      attribute:
+        class: list-group-item
+        href: '#'
+        data-key: rs:data_key
+        onclick: PluginDbSync_v1.plugin_mail_queue_admin(this)
+      innerHTML: 'Mail'
+    -
+      type: span
+      settings:
+        disabled: rs:plugin_mail_queue_admin
+      attribute:
+        class: list-group-item
+      innerHTML: 'Mail'
+    -
+      type: a
+      settings:
+        enabled: rs:plugin_account_admin_v1
+      attribute:
+        class: list-group-item
+        href: '#'
+        data-key: rs:data_key
+        onclick: PluginDbSync_v1.plugin_account_admin_v1(this)
+      innerHTML: 'Account'
+    -
+      type: span
+      settings:
+        disabled: rs:plugin_account_admin_v1
+      attribute:
+        class: list-group-item
+      innerHTML: 'Account'

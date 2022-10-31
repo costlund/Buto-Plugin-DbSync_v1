@@ -1,0 +1,21 @@
+url: execute_capture
+ajax: true
+submit_value: Run
+id: execute_form
+ajax_element: execute_form_div
+items:
+  id:
+    type: hidden
+    label: id
+    mandatory: true
+    default: get:id
+  sql:
+    type: text
+    label: SQL
+    default: globals:_SESSION/plugin/db/sync_v1/execute/sql
+elements_after:
+  -
+    type: pre
+    attribute:
+      id: execute_form_div
+    
