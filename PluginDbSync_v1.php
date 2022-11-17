@@ -498,7 +498,7 @@ class PluginDbSync_v1{
     $field_script = $this->db_create_field_script($field_data);
     $sql = "ALTER TABLE `$table_name` ADD COLUMN $field_script;";
     $this->runSQL($sql);
-    return null;
+    return $sql;
   }
   /**
    * Add foreing key.
@@ -773,8 +773,8 @@ string;
     wfDocument::mergeLayout($page->get());
   }
   public function page_field_create(){
-    $this->db_field_create(wfRequest::get('table'), wfRequest::get('field'));
-    exit('create field...');
+    $sql = $this->db_field_create(wfRequest::get('table'), wfRequest::get('field'));
+    exit($sql);
   }
   public function page_field_create_foreing_key(){
     $this->db_field_create_foreing_key(wfRequest::get('table'), wfRequest::get('field'));

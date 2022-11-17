@@ -1,5 +1,9 @@
-version: 1.20.0
+version: 1.20.1
 history:
+  1.20.1:
+    date: '2022-11-17'
+    title: 'SQL'
+    description: 'Return sql in method page_field_create to be picked up if needed from browser request.'
   1.20.0:
     date: '2022-10-31'
     title: 'Run sql'
