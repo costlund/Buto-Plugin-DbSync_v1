@@ -491,7 +491,7 @@ class PluginDbSync_v1{
     /**
      * 
      */
-    return null;
+    return $sql;
   }
   private function db_field_create($table_name, $field_name){
     $field_data = $this->getField($table_name, $field_name);
@@ -556,7 +556,7 @@ string;
   private function db_table_drop($table_name){
     $sql = "drop table $table_name;";
     $this->runSQL($sql);
-    return null;
+    return $sql;
   }
   private function db_table_count($table_name){
     $sql = "select count(*) as count from `$table_name`;";
@@ -758,12 +758,12 @@ string;
     wfDocument::mergeLayout($page->get());
   }
   public function page_table_create(){
-    $this->db_table_create(wfRequest::get('table'));
-    exit('Table '.wfRequest::get('table').' was created!');
+    $sql = $this->db_table_create(wfRequest::get('table'));
+    exit($sql);
   }
   public function page_table_drop(){
-    $this->db_table_drop(wfRequest::get('table'));
-    exit('drop...');
+    $sql = $this->db_table_drop(wfRequest::get('table'));
+    exit($sql);
   }
   public function page_field(){
     $field_data = $this->getField(wfRequest::get('table'), wfRequest::get('field'));
