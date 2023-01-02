@@ -1,16 +1,20 @@
-version: 1.21.0
+version: 1.21.1
 history:
+  1.21.1:
+    date: '2023-01-02'
+    title: Versions
+    description: 'Versions update.'
   1.21.0:
     date: '2023-01-02'
-    title: 'Option'
+    title: Option
     description: 'Show field options in map view.'
   1.20.2:
     date: '2022-12-07'
-    title: 'SQL'
+    title: SQL
     description: 'Return sql on add, drop table.'
   1.20.1:
     date: '2022-11-17'
-    title: 'SQL'
+    title: SQL
     description: 'Return sql in method page_field_create to be picked up if needed from browser request.'
   1.20.0:
     date: '2022-10-31'
@@ -190,16 +194,16 @@ plugin:
     version: 1.2.4
   -
     name: wf/yml
-    version: 1.5.0
+    version: 1.5.1
   -
     name: datatable/datatable_1_10_18
-    version: 1.5.2
+    version: 1.5.4
   -
     name: wf/table
-    version: 1.31.5
+    version: 1.32.1
   -
     name: wf/mysql
-    version: 1.14.9
+    version: 1.15.0
   -
     name: twitter/bootstrap335v
     version: 1.0.1
@@ -211,7 +215,7 @@ plugin:
     version: 1.0.1
   -
     name: form/form_v1
-    version: 1.56.0
+    version: 1.57.1
 sys:
   -
     name: mercury
