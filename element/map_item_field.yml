@@ -29,6 +29,18 @@ innerHTML:
   -
     type: div
     settings:
+      enabled: rs:option_json
+    innerHTML: 
+      -
+        type: pre
+        attribute:
+          style:
+            font-size: smaller
+            background: silver
+        innerHTML: rs:option_json
+  -
+    type: div
+    settings:
       enabled: schema_field_foreing_key:reference_table
     attribute:
       id: rs:foreing_key_id

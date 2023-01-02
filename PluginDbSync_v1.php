@@ -867,7 +867,12 @@ string;
           $field->set($key2."#".$key3."/db_field_not_null", null);
           $field->set($key2."#".$key3."/db_field_primary_key", null);
           $field->set($key2."#".$key3."/db_field_foreing_key", null);
-            $field->set($key2."#".$key3."/is_extra", false);
+          $field->set($key2."#".$key3."/option", $item3->get('option'));
+          $field->set($key2."#".$key3."/option_json", null);
+          if($item3->get('option')){
+            $field->set($key2."#".$key3."/option_json", json_encode($item3->get('option')));
+          }
+          $field->set($key2."#".$key3."/is_extra", false);
         }
         if($item->get('extra/field')){
           foreach ($item->get('extra/field') as $key3 => $value3) {
@@ -890,6 +895,11 @@ string;
             $field->set($key2."#".$key3."/db_field_not_null", null);
             $field->set($key2."#".$key3."/db_field_primary_key", null);
             $field->set($key2."#".$key3."/db_field_foreing_key", null);
+            $field->set($key2."#".$key3."/option", $item3->get('option'));
+            $field->set($key2."#".$key3."/option_json", null);
+            if($item3->get('option')){
+              $field->set($key2."#".$key3."/option_json", json_encode($item3->get('option')));
+            }
             $field->set($key2."#".$key3."/is_extra", true);
           }
         }
