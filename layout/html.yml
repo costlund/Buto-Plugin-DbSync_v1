@@ -24,6 +24,8 @@ content:
                 bootswatch:
                   theme: Cerulean
                 icon: /plugin/db/sync_v1/icon/icon.png
+                bootstrap:
+                  version: 5
           -
             type: widget
             data:
