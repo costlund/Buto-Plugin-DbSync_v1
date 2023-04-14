@@ -1,5 +1,9 @@
-version: 1.22.0
+version: 1.22.1
 history:
+  1.22.1:
+    date: '2023-04-14'
+    title: Versions
+    description: 'Versions update.'
   1.22.0:
     date: '2023-03-27'
     title: Bootstrap
@@ -208,7 +212,7 @@ plugin:
     version: 1.5.4
   -
     name: wf/table
-    version: 1.33.0
+    version: 1.33.2
   -
     name: wf/mysql
     version: 1.15.0
@@ -217,13 +221,13 @@ plugin:
     version: 1.0.1
   -
     name: wf/embed
-    version: 1.1.1
+    version: 1.2.0
   -
     name: bootstrap/alertwait
     version: 1.0.1
   -
     name: form/form_v1
-    version: 1.58.1
+    version: 1.59.0
 sys:
   -
     name: mercury
