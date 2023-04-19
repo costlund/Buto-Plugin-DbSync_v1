@@ -1,5 +1,9 @@
-version: 1.22.1
+version: 1.23.0
 history:
+  1.23.0:
+    date: '2023-04-19'
+    title: Version
+    description: 'Get version.'
   1.22.1:
     date: '2023-04-14'
     title: Versions

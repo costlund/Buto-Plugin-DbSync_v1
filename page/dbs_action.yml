@@ -1,4 +1,18 @@
 -
+  type: h1
+  innerHTML: rs:name
+- 
+  type: widget
+  data:
+    plugin: wf/table
+    method: render_one
+    data:
+      key_is_missing_alert: true
+      i18n: false
+      rs: rs:mysql
+      class:
+        table: table-sm table-striped
+-
   type: widget
   data:
     plugin: form/form_v1

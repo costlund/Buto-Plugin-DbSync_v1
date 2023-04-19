@@ -5,6 +5,7 @@ class PluginDbSync_v1{
    */
   private $settings = null;
   private $db = null;
+  private $item = nulL;
   /**
    * 
    */
@@ -36,17 +37,25 @@ class PluginDbSync_v1{
       }
       $id = wfRequest::get('id');
       if(strlen($id)){
+        /**
+         * item
+         */
+        $this->item = new PluginWfArray($this->settings->get("item/$id"));
+        $this->item->set('mysql', wfSettings::getSettingsFromYmlString($this->item->get('mysql')));
+        /**
+         * 
+         */
         $this->db = new PluginWfArray($this->settings->get("item/$id"));
         $this->db->set('mysql', wfSettings::getSettingsFromYmlString($this->db->get('mysql')));
         try {
-          if($this->runSQL("show tables")->get()){
-            $this->db->set('show_tables', true );
-          }else{
-            $this->db->set('show_tables', false );
-          }
+          /**
+           * 
+           */
+          $rs = $this->runSQL("select version() as Version");
+          $this->item->set('mysql/version', $rs->get('0/Version'));
         }
         catch (exception $e) {
-          $this->db->set('show_tables', null );
+          $this->item->set('mysql/version', null);
         }
       }
       /**
@@ -135,9 +144,9 @@ class PluginDbSync_v1{
     exit($datatable->set_table_data($this->settings->get('item')));
   }
   public function page_dbs_action(){
-    $id = wfRequest::get('id');
     $element = new PluginWfYml(__DIR__.'/page/dbs_action.yml');
-    $element->setByTag($this->settings->get("item/$id"));
+    $element->setByTag($this->item->get());
+    $element->setByTag($this->item->get('mysql'), 'mysql');
     wfDocument::renderElement($element);
   }
   public function page_execute_capture(){
