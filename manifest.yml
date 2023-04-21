@@ -1,5 +1,9 @@
-version: 1.23.0
+version: 1.24.0
 history:
+  1.24.0:
+    date: '2023-04-21'
+    title: MySQL
+    description: 'Could not find params in method page_dbs_action.'
   1.23.0:
     date: '2023-04-19'
     title: Version

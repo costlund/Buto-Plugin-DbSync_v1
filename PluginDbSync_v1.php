@@ -144,8 +144,10 @@ class PluginDbSync_v1{
     exit($datatable->set_table_data($this->settings->get('item')));
   }
   public function page_dbs_action(){
+    $id = wfRequest::get('id');
     $element = new PluginWfYml(__DIR__.'/page/dbs_action.yml');
     $element->setByTag($this->item->get());
+    $element->setByTag($this->settings->get("item/$id"));
     $element->setByTag($this->item->get('mysql'), 'mysql');
     wfDocument::renderElement($element);
   }
