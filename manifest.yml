@@ -1,5 +1,9 @@
-version: 1.24.0
+version: 1.24.1
 history:
+  1.24.1:
+    date: '2023-05-29'
+    title: Versions
+    description: 'Versions update.'
   1.24.0:
     date: '2023-04-21'
     title: MySQL
@@ -217,10 +221,10 @@ plugin:
     version: 1.5.1
   -
     name: datatable/datatable_1_10_18
-    version: 1.5.4
+    version: 1.5.5
   -
     name: wf/table
-    version: 1.33.2
+    version: 1.34.1
   -
     name: wf/mysql
     version: 1.15.0
