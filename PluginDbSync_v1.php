@@ -13,7 +13,7 @@ class PluginDbSync_v1{
     if($buto){
       set_time_limit(60*20);
       ini_set('memory_limit', '2048M');
-      wfArray::set($GLOBALS, 'sys/layout_path', '/plugin/db/sync_v1/layout');
+      wfGlobals::setSys('layout_path', '/plugin/db/sync_v1/layout');
       wfPlugin::includeonce('wf/array');
       wfPlugin::includeonce('wf/yml');
       wfPlugin::enable('bootstrap/navbar_v1');
@@ -36,7 +36,7 @@ class PluginDbSync_v1{
         }
       }
       $id = wfRequest::get('id');
-      if(strlen($id)){
+      if(wfPhpfunc::strlen($id)){
         /**
          * item
          */
@@ -77,7 +77,7 @@ class PluginDbSync_v1{
         foreach ($value['schema'] as $key2 => $value2) {
           $str .= ', '.$value2;
         }
-        $str = substr($str, 2);
+        $str = wfPhpfunc::substr($str, 2);
         $this->settings->set("item/$key/schema_text", $str);
       }
       /**
@@ -200,8 +200,8 @@ class PluginDbSync_v1{
           /**
            * Links
            */
-          $id = str_replace('/', '_', $schema_files_name);
-          $id = str_replace('.', '_', $id);
+          $id = wfPhpfunc::str_replace('/', '_', $schema_files_name);
+          $id = wfPhpfunc::str_replace('.', '_', $id);
           $links[] = wfDocument::createHtmlElement('div', array(wfDocument::createHtmlElement('a', $schema_files_name, array('href' => "#$id"))));
           /**
            * Map schema element
@@ -343,8 +343,8 @@ class PluginDbSync_v1{
         $field = new PluginWfArray($v);
         $str_fields .= ','.$field->get('COLUMN_NAME');
       }
-      $str_fields = substr($str_fields, 1);
-      $sql = str_replace('[FIELDS]', $str_fields, $sql);
+      $str_fields = wfPhpfunc::substr($str_fields, 1);
+      $sql = wfPhpfunc::str_replace('[FIELDS]', $str_fields, $sql);
       /**
        * Values
        */
@@ -357,7 +357,7 @@ class PluginDbSync_v1{
         }
         $str .= "(";
         foreach ($v as $k2 => $v2) {
-          if( strstr($fields->get("$k2/COLUMN_TYPE"), 'int(') || strstr($fields->get("$k2/COLUMN_TYPE"), 'double(') ){
+          if( wfPhpfunc::strstr($fields->get("$k2/COLUMN_TYPE"), 'int(') || wfPhpfunc::strstr($fields->get("$k2/COLUMN_TYPE"), 'double(') ){
             if($v2){
               $str .= $v2.',';
             }else{
@@ -365,21 +365,21 @@ class PluginDbSync_v1{
             }
           }elseif(($fields->get("$k2/COLUMN_TYPE")=='datetime' || $fields->get("$k2/COLUMN_TYPE")=='date' || $fields->get("$k2/COLUMN_TYPE")=='timestamp')){
             if($v2){
-              $v2 = str_replace("'", "", $v2);
+              $v2 = wfPhpfunc::str_replace("'", "", $v2);
               $str .= "'".$v2."',";
             }else{
               $str .= "NULL,";
             }
           }else{
             if($v2){
-              $v2 = str_replace("'", "\'", $v2);
+              $v2 = wfPhpfunc::str_replace("'", "\'", $v2);
               $str .= "'".$v2."',";
             }else{
               $str .= "NULL,";
             }
           }
         }
-        $str = substr($str, 0, strlen($str)-1);
+        $str = wfPhpfunc::substr($str, 0, wfPhpfunc::strlen($str)-1);
         $str .= ")";
         if(!$multiline){
           $str .= ",";
@@ -388,15 +388,15 @@ class PluginDbSync_v1{
         }
       }
       if(!$multiline){
-        $str = substr($str, 0, strlen($str)-1);
-        $sql = str_replace('[VALUES]', $str, $sql);
+        $str = wfPhpfunc::substr($str, 0, wfPhpfunc::strlen($str)-1);
+        $sql = wfPhpfunc::str_replace('[VALUES]', $str, $sql);
         if(!$str){
           $sql = '#'.$sql;
         }
         $insert_sql .= $sql."\n";
       }else{
         foreach ($rows as $key => $value) {
-          $insert_sql .= str_replace('[VALUES]', $value, $sql)."\n";
+          $insert_sql .= wfPhpfunc::str_replace('[VALUES]', $value, $sql)."\n";
         }
       }
     }
@@ -630,7 +630,7 @@ string;
     if($item->get('schema_field_auto_increment')){
       $auto_increment = " auto_increment";
     }else{
-      if(strlen($item->get('schema_field_default'))){
+      if(wfPhpfunc::strlen($item->get('schema_field_default'))){
         if($item->get('schema_field_default') == null || strtolower($item->get('schema_field_default')) == 'null' || strtoupper($item->get('schema_field_default'))=='CURRENT_TIMESTAMP'){
           $default = " default ".$item->get('schema_field_default')."";
         }else{
@@ -650,13 +650,13 @@ string;
     if($table_data->get('index')){
       foreach($table_data->get('index') as $k => $v){
         $sql2 = $temp;
-        $sql2 = str_replace('[table_name]', $table_name, $sql2);
-        $sql2 = str_replace('[index_name]', $k, $sql2);
+        $sql2 = wfPhpfunc::str_replace('[table_name]', $table_name, $sql2);
+        $sql2 = wfPhpfunc::str_replace('[index_name]', $k, $sql2);
         $fields = '';
         foreach($v['columns'] as $v2){
           $fields .= ",`$v2` ASC";
         }
-        $sql2 = str_replace('[fields]', substr($fields,1), $sql2);
+        $sql2 = wfPhpfunc::str_replace('[fields]', wfPhpfunc::substr($fields,1), $sql2);
         $sql[] = $sql2;
       }
     }
@@ -720,15 +720,15 @@ string;
     /**
      * Replace in SQL string.
      */
-    $sql = str_replace('[fields]', $fields, $sql);
+    $sql = wfPhpfunc::str_replace('[fields]', $fields, $sql);
     if($primary_key){
-      $primary_key = substr($primary_key, 1);
-      $sql = str_replace('[primary_key]', ",PRIMARY KEY ($primary_key)", $sql);
+      $primary_key = wfPhpfunc::substr($primary_key, 1);
+      $sql = wfPhpfunc::str_replace('[primary_key]', ",PRIMARY KEY ($primary_key)", $sql);
     }else{
-      $sql = str_replace('[primary_key]', '', $sql);
+      $sql = wfPhpfunc::str_replace('[primary_key]', '', $sql);
     }
-    $sql = str_replace('[key]', $tkey, $sql);
-    $sql = str_replace('[constraint]', $constraint, $sql);
+    $sql = wfPhpfunc::str_replace('[key]', $tkey, $sql);
+    $sql = wfPhpfunc::str_replace('[constraint]', $constraint, $sql);
     /**
      * 
      */
@@ -1069,7 +1069,7 @@ string;
       $get_fields = $this->getFields();
     }
     foreach ($get_fields->get('schema/field') as $key => $value) {
-      if(substr($key, 0, strlen($table_name)+1)==$table_name.'#'){
+      if(wfPhpfunc::substr($key, 0, wfPhpfunc::strlen($table_name)+1)==$table_name.'#'){
         $exist = $value['check_table_exist'];
         $schema_files_name = $value['schema_files_name'];
         $data[] = $value;
