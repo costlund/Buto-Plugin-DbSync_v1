@@ -16,199 +16,231 @@ content:
           -
             type: span
             innerHTML: rs:schema_files_name
+
+
+
+
+
   -
-    type: div
-    settings:
-      enabled: rs:exist
-    attribute:
-      class: alert alert-info
-    innerHTML:
-      -
-        type: strong
-        innerHTML: Table does exist.
-      -
-        type: p
-        attribute:
-          style: 'text-align:center'
-        innerHTML:
+    type: widget
+    data:
+      plugin: bootstrap/navtabs_v1
+      method: embed
+      data:
+        id: navtabs_table
+        item:
           -
-            type: a
-            attribute:
-              class: btn btn-info
-              onclick: "PluginDbSync_v1.table_drop()"
-            innerHTML: Drop table
-      -
-        type: p
-        innerHTML:
-          -
-            type: strong
-            attribute:
-              class: semicolon
-            innerHTML: Rows
-          -
-            type: span
-            innerHTML: rs:count
-  -
-    type: div
-    settings:
-      disabled: rs:exist
-    attribute:
-      class: alert alert-warning
-    innerHTML:
-      -
-        type: strong
-        innerHTML: Table does NOT exist.
-      -
-        type: p
-        attribute:
-          style: 'text-align:center'
-        innerHTML:
-          -
-            type: a
-            attribute:
-              class: btn btn-warning
-              onclick: "PluginDbSync_v1.table_create()"
-            innerHTML: Create table
-  -
-    type: div
-    attribute:
-      class: alert alert-info
-    innerHTML:
-      -
-        type: div
-        attribute:
-          class: table-responsive
-        innerHTML:
-          -
-            type: table
-            attribute:
-              class: table table-condensed
-              style: 'font-size:smaller'
-              id: table3
-            innerHTML:
+            text: Exist
+            content:
               -
-                type: thead
+                type: div
+                settings:
+                  enabled: rs:exist
                 innerHTML:
                   -
-                    type: tr
+                    type: strong
+                    innerHTML: Table does exist.
+                  -
+                    type: p
+                    attribute:
+                      style: 'text-align:center'
                     innerHTML:
                       -
-                        type: th
-                        innerHTML: Number
+                        type: a
+                        attribute:
+                          class: btn btn-warning
+                          onclick: "PluginDbSync_v1.table_drop()"
+                        innerHTML: Drop table
+                  -
+                    type: p
+                    innerHTML:
                       -
-                        type: th
-                        innerHTML: Field
+                        type: strong
+                        attribute:
+                          class: semicolon
+                        innerHTML: Rows
                       -
-                        type: th
-                        innerHTML: Table exist
-                      -
-                        type: th
-                        innerHTML: Field exist
-                      -
-                        type: th
-                        innerHTML: Attribute match
-                      -
-                        type: th
-                        innerHTML: Foreing key match
-                      -
-                        type: th
-                        innerHTML: Type
-                      -
-                        type: th
-                        innerHTML: Type
-                      -
-                        type: th
-                        innerHTML: Default
-                      -
-                        type: th
-                        innerHTML: Default
-                      -
-                        type: th
-                        innerHTML: Not null
-                      -
-                        type: th
-                        innerHTML: Not null
-                      -
-                        type: th
-                        innerHTML: Primary
-                      -
-                        type: th
-                        innerHTML: Primary
-                      -
-                        type: th
-                        innerHTML: Schema count
+                        type: span
+                        innerHTML: rs:count
               -
-                type: tbody
-                innerHTML: rs:tbody
+                type: div
+                settings:
+                  disabled: rs:exist
+                innerHTML:
+                  -
+                    type: strong
+                    innerHTML: Table does NOT exist.
+                  -
+                    type: p
+                    attribute:
+                      style: 'text-align:center'
+                    innerHTML:
+                      -
+                        type: a
+                        attribute:
+                          class: btn btn-primary
+                          onclick: "PluginDbSync_v1.table_create()"
+                        innerHTML: Create table
           -
-            type: widget
-            data:
-              plugin: datatable/datatable_1_10_18
-              method: run
-              data:
-                id: table3
-                json:
-                  dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>><'row'<'col-sm-12 col-md-6'B>>"
-                  buttons:
-                    - copy
-                    - csv
-                    - excel
-                    - pdf
-                  paging: true
-                  iDisplayLength: 10
-                  ordering: true
-                  info: true
-                  searching: true
-                  order:
-                    -
-                      - 0
-                      - asc
-  -
-    type: div
-    attribute:
-      class: alert alert-info
-    innerHTML:
-      -
-        type: div
-        attribute:
-          class: table-responsive
-        innerHTML:
+            text: Field
+            content:
+              -
+                type: div
+                attribute:
+                  class: table-responsive
+                innerHTML:
+                  -
+                    type: table
+                    attribute:
+                      class: table table-condensed
+                      style: 'font-size:smaller'
+                      id: table3
+                    innerHTML:
+                      -
+                        type: thead
+                        innerHTML:
+                          -
+                            type: tr
+                            innerHTML:
+                              -
+                                type: th
+                                innerHTML: Number
+                              -
+                                type: th
+                                innerHTML: Field
+                              -
+                                type: th
+                                innerHTML: Table exist
+                              -
+                                type: th
+                                innerHTML: Field exist
+                              -
+                                type: th
+                                innerHTML: Attribute match
+                              -
+                                type: th
+                                innerHTML: Foreing key match
+                              -
+                                type: th
+                                innerHTML: Type
+                              -
+                                type: th
+                                innerHTML: Type
+                              -
+                                type: th
+                                innerHTML: Default
+                              -
+                                type: th
+                                innerHTML: Default
+                              -
+                                type: th
+                                innerHTML: Not null
+                              -
+                                type: th
+                                innerHTML: Not null
+                              -
+                                type: th
+                                innerHTML: Primary
+                              -
+                                type: th
+                                innerHTML: Primary
+                              -
+                                type: th
+                                innerHTML: Schema count
+                      -
+                        type: tbody
+                        innerHTML: rs:tbody
+                  -
+                    type: widget
+                    data:
+                      plugin: datatable/datatable_1_10_18
+                      method: run
+                      data:
+                        id: table3
+                        json:
+                          dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>><'row'<'col-sm-12 col-md-6'B>>"
+                          buttons:
+                            - copy
+                            - csv
+                            - excel
+                            - pdf
+                          paging: true
+                          iDisplayLength: 10
+                          ordering: true
+                          info: true
+                          searching: true
+                          order:
+                            -
+                              - 0
+                              - asc
           -
-            type: widget
-            data:
-              plugin: wf/table
-              method: render_many
-              data:
-                style:
-                  table: 'font-size:smaller'
-                rs: rs:foreing_keys
-                datatable:
-                  disabled: false
-  -
-    type: div
-    settings:
-      enabled: rs:exist
-    attribute:
-      class: alert alert-success
-    innerHTML:
-      -
-        type: div
-        attribute:
-          class: table-responsive
-        innerHTML:
+            text: Foreign keys
+            content:
+              -
+                type: div
+                attribute:
+                  class: table-responsive
+                innerHTML:
+                  -
+                    type: widget
+                    data:
+                      plugin: wf/table
+                      method: render_many
+                      data:
+                        style:
+                          table: 'font-size:smaller'
+                        rs: rs:foreing_keys
+                        datatable:
+                          disabled: false
           -
-            type: widget
-            data:
-              plugin: wf/table
-              method: render_many
-              data:
-                style:
-                  table: 'font-size:smaller'
-                rs: rs:rs_select_all
-                datatable:
-                  disabled: false
-
-
-
-
-
+            text: Data
+            content:
+              -
+                type: div
+                settings:
+                  enabled: rs:exist
+                attribute:
+                  class: table-responsive
+                innerHTML:
+                  -
+                    type: widget
+                    data:
+                      plugin: wf/table
+                      method: render_many
+                      data:
+                        style:
+                          table: 'font-size:smaller'
+                        rs: rs:rs_select_all
+                        datatable:
+                          disabled: false
+          -
+            text: Helper
+            content:
+              -
+                type: textarea
+                attribute:
+                  style:
+                    width: 100%
+                    height: 200px
+                innerHTML: helper:insert
+              -
+                type: textarea
+                attribute:
+                  style:
+                    width: 100%
+                    height: 200px
+                innerHTML: helper:select
+              -
+                type: textarea
+                attribute:
+                  style:
+                    width: 100%
+                    height: 200px
+                innerHTML: helper:update
+              -
+                type: textarea
+                attribute:
+                  style:
+                    width: 100%
+                    height: 200px
+                innerHTML: helper:delete

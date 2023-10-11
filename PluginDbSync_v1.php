@@ -738,6 +738,13 @@ string;
    * Page table script.
    */
   public function page_table(){
+    /**
+     * 
+     */
+    wfPlugin::enable('bootstrap/navtabs_v1');
+    /**
+     * 
+     */
     $page = $this->getYml('page/table.yml');
     $table_data = $this->getTable(wfRequest::get('table'));
     if($table_data->get('exist')){
@@ -763,10 +770,97 @@ string;
     $temp = $this->db_foreing_keys($table_data->get('name'));
     $page->setByTag(array('foreing_keys' => $temp->get()));
     /**
+     * helper
+     */
+    $page->setByTag(array(
+      'insert' => $this->helper_insert($table_data), 
+      'select' => $this->helper_select($table_data), 
+      'update' => $this->helper_update($table_data),
+      'delete' => $this->helper_delete($table_data)
+    ), 'helper');
+    /**
      * 
      */
     $page->setByTag($table_data->get());
     wfDocument::mergeLayout($page->get());
+  }
+  private function helper_insert($table_data){
+    $data = ''.$table_data->get('name')."_insert:\n";
+    $data .= "  sql: |\n";
+    $data .= '    insert into '.$table_data->get('name')."(\n";
+    $field = '';
+    foreach($table_data->get('field') as $k => $v){
+      if($k==0){
+        $field .= '    '.$v['schema_field_name']."\n";
+      }else{
+        $field .= '    ,'.$v['schema_field_name']."\n";
+      }
+    }
+    $data .= $field."    ) values (\n";
+    $values = '';
+    foreach($table_data->get('field') as $k => $v){
+      //$values .= '    rs:'.$v['schema_field_name']."\n";
+      if($k==0){
+        $values .= "    ?\n";
+      }else{
+        $values .= "    ,?\n";
+      }
+    }
+    $data .= $values."    );\n";
+    $data .= "  params:\n";
+    foreach($table_data->get('field') as $k => $v){
+      $data .= '    -'."\n";
+      $data .= '      type: '.$v['schema_field_type']."\n";
+      $data .= '      value: rs:'.$v['schema_field_name']."\n";
+    }
+    return $data;
+  }
+  private function helper_select($table_data){
+    $data = ''.$table_data->get('name')."_select:\n";
+    $data .= "  sql: |\n";
+    $data .= '    select '."\n";
+    $field = '';
+    foreach($table_data->get('field') as $k => $v){
+      if($k==0){
+        $field .= '    '.$v['schema_field_name']."\n";
+      }else{
+        $field .= '    ,'.$v['schema_field_name']."\n";
+      }
+    }
+    $data .= $field."    from ".$table_data->get('name')."\n";
+    $data .= "  select:\n";
+    foreach($table_data->get('field') as $k => $v){
+      $data .= '    - '.$v['schema_field_name']."\n";
+    }
+    return $data;
+  }
+  private function helper_update($table_data){
+    $data = ''.$table_data->get('name')."_update:\n";
+    $data .= "  sql: |\n";
+    $data .= '    update '.$table_data->get('name').' set'."\n";
+    $field = '';
+    foreach($table_data->get('field') as $k => $v){
+      if($k==0){
+        $field .= '    '.$v['schema_field_name']."=?\n";
+      }else{
+        $field .= '    ,'.$v['schema_field_name']."=?\n";
+      }
+    }
+    $data .= $field."    where 1=2 \n";
+    $data .= "  params:\n";
+    foreach($table_data->get('field') as $k => $v){
+      $data .= '    -'."\n";
+      $data .= '      type: '.$v['schema_field_type']."\n";
+      $data .= '      value: rs:'.$v['schema_field_name']."\n";
+    }
+    return $data;
+  }
+  private function helper_delete($table_data){
+    $data = ''.$table_data->get('name')."_delete:\n";
+    $data .= "  sql: |\n";
+    $data .= '    delete from '.$table_data->get('name')."\n";
+    $data .= "    where 1=2 \n";
+    return $data;
   }
   public function page_table_create(){
     $sql = $this->db_table_create(wfRequest::get('table'));
