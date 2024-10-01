@@ -197,5 +197,14 @@ function PluginDbSync_v1(){
       PluginWfBootstrapjs.modal({id: 'modal_form_delete', url:'form_delete/row_id/'+data.data.row_id+'/table/'+data.data.table+'/id/'+data.data.id, lable: 'Delete', size: 'sm', 'fade': false});
     }
   }
+  this.form_foreing_key_data = null;
+  this.form_foreing_key = function(data){
+    this.form_foreing_key_data = data;
+    PluginWfBootstrapjs.modal({id: 'modal_form_foreing_key', url:'form_foreing_key/table/'+data.reference_table+'/id/'+data.id, lable: 'Table: '+data.reference_table, size: 'lg'});
+  }
+  this.form_foreing_key_row = function(data){
+    $('#modal_form_foreing_key').modal('hide');
+    document.getElementById(PluginDbSync_v1.form_foreing_key_data.element_id).value = data.id;
+  }
 }
 var PluginDbSync_v1 = new PluginDbSync_v1();

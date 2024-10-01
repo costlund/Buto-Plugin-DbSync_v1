@@ -1,0 +1,22 @@
+-
+  type: widget
+  data:
+    plugin: wf/table
+    method: render_many
+    data:
+      id: dt_form_foreing_key
+      class:
+        table: table-sm table-striped
+      field: rs:field
+      datatable:
+        ajax: /dbsync/form_foreing_key_data/id/[id]/table/[table]
+        order:
+          -
+            - 0
+            - asc
+-
+  type: script
+  innerHTML: |
+    $('#dt_form_foreing_key tbody').on( 'click', 'tr', function () {
+        PluginDbSync_v1.form_foreing_key_row( datatable_dt_form_foreing_key.row( this ).data() );
+    } );

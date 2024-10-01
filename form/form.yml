@@ -3,6 +3,7 @@ ajax: true
 submit_value: Save
 id: frm_row
 autocomplete: off
+focus_first_element: false
 items:
   zzz:
     type: date

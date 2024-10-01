@@ -1362,7 +1362,14 @@ string;
       /**
        * label
        */
-      $j->set('label', $i->get('schema_field_name').' ('.$i->get('schema_field_type').')');
+      $label = $i->get('schema_field_name').' ('.$i->get('schema_field_type').')';
+      if($i->get('schema_field_foreing_key')){
+        $i->set('schema_field_foreing_key/id', wfRequest::get('id'));
+        $i->set('schema_field_foreing_key/element_id', 'frm_row_'.$i->get('schema_field_name'));
+        $json = json_encode($i->get('schema_field_foreing_key'));
+        $label .= " <a href='#' onclick='PluginDbSync_v1.form_foreing_key($json)'>".$i->get('schema_field_foreing_key/reference_table')."</a>";
+      }
+      $j->set('label', $label);
       /**
        * placeholder
        */
@@ -1442,5 +1449,32 @@ string;
      * 
      */
     wfDocument::renderElementFromFolder(__DIR__, __FUNCTION__);
+  }
+  public function page_form_foreing_key(){
+    $table_data = $this->getTable(wfRequest::get('table'));
+    /**
+     * field
+     */
+    $field = array();
+    foreach($table_data->get('field') as $k => $v){
+      $field[$v['schema_field_name']] = $v['schema_field_name'];
+    }
+    /**
+     * 
+     */
+    $element = wfDocument::getElementFromFolder(__DIR__, __FUNCTION__);
+    $element->setByTag(array('field' => $field));
+    wfDocument::renderElement($element);
+  }
+  public function page_form_foreing_key_data(){
+    $table_data = $this->getTable(wfRequest::get('table'));
+    $rs_temp = $this->runSQL("select * from ".$table_data->get('name')."");
+    $rs = array();
+    foreach($rs_temp->get() as $k => $v){
+      $rs[] = $v;
+    }
+    wfPlugin::includeonce('datatable/datatable_1_10_18');
+    $datatable = new PluginDatatableDatatable_1_10_18();
+    exit($datatable->set_table_data($rs));
   }
 }

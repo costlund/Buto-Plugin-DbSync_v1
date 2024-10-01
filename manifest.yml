@@ -1,5 +1,9 @@
-version: 1.27.0
+version: 1.28.0
 history:
+  1.28.0:
+    date: '2024-10-01'
+    title: Form
+    description: 'Add button to open model with foreing table data for selecting of id.'
   1.27.0:
     date: '2024-09-30'
     title: Form
