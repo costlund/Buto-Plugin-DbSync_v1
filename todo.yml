@@ -1,6 +1,0 @@
-issues:
-  -
-    date: '2019-02-05'
-    description: When create tables only one primary key is set. Cause problem with plugin wshop/product_v1.
-      
-  

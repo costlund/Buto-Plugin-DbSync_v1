@@ -746,9 +746,21 @@ string;
      * 
      */
     $page = $this->getYml('page/table.yml');
+    $page->setByTag(wfRequest::getAll(), 'get');
     $table_data = $this->getTable(wfRequest::get('table'));
     if($table_data->get('exist')){
       $rs = $this->db_table_select_all($table_data->get('name'));
+      /**
+       * 
+       */
+      foreach($rs->get() as $k => $v){
+        if($rs->get("$k/id")){
+          $rs->set("$k/row_click", "PluginDbSync_v1.form({row_id: '".$rs->get("$k/id")."', table: '".$table_data->get('name')."', id: '".wfRequest::get('id')."'})");
+        }
+      }
+      /**
+       * 
+       */
       $page->setByTag(array('rs_select_all' => $rs->get()));
       $table_data->set('count', $this->db_table_count($table_data->get('name')));
     }else{
@@ -1222,6 +1234,12 @@ string;
     $test = $mysql->runSql($sql, $key_field);
     return new PluginWfArray($test['data']);
   }
+  private function executeSQL($sql){
+    wfPlugin::includeonce('wf/mysql');
+    $mysql = new PluginWfMysql();
+    $mysql->open($this->db->get('mysql'));
+    $test = $mysql->execute($sql);
+  }
   public function page_plugin_mail_queue_admin(){
     $page = $this->getYml('page/plugin_mail_queue_admin.yml');
     $schema = $this->getFields();
@@ -1237,5 +1255,192 @@ string;
   public function page_manage(){
     $element = new PluginWfYml(__DIR__.'/page/manage.yml');
     wfDocument::renderElement($element);
+  }
+  public function page_form(){
+    $element = wfDocument::getElementFromFolder(__DIR__, __FUNCTION__);
+    $element->setByTag(array('form' => $this->form_build()->get()));
+    wfDocument::renderElement($element);
+  }
+  public function page_form_capture(){
+    $element = wfDocument::getElementFromFolder(__DIR__, __FUNCTION__);
+    $element->setByTag(array('form' => $this->form_build()->get()));
+    wfDocument::renderElement($element);
+  }
+  public function form_capture($form){
+    /**¨
+     * 
+     */
+    $table_data = $this->getTable(wfRequest::get('table'));
+    /**
+     * insert
+     */
+    if(wfRequest::get('_new')=='Yes'){
+      /**
+       * 
+       */
+      $db_form_capture_insert = new PluginWfYml(__DIR__.'/mysql/sql.yml', 'db_form_capture_insert');
+      /**
+       * table
+       */
+      $db_form_capture_insert->set('sql', str_replace('[table]', $table_data->get('name'), $db_form_capture_insert->get('sql')));
+      $db_form_capture_insert->setByTag(wfRequest::getAll());
+      /**
+       * execute
+       */
+      $this->executeSQL($db_form_capture_insert->get());
+    }
+    /**
+     * update
+     */
+    $db_form_capture_update = new PluginWfYml(__DIR__.'/mysql/sql.yml', 'db_form_capture_update');
+    $params = array();
+    $fields = '';
+    /**
+     * table
+     */
+    $db_form_capture_update->set('sql', str_replace('[table]', $table_data->get('name'), $db_form_capture_update->get('sql')));
+    /**
+     * field, params
+     */
+    foreach($table_data->get('field') as $k => $v){
+      $i = new PluginWfArray($v);
+      if($v['schema_field_name']=='id'){
+        continue;
+      }
+      if(in_array($i->get('schema_field_name'), array('created_by', 'created_at', 'updated_by', 'updated_at'))){
+        continue; 
+      }
+      $type = 's';
+      if(substr($i->get('schema_field_type'), 0, 7)=='tinyint'){
+        $type = 'i';
+      }
+      $fields .= ','.$i->get('schema_field_name')."=?\n";
+      $params[] = array('type' => $type, 'value' => wfRequest::get($i->get('schema_field_name')), 'name' => $i->get('schema_field_name'));
+    }
+    $db_form_capture_update->set('sql', str_replace('[fields]', substr($fields, 1), $db_form_capture_update->get('sql')));
+    $params[] = array('type' => 's', 'value' => wfRequest::get('row_id'));
+    $db_form_capture_update->setByTag(array('params' => $params));
+    /**
+     * 
+     */
+    $this->executeSQL($db_form_capture_update->get());
+    /**
+     * 
+     */
+    $json = json_encode(wfRequest::getAll());
+    return array("PluginDbSync_v1.form_capture($json)");
+  }
+  private function form_build(){ //$form, $table_data
+    $table_data = $this->getTable(wfRequest::get('table'));
+    $form = new PluginWfYml('/plugin/db/sync_v1/form/form.yml');
+    $items = array();
+    /**
+     * 
+     */
+    foreach($table_data->get('field') as $k => $v){
+      $i = new PluginWfArray($v);
+      if(in_array($i->get('schema_field_name'), array('created_by', 'created_at', 'updated_by', 'updated_at'))){
+        continue; 
+      }
+      $j = new PluginWfArray();
+      /**
+       * type
+       */
+      if(substr($i->get('schema_field_type'), 0, 7)=='varchar'){
+        $j->set('type', 'varchar');
+      }elseif(substr($i->get('schema_field_type'), 0, 7)=='tinyint'){
+        $j->set('type', 'varchar');
+      }elseif(substr($i->get('schema_field_type'), 0, 7)=='text'){
+        $j->set('type', 'text');
+      }else{
+        $j->set('type', 'varchar');
+      }
+      /**
+       * default
+       */
+      $j->set('default', 'rs:'.$i->get('schema_field_name'));
+      /**
+       * label
+       */
+      $j->set('label', $i->get('schema_field_name').' ('.$i->get('schema_field_type').')');
+      /**
+       * placeholder
+       */
+      if(substr($i->get('schema_field_type'), 0, 7)=='varchar'){
+        $j->set('placeholder', 'Text (1-'. substr($i->get('schema_field_type'), 8) .'');
+      }
+      if(substr($i->get('schema_field_type'), 0, 7)=='tinyint'){
+        $j->set('placeholder', '0');
+      }
+      /**
+       * rename id to row_id
+       */
+      if($i->get('schema_field_name')=='id'){
+        $i->set('schema_field_name', 'row_id');
+      }
+      /**
+       * 
+       */
+      $items[$i->get('schema_field_name')] = $j->get(); 
+    }
+    /**
+     * 
+     */
+    $j = new PluginWfArray();
+    $j->set('type', 'hidden');
+    $j->set('label', 'id (for db)');
+    $j->set('default', wfRequest::get('id'));
+    $j->set('mandatory', true);
+    $items['id'] = $j->get();
+    $j = new PluginWfArray();
+    $j->set('type', 'hidden');
+    $j->set('label', 'table (for db)');
+    $j->set('default', wfRequest::get('table'));
+    $j->set('mandatory', true);
+    $items['table'] = $j->get();
+    $j = new PluginWfArray();
+    $j->set('type', 'hidden');
+    $j->set('label', 'new (for db)');
+    $j->set('default', 'No');
+    $j->set('mandatory', true);
+    $items['_new'] = $j->get();
+    /**
+     * 
+     */
+    $form->set('items', $items);
+    /**
+     * row_id
+     */
+    if(wfRequest::get('row_id')!='__add__'){
+      $rs = $this->runSQL("select * from ".$table_data->get('name')." where id='".wfRequest::get('row_id')."';");
+      $form->setByTag($rs->get(wfRequest::get('row_id')));
+      $form->setByTag(array('new' => false), 'form');
+    }else{
+      $form->set('items/row_id/default', wfCrypt::getUid());
+      $form->set('items/_new/default', 'Yes');
+      $form->setByTag(wfRequest::getAll(), 'rs', true);
+      $form->setByTag(array('new' => true), 'form');
+    }
+    /**
+     * 
+     */
+    return $form;
+  }
+  public function page_form_delete(){
+    /**¨
+     * 
+     */
+    $table_data = $this->getTable(wfRequest::get('table'));
+    $db_form_delete = new PluginWfYml(__DIR__.'/mysql/sql.yml', 'db_form_delete');
+    $db_form_delete->set('sql', str_replace('[table]', $table_data->get('name'), $db_form_delete->get('sql')));
+    $db_form_delete->setByTag(wfRequest::getAll());
+    /**
+     * execute
+     */
+    $this->executeSQL($db_form_delete->get());
+    /**
+     * 
+     */
+    wfDocument::renderElementFromFolder(__DIR__, __FUNCTION__);
   }
 }

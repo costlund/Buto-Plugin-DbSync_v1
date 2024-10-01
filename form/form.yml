@@ -1,0 +1,38 @@
+url: form_capture
+ajax: true
+submit_value: Save
+id: frm_row
+autocomplete: off
+items:
+  zzz:
+    type: date
+    label: Zzz
+    mandatory: true
+capture:
+  plugin: db/sync_v1
+  method: form_capture
+elements_before:
+  -
+    type: div
+    settings:
+      enabled: form:new
+    attribute:
+      class: alert alert-success
+    innerHTML: New post!
+elements_after:
+  -
+    type: div
+    settings:
+      disabled: form:new
+    attribute: 
+      class: alert alert-info
+    innerHTML:
+      -
+        type: a
+        attribute: 
+          class: btn btn-secondary
+          data-row_id: get:row_id
+          data-table: get:table
+          data-id: get:id
+          onclick: "PluginDbSync_v1.form_delete({row_id: this.getAttribute('data-row_id'), table: this.getAttribute('data-table'), id: this.getAttribute('data-id')})"
+        innerHTML: Delete

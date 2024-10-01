@@ -1,0 +1,24 @@
+db_form_capture_update:
+  sql: |
+    update [table] set
+    [fields]
+    where id=?
+  params: rs:params
+db_form_capture_insert:
+  sql: |
+    insert into [table] 
+    (id)
+    values
+    (?)
+  params:
+    -
+      type: s
+      value: rs:row_id
+db_form_delete:
+  sql: |
+    delete from [table] 
+    where id=?
+  params:
+    -
+      type: s
+      value: rs:row_id

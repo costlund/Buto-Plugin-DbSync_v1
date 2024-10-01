@@ -1,0 +1,6 @@
+-
+  type: widget
+  data:
+    plugin: 'form/form_v1'
+    method: render
+    data: rs:form

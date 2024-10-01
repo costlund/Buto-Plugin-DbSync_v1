@@ -1,5 +1,9 @@
-version: 1.26.0
+version: 1.27.0
 history:
+  1.27.0:
+    date: '2024-09-30'
+    title: Form
+    description: 'Add form to update, add, delete if field id exist in current table.'
   1.26.0:
     date: '2023-10-09'
     title: Tabs and Helper

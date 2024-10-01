@@ -196,6 +196,19 @@ content:
             text: Data
             content:
               -
+                type: p
+                settings:
+                  enabled: rs:exist
+                innerHTML: 
+                  -
+                    type: a
+                    attribute: 
+                      class: btn btn-primary
+                      data-id: get:id
+                      data-table: get:table
+                      onclick: "PluginDbSync_v1.form({row_id: '__add__', table: this.getAttribute('data-table'), id: this.getAttribute('data-id')})"
+                    innerHTML: Add
+              -
                 type: div
                 settings:
                   enabled: rs:exist

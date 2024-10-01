@@ -1,0 +1,11 @@
+-
+  type: div
+  attribute: 
+    class: alert alert-success
+  innerHTML: Delete...
+-
+  type: script
+  innerHTML: $('#modal_form_delete').modal('hide')
+-
+  type: script
+  innerHTML: $('#modal_form').modal('hide')

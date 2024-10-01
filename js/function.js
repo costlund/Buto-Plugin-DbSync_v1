@@ -178,5 +178,24 @@ function PluginDbSync_v1(){
   this.dbs_action = function (data){
     PluginWfBootstrapjs.modal({id: 'modal_dbs_action', url:'dbs_action?id='+data.data_key, lable: 'Action'});
   }
+  this.form = function(data){
+    PluginWfBootstrapjs.modal({id: 'modal_form', url:'form/row_id/'+data.row_id+'/table/'+data.table+'/id/'+data.id, lable: 'Form', size: 'lg'});
+  }
+  this.form_capture = function(data){
+    if(data._new=='No'){
+      PluginWfAjax.update('modal_form_body');
+    }else{
+      PluginWfAjax.load('modal_form_body', 'form/row_id/'+data.row_id+'/table/'+data.table+'/id/'+data.id);
+    }
+  }
+  this.form_delete = function(data){
+    PluginWfBootstrapjs.confirm({content: 'Are you sure to delete?', method: function(){PluginDbSync_v1.form_delete_confirmed();}, data: data });    
+  }
+  this.form_delete_confirmed = function(){
+    var data = PluginWfBootstrapjs.confirm_data;
+    if(data.ok){
+      PluginWfBootstrapjs.modal({id: 'modal_form_delete', url:'form_delete/row_id/'+data.data.row_id+'/table/'+data.data.table+'/id/'+data.data.id, lable: 'Delete', size: 'sm', 'fade': false});
+    }
+  }
 }
 var PluginDbSync_v1 = new PluginDbSync_v1();
