@@ -183,7 +183,7 @@ function PluginDbSync_v1(){
   }
   this.form_capture = function(data){
     if(data._new=='No'){
-      PluginWfAjax.update('modal_form_body');
+      PluginWfAjax.load('modal_form_body', 'form/row_id/'+data.row_id+'/table/'+data.table+'/id/'+data.id);
     }else{
       PluginWfAjax.load('modal_form_body', 'form/row_id/'+data.row_id+'/table/'+data.table+'/id/'+data.id);
     }

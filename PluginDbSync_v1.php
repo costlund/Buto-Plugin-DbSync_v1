@@ -1288,13 +1288,18 @@ string;
        * execute
        */
       $this->executeSQL($db_form_capture_insert->get());
+      /**
+       * 
+       */
+      wfRequest::set('original_id', wfRequest::get('row_id'));
     }
     /**
      * update
      */
     $db_form_capture_update = new PluginWfYml(__DIR__.'/mysql/sql.yml', 'db_form_capture_update');
     $params = array();
-    $fields = '';
+    $params[] = array('type' => 's', 'value' => wfRequest::get('row_id'));
+    $fields = ",id=?\n";
     /**
      * table
      */
@@ -1318,7 +1323,7 @@ string;
       $params[] = array('type' => $type, 'value' => wfRequest::get($i->get('schema_field_name')), 'name' => $i->get('schema_field_name'));
     }
     $db_form_capture_update->set('sql', str_replace('[fields]', substr($fields, 1), $db_form_capture_update->get('sql')));
-    $params[] = array('type' => 's', 'value' => wfRequest::get('row_id'));
+    $params[] = array('type' => 's', 'value' => wfRequest::get('original_id'));
     $db_form_capture_update->setByTag(array('params' => $params));
     /**
      * 
@@ -1393,6 +1398,12 @@ string;
     /**
      * 
      */
+    $j = new PluginWfArray();
+    $j->set('type', 'hidden');
+    $j->set('label', 'original_id (for db)');
+    $j->set('default', wfRequest::get('row_id'));
+    $j->set('mandatory', false);
+    $items['original_id'] = $j->get();
     $j = new PluginWfArray();
     $j->set('type', 'hidden');
     $j->set('label', 'id (for db)');
