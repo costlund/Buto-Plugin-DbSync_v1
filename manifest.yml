@@ -1,5 +1,9 @@
-version: 1.28.1
+version: 1.28.2
 history:
+  1.28.2:
+    date: '2024-10-24'
+    title: Add copy
+    description: 'Add copy of last saved data.'
   1.28.1:
     date: '2024-10-04'
     title: Form

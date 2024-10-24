@@ -179,7 +179,7 @@ function PluginDbSync_v1(){
     PluginWfBootstrapjs.modal({id: 'modal_dbs_action', url:'dbs_action?id='+data.data_key, lable: 'Action'});
   }
   this.form = function(data){
-    PluginWfBootstrapjs.modal({id: 'modal_form', url:'form/row_id/'+data.row_id+'/table/'+data.table+'/id/'+data.id, lable: 'Form', size: 'lg'});
+    PluginWfBootstrapjs.modal({id: 'modal_form', url:'form/row_id/'+data.row_id+'/table/'+data.table+'/id/'+data.id+'/copy/'+data.copy, lable: 'Form', size: 'lg'});
   }
   this.form_capture = function(data){
     if(data._new=='No'){

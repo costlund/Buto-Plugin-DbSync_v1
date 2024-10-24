@@ -1267,6 +1267,10 @@ string;
     wfDocument::renderElement($element);
   }
   public function form_capture($form){
+    /**
+     * 
+     */
+    wfUser::setSession('plugin/db/sync/form_capture', wfRequest::getAll());
     /**¨
      * 
      */
@@ -1335,7 +1339,7 @@ string;
     $json = json_encode(wfRequest::getAll());
     return array("PluginDbSync_v1.form_capture($json)");
   }
-  private function form_build(){ //$form, $table_data
+  private function form_build(){
     $table_data = $this->getTable(wfRequest::get('table'));
     $form = new PluginWfYml('/plugin/db/sync_v1/form/form.yml');
     $items = array();
@@ -1398,26 +1402,27 @@ string;
     /**
      * 
      */
+    $type = 'hidden';
     $j = new PluginWfArray();
-    $j->set('type', 'hidden');
+    $j->set('type', $type);
     $j->set('label', 'original_id (for db)');
     $j->set('default', wfRequest::get('row_id'));
     $j->set('mandatory', false);
     $items['original_id'] = $j->get();
     $j = new PluginWfArray();
-    $j->set('type', 'hidden');
+    $j->set('type', $type);
     $j->set('label', 'id (for db)');
     $j->set('default', wfRequest::get('id'));
     $j->set('mandatory', true);
     $items['id'] = $j->get();
     $j = new PluginWfArray();
-    $j->set('type', 'hidden');
+    $j->set('type', $type);
     $j->set('label', 'table (for db)');
     $j->set('default', wfRequest::get('table'));
     $j->set('mandatory', true);
     $items['table'] = $j->get();
     $j = new PluginWfArray();
-    $j->set('type', 'hidden');
+    $j->set('type', $type);
     $j->set('label', 'new (for db)');
     $j->set('default', 'No');
     $j->set('mandatory', true);
@@ -1436,7 +1441,11 @@ string;
     }else{
       $form->set('items/row_id/default', wfCrypt::getUid());
       $form->set('items/_new/default', 'Yes');
-      $form->setByTag(wfRequest::getAll(), 'rs', true);
+      if(wfRequest::get('copy')=='no'){
+        $form->setByTag(wfRequest::getAll(), 'rs', true);
+      }else{
+        $form->setByTag(wfUser::getSession()->get('plugin/db/sync/form_capture'), 'rs');
+      }
       $form->setByTag(array('new' => true), 'form');
     }
     /**

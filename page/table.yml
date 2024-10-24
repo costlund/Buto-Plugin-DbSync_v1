@@ -206,8 +206,16 @@ content:
                       class: btn btn-primary
                       data-id: get:id
                       data-table: get:table
-                      onclick: "PluginDbSync_v1.form({row_id: '__add__', table: this.getAttribute('data-table'), id: this.getAttribute('data-id')})"
+                      onclick: "PluginDbSync_v1.form({row_id: '__add__', table: this.getAttribute('data-table'), id: this.getAttribute('data-id'), copy: 'no'})"
                     innerHTML: Add
+                  -
+                    type: a
+                    attribute: 
+                      class: btn btn-secondary
+                      data-id: get:id
+                      data-table: get:table
+                      onclick: "PluginDbSync_v1.form({row_id: '__add__', table: this.getAttribute('data-table'), id: this.getAttribute('data-id'), copy: 'yes'})"
+                    innerHTML: Add copy
               -
                 type: div
                 settings:
