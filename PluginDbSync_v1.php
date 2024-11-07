@@ -760,9 +760,7 @@ string;
        * 
        */
       foreach($rs->get() as $k => $v){
-        if($rs->get("$k/id")){
-          $rs->set("$k/row_click", "PluginDbSync_v1.form({row_id: '".$rs->get("$k/id")."', table: '".$table_data->get('name')."', id: '".wfRequest::get('id')."'})");
-        }
+        $rs->set("$k/row_click", "PluginDbSync_v1.form({row_id: '".$rs->get("$k/id")."', table: '".$table_data->get('name')."', id: '".wfRequest::get('id')."'})");
       }
       /**
        * 

@@ -1,5 +1,9 @@
-version: 1.28.3
+version: 1.28.4
 history:
+  1.28.4:
+    date: '2024-11-07'
+    title: Form
+    description: 'Add alert. Could not edit due to lack of id field!'
   1.28.3:
     date: '2024-11-07'
     title: Schema
