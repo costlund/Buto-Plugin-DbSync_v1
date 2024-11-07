@@ -1,5 +1,9 @@
-version: 1.28.2
+version: 1.28.3
 history:
+  1.28.3:
+    date: '2024-11-07'
+    title: Schema
+    description: 'Handle if param schema is not set.'
   1.28.2:
     date: '2024-10-24'
     title: Add copy

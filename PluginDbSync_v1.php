@@ -74,8 +74,10 @@ class PluginDbSync_v1{
        */
       foreach ($this->settings->get('item') as $key => $value) {
         $str = null;
-        foreach ($value['schema'] as $key2 => $value2) {
-          $str .= ', '.$value2;
+        if(isset($value['schema']) && $value['schema']){
+          foreach ($value['schema'] as $key2 => $value2) {
+            $str .= ', '.$value2;
+          }
         }
         $str = wfPhpfunc::substr($str, 2);
         $this->settings->set("item/$key/schema_text", $str);
@@ -86,11 +88,13 @@ class PluginDbSync_v1{
       foreach ($this->settings->get('item') as $key => $value) {
         $this->settings->set("item/$key/plugin_mail_queue_admin", false);
         $this->settings->set("item/$key/plugin_mail_queue_admin_text", '');
-        foreach ($value['schema'] as $key2 => $value2) {
-          if($value2=='/plugin/mail/queue/mysql/schema.yml'){
-            $this->settings->set("item/$key/plugin_mail_queue_admin", true);
-            $this->settings->set("item/$key/plugin_mail_queue_admin_text", 'Yes');
-            break;
+        if(isset($value['schema']) && $value['schema']){
+          foreach ($value['schema'] as $key2 => $value2) {
+            if($value2=='/plugin/mail/queue/mysql/schema.yml'){
+              $this->settings->set("item/$key/plugin_mail_queue_admin", true);
+              $this->settings->set("item/$key/plugin_mail_queue_admin_text", 'Yes');
+              break;
+            }
           }
         }
       }
@@ -100,11 +104,13 @@ class PluginDbSync_v1{
       foreach ($this->settings->get('item') as $key => $value) {
         $this->settings->set("item/$key/plugin_account_admin_v1", false);
         $this->settings->set("item/$key/plugin_account_admin_v1_text", '');
-        foreach ($value['schema'] as $key2 => $value2) {
-          if($value2=='/plugin/wf/account2/mysql/schema.yml'){
-            $this->settings->set("item/$key/plugin_account_admin_v1", true);
-            $this->settings->set("item/$key/plugin_account_admin_v1_text", 'Yes');
-            break;
+        if(isset($value['schema']) && $value['schema']){
+          foreach ($value['schema'] as $key2 => $value2) {
+            if($value2=='/plugin/wf/account2/mysql/schema.yml'){
+              $this->settings->set("item/$key/plugin_account_admin_v1", true);
+              $this->settings->set("item/$key/plugin_account_admin_v1_text", 'Yes');
+              break;
+            }
           }
         }
       }
