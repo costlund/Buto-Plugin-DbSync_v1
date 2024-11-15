@@ -1,0 +1,277 @@
+readme:
+  name: Buto-Plugin-DbSync_v1
+  date: '2024-11-15'
+  description: |
+    Plugin to sync multiple databases against multiple schema files. Webmaster protected. 
+    One could set param settings/security to false to temporary disable security.
+    - Sync schema files agains database.
+    - Show map with lines between relationships.
+    - Generate schema yml file content from database.
+    - Generate create script.
+    - Generate data export.
+  item:
+    -
+      name: Settings
+      description: |
+        - Url in this case: "/dbsync/start". 
+        - One could set "item: yml:/pat/to_file/file.yml".
+      item:
+        -
+          name: Theme
+          description: |
+            ```
+            plugin_modules:
+              dbsync:
+                plugin: 'db/sync_v1'
+                settings:
+                  security: true
+                  admin_layout: _path_to_admin_layout_(optional)
+                  item:
+                    _any_key_:
+                      name: My database
+                      mysql: _mysql_settings_
+                      schema:
+                        - _multiple_schema_files_
+            ```
+            String to yml.
+            ```
+            plugin_modules:
+              dbsync:
+                plugin: 'db/sync_v1'
+                settings:
+                  item: 'yml:/../buto_data/theme/[theme]/_db_sync_v1_items.yml'
+            ```
+        -
+          name: File
+          description: |
+            YML file (_db_sync_v1_items.yml).
+            ```
+            item:
+              -
+                name: Web server
+                mysql: 'yml:/../buto_data/mysql.yml'
+                schema:
+                  - /plugin/_my_/_schema_/schema.yml
+            ```
+            YML file using schema param (_db_sync_v1_items.yml).
+            ```
+            schema:
+              _web_server_:
+                - /plugin/_my_/_schema_/schema.yml
+            item:
+              -
+                name: Web server
+                mysql: 'yml:/../buto_data/mysql.yml'
+                schema: _web_server_
+            ```
+    -
+      name: Usage
+      item:
+        -
+          name: Map view
+          description: |
+            On map view one could draw lines between relationships, edit table and field description.
+        -
+          name: Plugin mail/queue_admin
+          description: |
+            If schema file exist a button to use this plugin is visible.
+        -
+          name: Index
+          description: |
+            By using the index param it is possible to add index.
+            ```
+            tables:
+              my_table:
+                index:
+                  my_name_of_index:
+                    columns:
+                      - parent_id
+                      - year
+                      - month
+            ```
+        -
+          name: Schema file
+          description: |
+            ```
+            tables:
+              account:
+                description: Optional
+                field:
+                  id:
+                    type: varchar(50)
+                    not_null: true
+                    primary_key: true
+                  username:
+                    type: varchar(50)
+                  activated:
+                    type: int(11)
+                  activate_date:
+                    type: datetime
+              account_log:
+                field:
+                  id:
+                    type: int(16)
+                    not_null: true
+                    auto_increment: true
+                    primary_key: true
+                  account_id:
+                    type: varchar(50)
+                    foreing_key:
+                      reference_table: account
+                      reference_field: id (Optional/Defalut)
+                      on_delete: CASCADE (Optional/Defalut)
+                      on_update: CASCADE (Optional/Defalut)
+                  date:
+                    type: datetime
+            ```
+            Extra field to add to each table if not exist in schema.
+            ```
+            extra:
+              field:
+                created_at:
+                  type: timestamp
+                  default: CURRENT_TIMESTAMP
+                updated_at:
+                  type: timestamp
+                created_by:
+                  type: varchar(50)
+                updated_by:
+                  type: varchar(50)
+            ```
+    -
+      name: Pages
+      item:
+        -
+          name: page_data_export
+        -
+          name: page_db
+        -
+          name: page_dbs
+        -
+          name: page_dbs_action
+        -
+          name: page_dbs_data
+        -
+          name: page_execute_capture
+        -
+          name: page_field
+        -
+          name: page_field_create
+        -
+          name: page_field_create_foreing_key
+        -
+          name: page_field_description_capture
+        -
+          name: page_field_description_form
+        -
+          name: page_field_update_foreing_key
+        -
+          name: page_form
+        -
+          name: page_form_capture
+        -
+          name: page_form_delete
+        -
+          name: page_form_foreing_key
+        -
+          name: page_form_foreing_key_data
+        -
+          name: page_manage
+        -
+          name: page_map
+        -
+          name: page_plugin_account_admin_v1
+        -
+          name: page_plugin_mail_queue_admin
+        -
+          name: page_schema_generator
+        -
+          name: page_script_generator
+        -
+          name: page_script_generator_run
+        -
+          name: page_start
+        -
+          name: page_table
+        -
+          name: page_table_create
+        -
+          name: page_table_description_capture
+        -
+          name: page_table_description_form
+        -
+          name: page_table_drop
+    -
+      name: Widgets
+      item: {  }
+    -
+      name: Event
+      item: {  }
+    -
+      name: Construct
+      item:
+        -
+          name: __construct
+    -
+      name: Methods
+      item:
+        -
+          name: capture_table_description
+        -
+          name: capture_field_description
+        -
+          name: db_table_create
+        -
+          name: db_field_create
+        -
+          name: db_field_create_foreing_key
+        -
+          name: db_field_update_foreing_key
+        -
+          name: db_table_drop
+        -
+          name: db_table_count
+        -
+          name: db_table_select_all
+        -
+          name: db_foreing_keys
+        -
+          name: db_create_field_script
+        -
+          name: db_create_table_index_script
+        -
+          name: db_create_table_script
+        -
+          name: helper_insert
+        -
+          name: helper_select
+        -
+          name: helper_update
+        -
+          name: helper_delete
+        -
+          name: getForeingKey
+        -
+          name: generateSchema
+        -
+          name: getFields
+        -
+          name: getTable
+        -
+          name: getField
+        -
+          name: check_table_exist
+        -
+          name: check_field_exist
+        -
+          name: get_field_attribute
+        -
+          name: getYml
+        -
+          name: runSQL
+        -
+          name: executeSQL
+        -
+          name: form_capture
+        -
+          name: form_build

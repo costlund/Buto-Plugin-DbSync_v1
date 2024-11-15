@@ -1,5 +1,9 @@
-version: 1.28.4
+version: 1.28.5
 history:
+  1.28.5:
+    date: '2024-11-15'
+    title: Foreing key
+    description: 'If foreing_key is set and reference_field, on_delete, on_update is not set we add id, CASCADE, CASCADE. Readme improvements.'
   1.28.4:
     date: '2024-11-07'
     title: Form

@@ -969,6 +969,23 @@ string;
         $table->set("$key2/file", $value);
         foreach ($value2['field'] as $key3 => $value3) {
           $item3 = new PluginWfArray($value3);
+          /**
+           * 
+           */
+          if($item3->get('foreing_key')){
+            if(!$item3->get('foreing_key/reference_field')){
+              $item3->set('foreing_key/reference_field', 'id');
+            }
+            if(!$item3->get('foreing_key/on_delete')){
+              $item3->set('foreing_key/on_delete', 'CASCADE');
+            }
+            if(!$item3->get('foreing_key/on_update')){
+              $item3->set('foreing_key/on_update', 'CASCADE');
+            }
+          }
+          /**
+           * 
+           */
           $i++;
           $field->set($key2."#".$key3."/number", $i);
           $field->set($key2."#".$key3."/description", $item3->get('description'));
