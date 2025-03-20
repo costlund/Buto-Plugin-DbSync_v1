@@ -1,0 +1,28 @@
+-
+  type: p
+  innerHTML:
+    - 
+      type: strong
+      attribute:
+        class: content-colon
+      innerHTML: Name
+    - 
+      type: span
+      innerHTML: rs:name 
+-
+  type: widget
+  data:
+    plugin: wf/table
+    method: render_many
+    data:
+      id: _my_table_id_
+      class:
+        table: table-sm table-striped
+      field: table:select
+      datatable:
+        ajax: /dbsync/query_view_data/query_id/[query_id]/id/[id]
+        onclick: console.log
+        order:
+          -
+            - 0
+            - asc

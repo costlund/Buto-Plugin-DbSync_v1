@@ -1,5 +1,9 @@
-version: 1.28.5
+version: 1.29.0
 history:
+  1.29.0:
+    date: '2025-03-20'
+    title: Queries
+    description: 'Add Queries.'
   1.28.5:
     date: '2024-11-15'
     title: Foreing key

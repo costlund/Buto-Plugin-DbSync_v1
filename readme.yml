@@ -64,6 +64,20 @@ readme:
                 mysql: 'yml:/../buto_data/mysql.yml'
                 schema: _web_server_
             ```
+            Queries
+            ```
+            item:
+              -
+                queries:
+                  -
+                    name: Account
+                    sql: |
+                      select id, username
+                      from account
+                    select:
+                      - id
+                      - username
+            ```
     -
       name: Usage
       item:

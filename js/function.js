@@ -210,5 +210,8 @@ function PluginDbSync_v1(){
     $('#modal_form_foreing_key').modal('hide');
     document.getElementById(PluginDbSync_v1.form_foreing_key_data.element_id).value = data.id;
   }
+  this.query_view = function(btn){
+    PluginWfBootstrapjs.modal({id: 'modal_query_view', url:'query_view/query_id/'+btn.getAttribute('data-key')+'/id/'+btn.getAttribute('data-id'), lable: btn.innerHTML, size: 'xl'});
+  }
 }
 var PluginDbSync_v1 = new PluginDbSync_v1();

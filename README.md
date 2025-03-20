@@ -62,6 +62,18 @@ item:
     name: Web server
     mysql: 'yml:/../buto_data/mysql.yml'
     schema: _web_server_</code></pre>
+<p>Queries</p>
+<pre><code>item:
+  -
+    queries:
+      -
+        name: Account
+        sql: |
+          select id, username
+          from account
+        select:
+          - id
+          - username</code></pre>
 
 <a name="key_1"></a>
 

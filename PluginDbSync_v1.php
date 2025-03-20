@@ -151,11 +151,49 @@ class PluginDbSync_v1{
   }
   public function page_dbs_action(){
     $id = wfRequest::get('id');
+    /**
+     * queries
+     */
+    $queries = $this->settings->get("item/$id/queries");
+    if($queries){
+      foreach($queries as $k => $v){
+        $queries[$k]['link'] = '<a href="#" onclick="PluginDbSync_v1.query_view(this)" data-id="'.$id.'" data-key="'.$k.'" data-name="'.$v['name'].'">View</a>';
+      }
+    }
+    /**
+     * 
+     */
     $element = new PluginWfYml(__DIR__.'/page/dbs_action.yml');
     $element->setByTag($this->item->get());
     $element->setByTag($this->settings->get("item/$id"));
     $element->setByTag($this->item->get('mysql'), 'mysql');
+    $element->setByTag(array('data' => $queries), 'queries');
     wfDocument::renderElement($element);
+  }
+  public function page_query_view(){
+    $id = wfRequest::get('id');
+    $query_id= wfRequest::get('query_id');
+    $data = $this->settings->get("item/$id/queries/$query_id");
+    $data = new PluginWfArray($data);
+
+    $select = array();
+    foreach($data->get('select') as $k => $v){
+      $select[$v] = $v;
+    }
+    $element = wfDocument::getElementFromFolder(__DIR__, __FUNCTION__);
+    $element->setByTag($data->get());
+    $element->setByTag(array('select' => $select), 'table');
+    wfDocument::renderElement($element);
+  }
+  public function page_query_view_data(){
+    $id = wfRequest::get('id');
+    $query_id= wfRequest::get('query_id');
+    $data = $this->settings->get("item/$id/queries/$query_id");
+    $data = new PluginWfArray($data);
+    $rs = $this->runSQL($data->get('sql'));
+    wfPlugin::includeonce('datatable/datatable_1_10_18');
+    $datatable = new PluginDatatableDatatable_1_10_18();
+    exit($datatable->set_table_data($rs->get()));
   }
   public function page_execute_capture(){
     $sql = wfRequest::get('sql');

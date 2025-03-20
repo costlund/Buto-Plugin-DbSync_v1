@@ -97,3 +97,19 @@
       attribute:
         class: list-group-item
       innerHTML: 'Account'
+-
+  type: h2
+  innerHTML: Queries
+-
+  type: widget
+  data:
+    plugin: wf/table
+    method: render_many
+    data:
+      i18n: false
+      field:
+        name: Name
+        link: Link
+      rs: queries:data
+      datatable:
+        disabled: true
