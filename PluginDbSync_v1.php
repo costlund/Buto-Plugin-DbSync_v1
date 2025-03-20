@@ -123,6 +123,7 @@ class PluginDbSync_v1{
       wfPlugin::enable('wf/embed');
       wfPlugin::enable('form/form_v1');
       wfPlugin::enable('bootstrap/alertwait');
+      wfPlugin::enable('bootstrap/navtabs_v1');
       /**
        * Unset i18n event for this module.
        */
@@ -782,10 +783,6 @@ string;
    * Page table script.
    */
   public function page_table(){
-    /**
-     * 
-     */
-    wfPlugin::enable('bootstrap/navtabs_v1');
     /**
      * 
      */

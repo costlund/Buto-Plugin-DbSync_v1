@@ -12,17 +12,34 @@
 -
   type: widget
   data:
-    plugin: wf/table
-    method: render_many
+    plugin: bootstrap/navtabs_v1
+    method: embed
     data:
-      id: _my_table_id_
-      class:
-        table: table-sm table-striped
-      field: table:select
-      datatable:
-        ajax: /dbsync/query_view_data/query_id/[query_id]/id/[id]
-        onclick: console.log
-        order:
-          -
-            - 0
-            - asc
+      id: navtabs_query_view
+      item:
+        -
+          text: Data
+          content:
+            -
+              type: widget
+              data:
+                plugin: wf/table
+                method: render_many
+                data:
+                  id: _my_table_id_
+                  class:
+                    table: table-sm table-striped
+                  field: table:select
+                  datatable:
+                    ajax: /dbsync/query_view_data/query_id/[query_id]/id/[id]
+                    onclick: console.log
+                    order:
+                      -
+                        - 0
+                        - asc
+        -
+          text: SQL
+          content:
+            -
+              type: pre
+              innerHTML: rs:sql

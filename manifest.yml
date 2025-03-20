@@ -1,5 +1,9 @@
-version: 1.29.0
+version: 1.29.1
 history:
+  1.29.1:
+    date: '2025-03-20'
+    title: Nav tabs
+    description: 'Add nav tabs.'
   1.29.0:
     date: '2025-03-20'
     title: Queries
