@@ -2,6 +2,7 @@ function PluginDbSync_v1(){
   this.data = {item: {id: null}, table: {table: null}, field: {field: null}, line_item_id: null, map_table_description_id: null, map_field_description_id: null}
   this.map_options = {color: 'silver', size: 2, startSocket: 'right', endPlug: 'arrow3', endPlugSize: '24', endPlugColor: 'black'};
   this.db = function(id){
+    console.log('Should not be used since 250325...');
     PluginDbSync_v1.data.item.id = id;
     PluginWfAjax.load('content', 'db/id/'+id);
     $('#modal_dbs_action').modal('hide');

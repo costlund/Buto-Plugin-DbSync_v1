@@ -139,3 +139,6 @@
         -
           text: Tables
           data-url: /dbsync/tables/id/[id]
+        -
+          text: Editor
+          data-url: /dbsync/db/id/[id]

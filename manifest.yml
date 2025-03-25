@@ -1,5 +1,9 @@
-version: 1.29.3
+version: 1.29.4
 history:
+  1.29.4:
+    date: '2025-03-25'
+    title: Edit
+    description: 'Move Edit into a tab.'
   1.29.3:
     date: '2025-03-25'
     title: Modals
