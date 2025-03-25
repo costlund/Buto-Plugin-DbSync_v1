@@ -176,7 +176,7 @@ function PluginDbSync_v1(){
     PluginWfBootstrapjs.modal({id: 'modal_manage', url:'manage', lable: btn.innerHTML});
   }
   this.dbs_action = function (data){
-    PluginWfBootstrapjs.modal({id: 'modal_dbs_action', url:'dbs_action?id='+data.data_key, lable: 'Action'});
+    PluginWfBootstrapjs.modal({id: 'modal_dbs_action', url:'dbs_action?id='+data.data_key, lable: 'Action', size: 'xl'});
   }
   this.form = function(data){
     if(data.row_id){
