@@ -1,5 +1,9 @@
-version: 1.29.4
+version: 1.29.5
 history:
+  1.29.5:
+    date: '2025-03-25'
+    title: Map
+    description: 'Clear lines when click on Back button.'
   1.29.4:
     date: '2025-03-25'
     title: Edit

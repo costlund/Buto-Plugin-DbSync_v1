@@ -54,6 +54,10 @@ function PluginDbSync_v1(){
     PluginWfAjax.load('content', 'map/id/'+this.data.item.id);
     $('#modal_dbs_action').modal('hide');
   }
+  this.mapBack = function(id){
+    this.mapClear();
+    PluginWfAjax.load('content', 'dbs');
+  }
   this.mapClear = function(){
     $('.bg-warning').removeClass('bg-warning');
     $('.leader-line').remove();

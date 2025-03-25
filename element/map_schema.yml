@@ -18,7 +18,7 @@ innerHTML:
             type: a
             attribute:
               class: btn btn-primary
-              onclick: PluginWfAjax.load('content', 'dbs')
+              onclick: PluginDbSync_v1.mapBack()
             innerHTML: Back
           -
             type: a
