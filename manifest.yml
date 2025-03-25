@@ -1,5 +1,9 @@
-version: 1.29.1
+version: 1.29.2
 history:
+  1.29.2:
+    date: '2025-03-25'
+    title: Tables
+    description: 'Add Tables in tabs.'
   1.29.1:
     date: '2025-03-20'
     title: Nav tabs

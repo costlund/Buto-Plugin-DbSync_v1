@@ -1,6 +1,12 @@
 -
   type: h1
+  attribute:
+    data-id: get:id
+    id: h1_table_name
   innerHTML: rs:name
+-
+  type: script
+  innerHTML: PluginDbSync_v1.data.item.id=document.getElementById('h1_table_name').getAttribute('data-id')
 -
   type: widget
   data:
@@ -130,3 +136,6 @@
                   rs: queries:data
                   datatable:
                     disabled: true
+        -
+          text: Tables
+          data-url: /dbsync/tables/id/[id]

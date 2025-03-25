@@ -1,0 +1,27 @@
+-
+  type: widget
+  data:
+    plugin: wf/table
+    method: render_many
+    data:
+      id: table_tables
+      class:
+        table: table-sm table-striped
+      field:
+        number: No
+        name: Name
+        exist: Exist
+        description: Description
+      datatable:
+        ajax: /dbsync/tables_data/id/[id]
+        onclick: table_tables_click
+        order:
+          -
+            - 0
+            - asc
+-
+  type: script
+  innerHTML: |
+    function table_tables_click(data){
+      PluginDbSync_v1.table(data.name);
+    }

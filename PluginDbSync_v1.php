@@ -169,6 +169,7 @@ class PluginDbSync_v1{
     $element->setByTag($this->settings->get("item/$id"));
     $element->setByTag($this->item->get('mysql'), 'mysql');
     $element->setByTag(array('data' => $queries), 'queries');
+    $element->setByTag(wfRequest::getAll(), 'get');
     wfDocument::renderElement($element);
   }
   public function page_query_view(){
@@ -315,6 +316,19 @@ class PluginDbSync_v1{
     $form = new PluginWfYml(__DIR__.'/form/field_description_form.yml');
     $widget = wfDocument::createWidget('form/form_v1', 'capture', $form->get());
     wfDocument::renderElement(array($widget));
+  }
+  public function page_tables(){
+    wfDocument::renderElementFromFolder(__DIR__, __FUNCTION__);
+  }
+  public function page_tables_data(){
+    $schema = $this->getFields();
+    $rs = array();
+    foreach($schema->get('schema/table') as $k => $v){
+      $rs[] = $v;
+    }
+    wfPlugin::includeonce('datatable/datatable_1_10_18');
+    $datatable = new PluginDatatableDatatable_1_10_18();
+    exit($datatable->set_table_data($rs));
   }
   public function capture_field_description(){
     $schema = $this->getFields();
