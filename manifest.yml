@@ -1,5 +1,9 @@
-version: 1.29.2
+version: 1.29.3
 history:
+  1.29.3:
+    date: '2025-03-25'
+    title: Modals
+    description: 'Open Schema and Script in modals.'
   1.29.2:
     date: '2025-03-25'
     title: Tables

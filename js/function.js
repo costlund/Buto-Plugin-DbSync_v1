@@ -143,24 +143,21 @@ function PluginDbSync_v1(){
    */
   this.schema_generator = function(id){
     PluginDbSync_v1.data.item.id = id;
-    PluginWfAjax.load('content', 'schema_generator/id/'+this.data.item.id);
-    $('#modal_dbs_action').modal('hide');
+    PluginWfBootstrapjs.modal({id: 'modal_schema_generator', url: 'schema_generator/id/'+this.data.item.id, lable:'Schema generator', size: 'lg'});
   }
   this.script_generator = function(id){
     PluginDbSync_v1.data.item.id = id;
     PluginWfBootstrapjs.modal({id: 'modal_script_generator', url:'script_generator', lable:'Script generator', size: 'sm'});
-    $('#modal_dbs_action').modal('hide');
   }
   this.script_generator_run = function(){
     var foreing_key = document.getElementById('foreing_key').checked;
     var engine = document.getElementById('engine').value;
     $('#modal_script_generator').modal('hide');
-    PluginWfAjax.load('content', 'script_generator_run/id/'+this.data.item.id+'/foreing_key/'+foreing_key+'/engine/'+engine);    
+    PluginWfBootstrapjs.modal({id: 'modal_script_generator_run', url: 'script_generator_run/id/'+this.data.item.id+'/foreing_key/'+foreing_key+'/engine/'+engine, lable:'Script generator', size: 'lg'});
   }
   this.data_export = function(id){
     PluginDbSync_v1.data.item.id = id;
     PluginWfBootstrapjs.modal({id: 'modal_data_export', url:'data_export/id/'+this.data.item.id, lable:'Data export', size: 'lg'});
-    $('#modal_dbs_action').modal('hide');
   }
   this.plugin_mail_queue_admin = function(element){
     PluginDbSync_v1.data.item.id = element.getAttribute('data-key');
