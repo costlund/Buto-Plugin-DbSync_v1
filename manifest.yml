@@ -1,5 +1,9 @@
-version: 1.29.5
+version: 1.30.0
 history:
+  1.30.0:
+    date: '2025-03-26'
+    title: Import
+    description: 'Add Import tab.'
   1.29.5:
     date: '2025-03-25'
     title: Map

@@ -6,6 +6,7 @@ class PluginDbSync_v1{
   private $settings = null;
   private $db = null;
   private $item = nulL;
+  private $mysql = null;
   /**
    * 
    */
@@ -21,6 +22,11 @@ class PluginDbSync_v1{
       if(!wfUser::hasRole("webmaster") && $this->settings->get('security')!==false){
         exit('Role webmaster is required!');
       }
+      /**
+       * mysql
+       */
+      wfPlugin::includeonce('wf/mysql');
+      $this->mysql = new PluginWfMysql();
       /**
        * item
        */
@@ -291,6 +297,89 @@ class PluginDbSync_v1{
     $form = new PluginWfYml(__DIR__.'/form/table_description_form.yml');
     $widget = wfDocument::createWidget('form/form_v1', 'capture', $form->get());
     wfDocument::renderElement(array($widget));
+  }
+  public function page_import_capture(){
+    wfDocument::renderElementFromFolder(__DIR__, __FUNCTION__);
+  }
+  public function form_import_capture($form){
+    wfPlugin::includeonce('string/array');
+    $plugin_string_array = new PluginStringArray();
+    $schema = $this->getFields();
+    $table = wfRequest::get('table');
+    $type_of_run = wfRequest::get('type_of_run');
+    wfUser::setSession('plugin/db/sync_v1/import/xls', wfRequest::get('xls'));
+    wfUser::setSession('plugin/db/sync_v1/import/type_of_run', wfRequest::get('type_of_run'));
+    $xls = $plugin_string_array->from_excel_data(wfRequest::get('xls'));
+    /**
+     * field
+     */
+    $field = new PluginWfArray();
+    foreach($xls['data']['0'] as $k => $v){
+      $field->set("$v/name", $v);
+      $field->set("$v/exist", false);
+      if($schema->get("schema/field/$table#$v")){
+        $field->set("$v/exist", true);
+      }
+    }
+    /**
+     * error
+     */
+    $return = new PluginWfArray();
+    $return->set('error/message', null);
+    $return->set('type_of_run', $type_of_run);
+    $str = '';
+    foreach($field->get() as $k => $v){
+      $i = new PluginWfArray($v);
+      if(!$i->get('exist')){
+        $str .= ','.$i->get('name');
+      }
+    }
+    if($str){
+      $str = substr($str, 1);
+      $return->set('error/message', "Field $str does not exist!");
+    }
+    /**
+     * sql
+     */
+    $sql = "insert into $table (";
+    foreach($field->get() as $k => $v){
+      $i = new PluginWfArray($v);
+      $sql .= $i->get('name').',';
+    }
+    $sql = substr($sql, 0, strlen($sql)-1);
+    $sql .= ") values ";
+    $values = '';
+    foreach($xls['data'] as $k => $v){
+      if($k==0){
+        continue;
+      }
+      $values .= '(';
+      foreach($v as $k2 => $v2){
+        $values .= "'".$v2."',";
+      }
+      $values = substr($values, 0, strlen($values)-1);
+      $values .= '),';
+    }
+    $values = substr($values, 0, strlen($values)-1);
+    $values .= ";";
+    $sql .= $values;
+    $return->set('sql', $sql);
+    /**
+     * import_into_db
+     */
+    if($type_of_run=='import_into_db'){
+      try {
+        $this->runSQL($sql);
+      }
+      catch(Exception $e) {
+        $return->set('error/message', $e->getMessage());
+      }
+    }
+    /**
+     * 
+     */
+    $json = json_encode($return->get());
+    return array("PluginDbSync_v1.import_capture($json)");
   }
   public function capture_table_description(){
     $schema = $this->getFields();
@@ -1298,17 +1387,13 @@ string;
     return wfSettings::getSettingsAsObject('/plugin/db/sync_v1/'.$file);
   }
   private function runSQL($sql, $key_field = 'id'){
-    wfPlugin::includeonce('wf/mysql');
-    $mysql = new PluginWfMysql();
-    $mysql->open($this->db->get('mysql'));
-    $test = $mysql->runSql($sql, $key_field);
+    $this->mysql->open($this->db->get('mysql'));
+    $test = $this->mysql->runSql($sql, $key_field);
     return new PluginWfArray($test['data']);
   }
   private function executeSQL($sql){
-    wfPlugin::includeonce('wf/mysql');
-    $mysql = new PluginWfMysql();
-    $mysql->open($this->db->get('mysql'));
-    $test = $mysql->execute($sql);
+    $this->mysql->open($this->db->get('mysql'));
+    $test = $this->mysql->execute($sql);
   }
   public function page_plugin_mail_queue_admin(){
     $page = $this->getYml('page/plugin_mail_queue_admin.yml');

@@ -215,5 +215,16 @@ function PluginDbSync_v1(){
   this.query_view = function(btn){
     PluginWfBootstrapjs.modal({id: 'modal_query_view', url:'query_view/query_id/'+btn.getAttribute('data-key')+'/id/'+btn.getAttribute('data-id'), lable: btn.innerHTML, size: 'xl'});
   }
+  this.import_capture = function(data){
+    if(data.error.message){
+      alert("Error: "+data.error.message);
+    }else{
+      if(data.type_of_run=='generate_sql'){
+        alert(data.sql)
+      }else if(data.type_of_run=='import_into_db'){
+        alert("Data was imported!");
+      }
+    }
+  }
 }
 var PluginDbSync_v1 = new PluginDbSync_v1();

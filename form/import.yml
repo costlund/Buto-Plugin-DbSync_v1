@@ -1,0 +1,32 @@
+url: import_capture
+ajax: true
+submit_value: Run
+id: import_form
+capture:
+  plugin: db/sync_v1
+  method: form_import_capture
+items:
+  id:
+    type: hidden
+    label: id
+    mandatory: true
+    default: get:id
+  table:
+    type: hidden
+    label: table
+    mandatory: true
+    default: get:table
+  xls:
+    type: text
+    label: Paste from Excel cells
+    mandatory: true
+    default: globals:_SESSION/plugin/db/sync_v1/import/xls
+  type_of_run:
+    type: varchar
+    label: Type of run
+    mandatory: true
+    default: globals:_SESSION/plugin/db/sync_v1/import/type_of_run
+    option:
+      'generate_sql': 'Generate sql'
+      'import_into_db': 'Import into db'
+    

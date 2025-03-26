@@ -265,3 +265,17 @@ content:
                     width: 100%
                     height: 200px
                 innerHTML: helper:delete
+          -
+            text: Import
+            content:
+              -
+                type: div
+                attribute: 
+                  class: alert alert-info
+                innerHTML: Import from copied Excel cells. First row must be field name. Then values.
+              -
+                type: widget
+                data:
+                  plugin: 'form/form_v1'
+                  method: render
+                  data: yml:/plugin/db/sync_v1/form/import.yml
