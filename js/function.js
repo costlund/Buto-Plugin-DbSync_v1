@@ -182,7 +182,7 @@ function PluginDbSync_v1(){
   }
   this.form = function(data){
     if(data.row_id){
-      PluginWfBootstrapjs.modal({id: 'modal_form', url:'form/row_id/'+data.row_id+'/table/'+data.table+'/id/'+data.id+'/copy/'+data.copy, lable: 'Form', size: 'lg'});
+      PluginWfBootstrapjs.modal({id: 'modal_form', url:'form/row_id/'+data.row_id+'/table/'+this.data.table.table+'/id/'+this.data.item.id+'/copy/'+data.copy, lable: 'Form', size: 'lg'});
     }else{
       alert('Could not edit due to lack of id field!');
     }

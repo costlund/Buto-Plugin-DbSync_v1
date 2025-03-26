@@ -1,0 +1,38 @@
+-
+  type: p
+  settings:
+    enabled: rs:exist
+  innerHTML: 
+    -
+      type: a
+      attribute: 
+        class: btn btn-primary
+        data-id: get:id
+        data-table: get:table
+        onclick: "PluginDbSync_v1.form({row_id: '__add__', table: this.getAttribute('data-table'), id: this.getAttribute('data-id'), copy: 'no'})"
+      innerHTML: Add
+    -
+      type: a
+      attribute: 
+        class: btn btn-secondary
+        data-id: get:id
+        data-table: get:table
+        onclick: "PluginDbSync_v1.form({row_id: '__add__', table: this.getAttribute('data-table'), id: this.getAttribute('data-id'), copy: 'yes'})"
+      innerHTML: Add copy
+-
+  type: widget
+  data:
+    plugin: wf/table
+    method: render_many
+    data:
+      id: table_data
+      class:
+        table: table-sm table-striped
+      field: rs:field
+      datatable:
+        ajax: /dbsync/table_data_data/id/[id]/table/[table]
+        onclick: PluginDbSync_v1.form
+        order:
+          -
+            - 0
+            - asc

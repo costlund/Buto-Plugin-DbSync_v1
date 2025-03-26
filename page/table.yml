@@ -16,11 +16,6 @@ content:
           -
             type: span
             innerHTML: rs:schema_files_name
-
-
-
-
-
   -
     type: widget
     data:
@@ -51,17 +46,6 @@ content:
                           class: btn btn-warning
                           onclick: "PluginDbSync_v1.table_drop()"
                         innerHTML: Drop table
-                  -
-                    type: p
-                    innerHTML:
-                      -
-                        type: strong
-                        attribute:
-                          class: semicolon
-                        innerHTML: Rows
-                      -
-                        type: span
-                        innerHTML: rs:count
               -
                 type: div
                 settings:
@@ -194,46 +178,7 @@ content:
                           disabled: false
           -
             text: Data
-            content:
-              -
-                type: p
-                settings:
-                  enabled: rs:exist
-                innerHTML: 
-                  -
-                    type: a
-                    attribute: 
-                      class: btn btn-primary
-                      data-id: get:id
-                      data-table: get:table
-                      onclick: "PluginDbSync_v1.form({row_id: '__add__', table: this.getAttribute('data-table'), id: this.getAttribute('data-id'), copy: 'no'})"
-                    innerHTML: Add
-                  -
-                    type: a
-                    attribute: 
-                      class: btn btn-secondary
-                      data-id: get:id
-                      data-table: get:table
-                      onclick: "PluginDbSync_v1.form({row_id: '__add__', table: this.getAttribute('data-table'), id: this.getAttribute('data-id'), copy: 'yes'})"
-                    innerHTML: Add copy
-              -
-                type: div
-                settings:
-                  enabled: rs:exist
-                attribute:
-                  class: table-responsive
-                innerHTML:
-                  -
-                    type: widget
-                    data:
-                      plugin: wf/table
-                      method: render_many
-                      data:
-                        style:
-                          table: 'font-size:smaller'
-                        rs: rs:rs_select_all
-                        datatable:
-                          disabled: false
+            data-url: /dbsync/table_data/id/[id]/table/[table]
           -
             text: Helper
             content:

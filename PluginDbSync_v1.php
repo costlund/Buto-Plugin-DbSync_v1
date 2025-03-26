@@ -892,22 +892,6 @@ string;
     $page = $this->getYml('page/table.yml');
     $page->setByTag(wfRequest::getAll(), 'get');
     $table_data = $this->getTable(wfRequest::get('table'));
-    if($table_data->get('exist')){
-      $rs = $this->db_table_select_all($table_data->get('name'));
-      /**
-       * 
-       */
-      foreach($rs->get() as $k => $v){
-        $rs->set("$k/row_click", "PluginDbSync_v1.form({row_id: '".$rs->get("$k/id")."', table: '".$table_data->get('name')."', id: '".wfRequest::get('id')."'})");
-      }
-      /**
-       * 
-       */
-      $page->setByTag(array('rs_select_all' => $rs->get()));
-      $table_data->set('count', $this->db_table_count($table_data->get('name')));
-    }else{
-      $table_data->set('count', null);
-    }
     /**
      * Field.
      */
@@ -937,6 +921,29 @@ string;
      */
     $page->setByTag($table_data->get());
     wfDocument::mergeLayout($page->get());
+  }
+  public function page_table_data(){
+    $table_data = $this->getTable(wfRequest::get('table'));
+    $field = array();
+    foreach($table_data->get('field') as $k => $v){
+      $field[$v['schema_field_name']] = $v['schema_field_name'];
+    }
+    $element = wfDocument::getElementFromFolder(__DIR__, __FUNCTION__);
+    $element->setByTag(array('field' => $field));
+    wfDocument::renderElement($element);
+  }
+  public function page_table_data_data(){
+    $table_data = $this->getTable(wfRequest::get('table'));
+    $rs = $this->db_table_select_all($table_data->get('name'));
+    $temp = array();
+    foreach($rs->get() as $k => $v){
+      $i = new PluginWfArray($v);
+      $i->set('row_id', $i->get('id'));
+      $temp[] = $i->get();
+    }
+    wfPlugin::includeonce('datatable/datatable_1_10_18');
+    $datatable = new PluginDatatableDatatable_1_10_18();
+    exit($datatable->set_table_data($temp));
   }
   private function helper_insert($table_data){
     $data = ''.$table_data->get('name')."_insert:\n";
