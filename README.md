@@ -74,6 +74,19 @@ item:
         select:
           - id
           - username</code></pre>
+<p>Or set a name to use same queries on multiple databases.</p>
+<pre><code>    queries: my_name</code></pre>
+<p>In queries param add key my_name.</p>
+<pre><code>queries:
+  my_name:
+    -
+      name: Account
+      sql: |
+        select id, username
+        from account
+      select:
+        - id
+        - username</code></pre>
 
 <a name="key_1"></a>
 

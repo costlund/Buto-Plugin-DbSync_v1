@@ -33,6 +33,7 @@ class PluginDbSync_v1{
       $temp = new PluginWfArray(wfSettings::getSettingsFromYmlString($this->settings->get('item')));
       $this->settings->set('item', $temp->get('item') );
       $this->settings->set('schema', $temp->get('schema') );
+      $this->settings->set('queries', $temp->get('queries') );
       /**
        * Set schema from string
        */
@@ -162,6 +163,9 @@ class PluginDbSync_v1{
      * queries
      */
     $queries = $this->settings->get("item/$id/queries");
+    if($queries && !is_array($queries)){
+      $queries = $this->settings->get("queries/$queries");
+    }
     if($queries){
       foreach($queries as $k => $v){
         $queries[$k]['link'] = '<a href="#" onclick="PluginDbSync_v1.query_view(this)" data-id="'.$id.'" data-key="'.$k.'" data-name="'.$v['name'].'">View</a>';
@@ -181,9 +185,19 @@ class PluginDbSync_v1{
   public function page_query_view(){
     $id = wfRequest::get('id');
     $query_id= wfRequest::get('query_id');
-    $data = $this->settings->get("item/$id/queries/$query_id");
+    /**
+     * 
+     */
+    $queries = $this->settings->get("item/$id/queries");
+    if(!is_array($queries)){
+      $data = $this->settings->get("queries/$queries/$query_id");
+    }else{
+      $data = $this->settings->get("item/$id/queries/$query_id");
+    }
+    /**
+     * 
+     */
     $data = new PluginWfArray($data);
-
     $select = array();
     foreach($data->get('select') as $k => $v){
       $select[$v] = $v;
@@ -196,7 +210,18 @@ class PluginDbSync_v1{
   public function page_query_view_data(){
     $id = wfRequest::get('id');
     $query_id= wfRequest::get('query_id');
-    $data = $this->settings->get("item/$id/queries/$query_id");
+    /**
+     * 
+     */
+    $queries = $this->settings->get("item/$id/queries");
+    if(!is_array($queries)){
+      $data = $this->settings->get("queries/$queries/$query_id");
+    }else{
+      $data = $this->settings->get("item/$id/queries/$query_id");
+    }
+    /**
+     * 
+     */
     $data = new PluginWfArray($data);
     $rs = $this->runSQL($data->get('sql'), false);
     wfPlugin::includeonce('datatable/datatable_1_10_18');

@@ -78,6 +78,23 @@ readme:
                       - id
                       - username
             ```
+            Or set a name to use same queries on multiple databases.
+            ```
+                queries: my_name
+            ```
+            In queries param add key my_name.
+            ```
+            queries:
+              my_name:
+                -
+                  name: Account
+                  sql: |
+                    select id, username
+                    from account
+                  select:
+                    - id
+                    - username
+            ```
     -
       name: Usage
       item:
