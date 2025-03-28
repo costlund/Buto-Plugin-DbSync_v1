@@ -198,7 +198,7 @@ class PluginDbSync_v1{
     $query_id= wfRequest::get('query_id');
     $data = $this->settings->get("item/$id/queries/$query_id");
     $data = new PluginWfArray($data);
-    $rs = $this->runSQL($data->get('sql'));
+    $rs = $this->runSQL($data->get('sql'), false);
     wfPlugin::includeonce('datatable/datatable_1_10_18');
     $datatable = new PluginDatatableDatatable_1_10_18();
     exit($datatable->set_table_data($rs->get()));

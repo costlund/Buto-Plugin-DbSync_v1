@@ -26,7 +26,7 @@
                 plugin: wf/table
                 method: render_many
                 data:
-                  id: _my_table_id_
+                  id: table_db_sync_query
                   class:
                     table: table-sm table-striped
                   field: table:select
