@@ -50,18 +50,24 @@ One could set param settings/security to false to temporary disable security.</p
 <pre><code>item:
   -
     name: Web server
-    mysql: 'yml:/../buto_data/mysql.yml'
-    schema:
+    mysql: 'yml:/../buto_data/mysql.yml'</code></pre>
+
+<a name="key_0_1_0"></a>
+
+#### Schema
+
+<pre><code>    schema:
       - /plugin/_my_/_schema_/schema.yml</code></pre>
-<p>YML file using schema param (_db_sync_v1_items.yml).</p>
+<p>Or point to a key in document for multiple usage.</p>
+<pre><code>    schema: my_key</code></pre>
 <pre><code>schema:
-  _web_server_:
-    - /plugin/_my_/_schema_/schema.yml
-item:
-  -
-    name: Web server
-    mysql: 'yml:/../buto_data/mysql.yml'
-    schema: _web_server_</code></pre>
+  my_key:
+    - /plugin/_my_/_schema_/schema.yml</code></pre>
+
+<a name="key_0_1_1"></a>
+
+#### Queries
+
 <p>Queries</p>
 <pre><code>item:
   -
@@ -74,11 +80,11 @@ item:
         select:
           - id
           - username</code></pre>
-<p>Or set a name to use same queries on multiple databases.</p>
-<pre><code>    queries: my_name</code></pre>
-<p>In queries param add key my_name.</p>
+<p>Or point to a key in document for multiple usage.</p>
+<pre><code>    queries: my_key</code></pre>
+<p>In queries param add key my_key</p>
 <pre><code>queries:
-  my_name:
+  my_key:
     -
       name: Account
       sql: |
@@ -87,6 +93,20 @@ item:
       select:
         - id
         - username</code></pre>
+
+<a name="key_0_1_2"></a>
+
+#### Backup
+
+<ul>
+<li>Backup settings.</li>
+<li>Settings to create commands for dump (on remote server), copy to local server, rename. Commands will be visible in UI.</li>
+<li>Omit ssh, server_folder to only get local dump command.</li>
+</ul>
+<pre><code>backup:
+  ssh: user@ssh.server.com
+  server_folder: /www/my_server_dump_folder
+  local_folder: /Users/my_user/db_backup</code></pre>
 
 <a name="key_1"></a>
 

@@ -50,51 +50,71 @@ readme:
               -
                 name: Web server
                 mysql: 'yml:/../buto_data/mysql.yml'
+            ```
+          item:
+            - 
+              name: Schema
+              description: |
+                ```
+                    schema:
+                      - /plugin/_my_/_schema_/schema.yml
+                ```
+                Or point to a key in document for multiple usage.
+                ```
+                    schema: my_key
+                ```
+                ```
                 schema:
-                  - /plugin/_my_/_schema_/schema.yml
-            ```
-            YML file using schema param (_db_sync_v1_items.yml).
-            ```
-            schema:
-              _web_server_:
-                - /plugin/_my_/_schema_/schema.yml
-            item:
-              -
-                name: Web server
-                mysql: 'yml:/../buto_data/mysql.yml'
-                schema: _web_server_
-            ```
-            Queries
-            ```
-            item:
-              -
-                queries:
+                  my_key:
+                    - /plugin/_my_/_schema_/schema.yml
+                ```
+            - 
+              name: Queries
+              description: |
+                Queries
+                ```
+                item:
                   -
-                    name: Account
-                    sql: |
-                      select id, username
-                      from account
-                    select:
-                      - id
-                      - username
-            ```
-            Or set a name to use same queries on multiple databases.
-            ```
-                queries: my_name
-            ```
-            In queries param add key my_name.
-            ```
-            queries:
-              my_name:
-                -
-                  name: Account
-                  sql: |
-                    select id, username
-                    from account
-                  select:
-                    - id
-                    - username
-            ```
+                    queries:
+                      -
+                        name: Account
+                        sql: |
+                          select id, username
+                          from account
+                        select:
+                          - id
+                          - username
+                ```
+                Or point to a key in document for multiple usage.
+                ```
+                    queries: my_key
+                ```
+                In queries param add key my_key
+                ```
+                queries:
+                  my_key:
+                    -
+                      name: Account
+                      sql: |
+                        select id, username
+                        from account
+                      select:
+                        - id
+                        - username
+                ```
+            - 
+              name: Backup
+              description: |
+                - Backup settings.
+                - Settings to create commands for dump (on remote server), copy to local server, rename. Commands will be visible in UI.
+                - Omit ssh, server_folder to only get local dump command.
+
+                ```
+                backup:
+                  ssh: user@ssh.server.com
+                  server_folder: /www/my_server_dump_folder
+                  local_folder: /Users/my_user/db_backup
+                ```
     -
       name: Usage
       item:

@@ -172,6 +172,31 @@ class PluginDbSync_v1{
       }
     }
     /**
+     * backup / script
+     */
+    $backup = $this->settings->get("item/$id/backup");
+    $backup = new PluginWfArray($backup);
+    if($backup->get()){
+      $user_name = $this->item->get("mysql/user_name");
+      $password = $this->item->get("mysql/password");
+      $server = $this->item->get("mysql/server");
+      $database = $this->item->get("mysql/database");
+      $server_folder = $backup->get("server_folder");
+      $local_folder = $backup->get("local_folder");
+      if($backup->get('ssh')){
+        $dump = 'ssh '.$backup->get('ssh').' "mysqldump -u '.$user_name.' -p\"'.$password.'\" -h '.$server.' '.$database.' > '.$server_folder.'/'.$database.'.sql;"';
+        $backup->set('script/dump', $dump);
+        $scp = 'scp '.$backup->get('ssh').':'.$server_folder.'/'.$database.'.sql "'.$local_folder.'"';
+        $backup->set('script/scp', $scp);
+        $mv = 'mv "'.$local_folder.'/'.$database.'.sql" "'.$local_folder.'/'.$database.'_$(date +%y%m%d).sql"';
+        $backup->set('script/mv', $mv);
+        $backup->set('script/combined', $dump.' && '.$scp.' && '.$mv);
+      }else{
+        $dump = '/Applications/MAMP/Library/bin/mysqldump -u '.$user_name.' -p"'.$password.'" '.$database.' > "'.$local_folder.'/'.$database.'_$(date +%y%m%d).sql"   ';
+        $backup->set('script/dump', $dump);
+      }
+    }
+    /**
      * 
      */
     $element = new PluginWfYml(__DIR__.'/page/dbs_action.yml');
@@ -180,6 +205,8 @@ class PluginDbSync_v1{
     $element->setByTag($this->item->get('mysql'), 'mysql');
     $element->setByTag(array('data' => $queries), 'queries');
     $element->setByTag(wfRequest::getAll(), 'get');
+    $element->setByTag(array('backup' => $backup->get()));
+    $element->setByTag(array('script' => $backup->get('script')));
     wfDocument::renderElement($element);
   }
   public function page_query_view(){

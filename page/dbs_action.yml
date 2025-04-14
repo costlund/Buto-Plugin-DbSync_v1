@@ -111,6 +111,44 @@
                   rs: rs:mysql
                   class:
                     table: table-sm table-striped
+            -
+              type: p
+              attribute:
+                class: text-center
+              innerHTML:
+                -
+                  type: small
+                  innerHTML: Backup settings
+            - 
+              type: widget
+              data:
+                plugin: wf/table
+                method: render_one
+                data:
+                  key_is_missing_alert: true
+                  i18n: false
+                  rs: rs:backup
+                  class:
+                    table: table-sm table-striped
+            -
+              type: p
+              attribute:
+                class: text-center
+              innerHTML:
+                -
+                  type: small
+                  innerHTML: Backup script
+            - 
+              type: widget
+              data:
+                plugin: wf/table
+                method: render_one
+                data:
+                  key_is_missing_alert: true
+                  i18n: false
+                  rs: rs:script
+                  class:
+                    table: table-sm table-striped
         -
           text: SQL
           content:
