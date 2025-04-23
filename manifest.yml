@@ -1,5 +1,9 @@
-version: 1.30.3
+version: 1.30.4
 history:
+  1.30.4:
+    date: '2025-04-23'
+    title: Table data
+    description: 'Handle if no table exist in db.'
   1.30.3:
     date: '2025-04-14'
     title: Backup

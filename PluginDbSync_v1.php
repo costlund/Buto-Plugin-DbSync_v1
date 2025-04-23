@@ -986,16 +986,20 @@ string;
   }
   public function page_table_data_data(){
     $table_data = $this->getTable(wfRequest::get('table'));
-    $rs = $this->db_table_select_all($table_data->get('name'));
-    $temp = array();
-    foreach($rs->get() as $k => $v){
-      $i = new PluginWfArray($v);
-      $i->set('row_id', $i->get('id'));
-      $temp[] = $i->get();
-    }
     wfPlugin::includeonce('datatable/datatable_1_10_18');
     $datatable = new PluginDatatableDatatable_1_10_18();
-    exit($datatable->set_table_data($temp));
+    if($table_data->get('exist')){
+      $rs = $this->db_table_select_all($table_data->get('name'));
+      $temp = array();
+      foreach($rs->get() as $k => $v){
+        $i = new PluginWfArray($v);
+        $i->set('row_id', $i->get('id'));
+        $temp[] = $i->get();
+      }
+      exit($datatable->set_table_data($temp));
+    }else{
+      exit($datatable->set_table_data(array()));
+    }
   }
   private function helper_insert($table_data){
     $data = ''.$table_data->get('name')."_insert:\n";
