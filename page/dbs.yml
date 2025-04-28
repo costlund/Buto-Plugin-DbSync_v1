@@ -13,6 +13,7 @@ content:
           database: Database
           user_name: Username
           schema_text: Schema
+          has_backup: Backup
         datatable:
           ajax: /dbsync/dbs_data
           disabled: false

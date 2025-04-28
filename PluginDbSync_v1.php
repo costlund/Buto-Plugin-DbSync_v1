@@ -35,6 +35,16 @@ class PluginDbSync_v1{
       $this->settings->set('schema', $temp->get('schema') );
       $this->settings->set('queries', $temp->get('queries') );
       /**
+       * settings
+       */
+      foreach($this->settings->get('item') as $k => $v){
+        if($this->settings->get("item/$k/backup")){
+          $this->settings->set("item/$k/has_backup", 'Yes');
+        }else{
+          $this->settings->set("item/$k/has_backup", '');
+        }
+      }
+      /**
        * Set schema from string
        */
       foreach ($this->settings->get('item') as $key => $value) {

@@ -1,5 +1,9 @@
-version: 1.30.4
+version: 1.30.5
 history:
+  1.30.5:
+    date: '2025-04-24'
+    title: Has backup
+    description: 'Set param has_backup to Yes or empty if backup settings is provided. Display in list.'
   1.30.4:
     date: '2025-04-23'
     title: Table data
