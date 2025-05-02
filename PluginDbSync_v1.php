@@ -1672,7 +1672,7 @@ string;
       if(wfRequest::get('copy')=='no'){
         $form->setByTag(wfRequest::getAll(), 'rs', true);
       }else{
-        $form->setByTag(wfUser::getSession()->get('plugin/db/sync/form_capture'), 'rs');
+        $form->setByTag(wfUser::getSession()->get('plugin/db/sync/form_capture'), 'rs', true);
       }
       $form->setByTag(array('new' => true), 'form');
     }
