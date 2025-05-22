@@ -188,11 +188,7 @@ function PluginDbSync_v1(){
     }
   }
   this.form_capture = function(data){
-    if(data._new=='No'){
-      PluginWfAjax.load('modal_form_body', 'form/row_id/'+data.row_id+'/table/'+data.table+'/id/'+data.id);
-    }else{
-      PluginWfAjax.load('modal_form_body', 'form/row_id/'+data.row_id+'/table/'+data.table+'/id/'+data.id);
-    }
+    $('#modal_form').modal('hide');
   }
   this.form_delete = function(data){
     PluginWfBootstrapjs.confirm({content: 'Are you sure to delete?', method: function(){PluginDbSync_v1.form_delete_confirmed();}, data: data });    

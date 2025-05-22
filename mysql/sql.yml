@@ -7,13 +7,10 @@ db_form_capture_update:
 db_form_capture_insert:
   sql: |
     insert into [table] 
-    (id)
+    [fields]
     values
-    (?)
-  params:
-    -
-      type: s
-      value: rs:row_id
+    [values]
+  params: rs:params
 db_form_delete:
   sql: |
     delete from [table] 

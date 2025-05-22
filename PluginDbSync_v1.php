@@ -1504,11 +1504,11 @@ string;
      */
     $table_data = $this->getTable(wfRequest::get('table'));
     /**
-     * insert
+     *
      */
     if(wfRequest::get('_new')=='Yes'){
       /**
-       * 
+       * insert
        */
       $db_form_capture_insert = new PluginWfYml(__DIR__.'/mysql/sql.yml', 'db_form_capture_insert');
       /**
@@ -1517,6 +1517,34 @@ string;
       $db_form_capture_insert->set('sql', str_replace('[table]', $table_data->get('name'), $db_form_capture_insert->get('sql')));
       $db_form_capture_insert->setByTag(wfRequest::getAll());
       /**
+       * fields, values, params
+       */
+      $fields = "(id\n";
+      $values = "(?\n";
+      $params = array();
+      $params[] = array('type' => 's', 'value' => wfRequest::get('row_id'));
+      foreach($table_data->get('field') as $k => $v){
+        $i = new PluginWfArray($v);
+        if($v['schema_field_name']=='id'){
+          continue;
+        }
+        if(in_array($i->get('schema_field_name'), array('created_by', 'created_at', 'updated_by', 'updated_at'))){
+          continue; 
+        }
+        $type = 's';
+        if(substr($i->get('schema_field_type'), 0, 7)=='tinyint'){
+          $type = 'i';
+        }
+        $fields .= ','.$i->get('schema_field_name')."\n";
+        $values .= ",?\n";
+        $params[] = array('type' => $type, 'value' => wfRequest::get($i->get('schema_field_name')), 'name' => $i->get('schema_field_name'));
+      }
+      $fields .= ")\n";
+      $values .= ")\n";
+      $db_form_capture_insert->set('sql', str_replace('[fields]', $fields, $db_form_capture_insert->get('sql')));
+      $db_form_capture_insert->set('sql', str_replace('[values]', $values, $db_form_capture_insert->get('sql')));
+      $db_form_capture_insert->setByTag(array('params' => $params));
+      /**
        * execute
        */
       $this->executeSQL($db_form_capture_insert->get());
@@ -1524,43 +1552,44 @@ string;
        * 
        */
       wfRequest::set('original_id', wfRequest::get('row_id'));
+    }else{
+      /**
+       * update
+       */
+      $db_form_capture_update = new PluginWfYml(__DIR__.'/mysql/sql.yml', 'db_form_capture_update');
+      $params = array();
+      $params[] = array('type' => 's', 'value' => wfRequest::get('row_id'));
+      $fields = ",id=?\n";
+      /**
+       * table
+       */
+      $db_form_capture_update->set('sql', str_replace('[table]', $table_data->get('name'), $db_form_capture_update->get('sql')));
+      /**
+       * field, params
+       */
+      foreach($table_data->get('field') as $k => $v){
+        $i = new PluginWfArray($v);
+        if($v['schema_field_name']=='id'){
+          continue;
+        }
+        if(in_array($i->get('schema_field_name'), array('created_by', 'created_at', 'updated_by', 'updated_at'))){
+          continue; 
+        }
+        $type = 's';
+        if(substr($i->get('schema_field_type'), 0, 7)=='tinyint'){
+          $type = 'i';
+        }
+        $fields .= ','.$i->get('schema_field_name')."=?\n";
+        $params[] = array('type' => $type, 'value' => wfRequest::get($i->get('schema_field_name')), 'name' => $i->get('schema_field_name'));
+      }
+      $db_form_capture_update->set('sql', str_replace('[fields]', substr($fields, 1), $db_form_capture_update->get('sql')));
+      $params[] = array('type' => 's', 'value' => wfRequest::get('original_id'));
+      $db_form_capture_update->setByTag(array('params' => $params));
+      /**
+       * 
+       */
+      $this->executeSQL($db_form_capture_update->get());
     }
-    /**
-     * update
-     */
-    $db_form_capture_update = new PluginWfYml(__DIR__.'/mysql/sql.yml', 'db_form_capture_update');
-    $params = array();
-    $params[] = array('type' => 's', 'value' => wfRequest::get('row_id'));
-    $fields = ",id=?\n";
-    /**
-     * table
-     */
-    $db_form_capture_update->set('sql', str_replace('[table]', $table_data->get('name'), $db_form_capture_update->get('sql')));
-    /**
-     * field, params
-     */
-    foreach($table_data->get('field') as $k => $v){
-      $i = new PluginWfArray($v);
-      if($v['schema_field_name']=='id'){
-        continue;
-      }
-      if(in_array($i->get('schema_field_name'), array('created_by', 'created_at', 'updated_by', 'updated_at'))){
-        continue; 
-      }
-      $type = 's';
-      if(substr($i->get('schema_field_type'), 0, 7)=='tinyint'){
-        $type = 'i';
-      }
-      $fields .= ','.$i->get('schema_field_name')."=?\n";
-      $params[] = array('type' => $type, 'value' => wfRequest::get($i->get('schema_field_name')), 'name' => $i->get('schema_field_name'));
-    }
-    $db_form_capture_update->set('sql', str_replace('[fields]', substr($fields, 1), $db_form_capture_update->get('sql')));
-    $params[] = array('type' => 's', 'value' => wfRequest::get('original_id'));
-    $db_form_capture_update->setByTag(array('params' => $params));
-    /**
-     * 
-     */
-    $this->executeSQL($db_form_capture_update->get());
     /**
      * 
      */

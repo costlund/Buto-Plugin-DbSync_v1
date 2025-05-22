@@ -1,5 +1,9 @@
-version: 1.30.5
+version: 1.30.6
 history:
+  1.30.6:
+    date: '2025-05-22'
+    title: Error
+    description: 'Improvement error alert when to insert post.'
   1.30.5:
     date: '2025-04-24'
     title: Has backup
