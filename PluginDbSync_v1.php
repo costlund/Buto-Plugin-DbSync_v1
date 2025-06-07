@@ -710,6 +710,12 @@ class PluginDbSync_v1{
       $this->runSQL($v);
     }
     /**
+     * unique
+     */
+    foreach($this->db_create_table_unique_script($table_name) as $v){
+      $this->runSQL($v);
+    }
+    /**
      * 
      */
     return $sql;
@@ -859,6 +865,25 @@ string;
     $temp = "ALTER TABLE `[table_name]` ADD INDEX `[index_name]` ([fields]);";
     if($table_data->get('index')){
       foreach($table_data->get('index') as $k => $v){
+        $sql2 = $temp;
+        $sql2 = wfPhpfunc::str_replace('[table_name]', $table_name, $sql2);
+        $sql2 = wfPhpfunc::str_replace('[index_name]', $k, $sql2);
+        $fields = '';
+        foreach($v['columns'] as $v2){
+          $fields .= ",`$v2` ASC";
+        }
+        $sql2 = wfPhpfunc::str_replace('[fields]', wfPhpfunc::substr($fields,1), $sql2);
+        $sql[] = $sql2;
+      }
+    }
+    return $sql;
+  }
+  private function db_create_table_unique_script($table_name){
+    $table_data = $this->getTable($table_name);
+    $sql = array();
+    $temp = "ALTER TABLE `[table_name]` ADD UNIQUE `[index_name]` ([fields]);";
+    if($table_data->get('unique')){
+      foreach($table_data->get('unique') as $k => $v){
         $sql2 = $temp;
         $sql2 = wfPhpfunc::str_replace('[table_name]', $table_name, $sql2);
         $sql2 = wfPhpfunc::str_replace('[index_name]', $k, $sql2);
@@ -1177,6 +1202,7 @@ string;
         $item2 = new PluginWfArray($value2);
         $table->set("$key2/description", $item2->get('description'));
         $table->set("$key2/index", $item2->get('index'));
+        $table->set("$key2/unique", $item2->get('unique'));
         $table->set("$key2/file", $value);
         foreach ($value2['field'] as $key3 => $value3) {
           $item3 = new PluginWfArray($value3);
@@ -1413,7 +1439,7 @@ string;
         $data[] = $value;
       }
     }
-    return new PluginWfArray(array('name' => $table_name, 'exist' => $exist, 'schema_files_name' => $schema_files_name, 'field' => $data, 'index' => $get_fields->get("schema/table/$table_name/index")));
+    return new PluginWfArray(array('name' => $table_name, 'exist' => $exist, 'schema_files_name' => $schema_files_name, 'field' => $data, 'index' => $get_fields->get("schema/table/$table_name/index"), 'unique' => $get_fields->get("schema/table/$table_name/unique")));
   }
   private function getField($table_name, $field_name){
     $table_data = $this->getTable($table_name);
