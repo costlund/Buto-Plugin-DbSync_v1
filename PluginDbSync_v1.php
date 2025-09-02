@@ -1644,6 +1644,8 @@ string;
         $j->set('type', 'varchar');
       }elseif(substr($i->get('schema_field_type'), 0, 7)=='text'){
         $j->set('type', 'text');
+      }elseif($i->get('schema_field_type')=='date'){
+        $j->set('type', 'date');
       }else{
         $j->set('type', 'varchar');
       }
@@ -1666,10 +1668,28 @@ string;
        * placeholder
        */
       if(substr($i->get('schema_field_type'), 0, 7)=='varchar'){
+        /**
+         * Text
+         */
         $j->set('placeholder', 'Text (1-'. substr($i->get('schema_field_type'), 8) .'');
       }
-      if(substr($i->get('schema_field_type'), 0, 7)=='tinyint'){
+      if(substr($i->get('schema_field_type'), 0, 7)=='tinyint' || substr($i->get('schema_field_type'), 0, 3)=='int' || substr($i->get('schema_field_type'), 0, 9)=='mediumint'){
+        /**
+         * Int
+         */
         $j->set('placeholder', '0');
+      }
+      if(substr($i->get('schema_field_type'), 0, 6)=='double'){
+        /**
+         * Double
+         */
+        if(substr($i->get('schema_field_type'), strlen($i->get('schema_field_type'))-3, 2)==',1'){
+          $j->set('placeholder', '0.0');
+        }elseif(substr($i->get('schema_field_type'), strlen($i->get('schema_field_type'))-3, 2)==',2'){
+          $j->set('placeholder', '0.00');
+        }elseif(substr($i->get('schema_field_type'), strlen($i->get('schema_field_type'))-3, 2)==',3'){
+          $j->set('placeholder', '0.000');
+        }
       }
       /**
        * rename id to row_id
