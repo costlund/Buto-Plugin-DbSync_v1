@@ -1,5 +1,9 @@
-version: 1.31.1
+version: 1.31.2
 history:
+  1.31.2:
+    date: '2025-09-03'
+    title: Editor
+    description: 'Put content in tabs.'
   1.31.1:
     date: '2025-09-02'
     title: Form
