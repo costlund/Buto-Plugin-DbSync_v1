@@ -1,5 +1,9 @@
-version: 1.31.2
+version: 1.31.3
 history:
+  1.31.3:
+    date: '2025-09-11'
+    title: Queries
+    description: 'Sort first column desc.'
   1.31.2:
     date: '2025-09-03'
     title: Editor
