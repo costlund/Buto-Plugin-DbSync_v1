@@ -9,7 +9,7 @@ function PluginDbSync_v1(){
   }
   this.table = function(table){
     PluginDbSync_v1.data.table.table = table;
-    PluginWfBootstrapjs.modal({id: 'modal_table', url:'table/id/'+this.data.item.id+'/table/'+table, lable:'Table', size:'lg'});
+    PluginWfBootstrapjs.modal({id: 'modal_table', url:'table/id/'+this.data.item.id+'/table/'+table, lable:'Table', size:'xl'});
   }
   this.table_create = function(){
     PluginWfBootstrapjs.modal({id: 'modal_table_create', url:'table_create/id/'+this.data.item.id+'/table/'+this.data.table.table, lable:'Table create'});
