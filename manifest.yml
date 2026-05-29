@@ -1,5 +1,9 @@
-version: 1.31.4
+version: 1.32.0
 history:
+  1.32.0:
+    date: '2026-05-29'
+    title: Map buttons
+    description: 'Move to one place fixed at the top.'
   1.31.4:
     date: '2026-05-21'
     title: Modal

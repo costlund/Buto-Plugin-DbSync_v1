@@ -33,4 +33,7 @@ content:
         attribute:
           onclick: PluginDbSync_v1.manage(this)
         innerHTML: Manage
+  -
+    type: script
+    innerHTML: $('.map-buttons').hide()
   

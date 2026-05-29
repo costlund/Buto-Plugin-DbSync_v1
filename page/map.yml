@@ -15,5 +15,6 @@ content:
       class: row
       style: 'padding-right:50px'
     innerHTML: rs:items
-
-  
+  -
+    type: script
+    innerHTML: $('.map-buttons').show()
